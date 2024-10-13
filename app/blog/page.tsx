@@ -4,6 +4,7 @@ import { Button, buttonVariants } from "@/components/ui/button";
 import fs, { readFileSync } from "fs";
 import matter from "gray-matter";
 import Link from "next/link";
+import Image from "next/image";
 import { Metadata } from "next";
 
 interface BlogType {
@@ -35,12 +36,16 @@ const BlogList = () => {
   return (
     <div className="container mx-auto p-4">
       <h1 className="text-3xl font-bold mb-6 text-center my-2">Our Blogs</h1>
-      {blogs.length == 0 && <p className="text-7xl font-semibold mt-10 w-full text-center text-gray-600">No Blogs found</p>}
+      {blogs.length == 0 && (
+        <p className="text-7xl font-semibold mt-10 w-full text-center text-gray-600">
+          No Blogs found
+        </p>
+      )}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 w-4/5 mx-auto">
         {blogs.map((blog: BlogType, index: number) => (
           <div
             key={index}
-            className="shadow-lg rounded-lg overflow-hidden border-2 pb-3 flex flex-col justify-between"
+            className="shadow-lg shadow-znc-200 rounded-lg overflow-hidden  pb-3 flex flex-col justify-between"
           >
             <div className="p-4 ">
               <img
@@ -48,7 +53,7 @@ const BlogList = () => {
                 src={blog.imageUrl ? blog.imageUrl : "/blogimg.jpg"}
                 alt={blog.title}
               />
-              <h2 className="text-xl font-semibold mb-2">{blog.title}</h2>
+              <h2 className="text-xl font-semibold my-2">{blog.title}</h2>
               <p className="mb-4">{blog.description}</p>
             </div>
             <Link

@@ -56,6 +56,13 @@ const config = {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
+        znc: {
+          100: "hsl(var(--znc-100))",
+          200: "hsl(var(--znc-200))",
+          300: "hsl(var(--znc-300))",
+          400: "hsl(var(--znc-400))",
+          500: "hsl(var(--znc-500))",
+        },
       },
       borderRadius: {
         lg: "var(--radius)",

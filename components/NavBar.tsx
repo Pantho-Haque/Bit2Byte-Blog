@@ -14,11 +14,12 @@ import MobileNav from './mobile-nav'
 import { ModeToggle } from './theme-toggle'
 
 
-
+ 
 const NavBar = () => {
     const [progress, setProgress] = useState(0)
     const pathname = usePathname();
-    
+    const route = pathname.split("/")[1];
+
     // This runs whenever page changes to some other page
     useEffect(() => {
         setProgress(30)
@@ -56,15 +57,14 @@ const NavBar = () => {
             </div>
             <div className='hidden sm:flex w-full justify-between items-center'>
                 <ul className='flex space-x-4 w-full justify-center'>
-                    <li><Link href={"/"}>Home</Link></li>
-                    <li><Link href={"/about"}>About</Link></li>
-                    <li><Link href={"/blog"}>Blog</Link></li>
-                    <li><Link href={"/contact"}>Contact</Link></li>
+                    <li><Link className={`hover:bg-znc-300  py-2 px-4 rounded ${(route=="")&& "bg-znc-200"}`} href={"/"}>Home</Link></li>
+                    <li><Link className={`hover:bg-znc-300  py-2 px-4 rounded ${(route=="about")&& "bg-znc-200"}`} href={"/about"}>About</Link></li>
+                    <li><Link className={`hover:bg-znc-300  py-2 px-4 rounded ${(route=="blog")&& "bg-znc-200"}`} href={"/blog"}>Blog</Link></li>
+                    <li><Link className={`hover:bg-znc-300  py-2 px-4 rounded ${(route=="contact")&& "bg-znc-200"}`} href={"/contact"}>Contact</Link></li>
                 </ul>
 
                 <div className="buttons flex space-x-2 mr-2">
                     <Link href={"/login"} className={buttonVariants({ variant: "outline" })}>Login</Link>
-                    <Link href={"/signup"} className={buttonVariants({ variant: "outline" })}>Sign Up</Link>
                 </div>
             </div>
             <ModeToggle />
