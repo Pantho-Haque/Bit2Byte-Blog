@@ -1,20 +1,17 @@
 import MaxWidthWrapper from "@/components/MaxWidthWrapper";
-import React from "react";
-import { unified } from "unified";
-import remarkParse from "remark-parse";
-import remarkFrontmatter from "remark-frontmatter";
-import remarkRehype from "remark-rehype";
-import rehypeSlug from "rehype-slug";
-import rehypeStringify from "rehype-stringify";
-import rehypeHighlight from "rehype-highlight";
-import matter from "gray-matter";
-import fs from "fs";
 import Onthispage from "@/components/Onthispage";
+import { transformerCopyButton } from "@rehype-pretty/transformers";
+import fs from "fs";
+import matter from "gray-matter";
+import { Metadata, ResolvingMetadata } from "next";
+import { Titillium_Web } from "next/font/google";
 import rehypeAutolinkHeadings from "rehype-autolink-headings";
 import { rehypePrettyCode } from "rehype-pretty-code";
-import { transformerCopyButton } from "@rehype-pretty/transformers";
-import { Metadata, ResolvingMetadata } from "next";
-import { Titillium_Web } from 'next/font/google'
+import rehypeSlug from "rehype-slug";
+import rehypeStringify from "rehype-stringify";
+import remarkParse from "remark-parse";
+import remarkRehype from "remark-rehype";
+import { unified } from "unified";
 
 type Props = {
   params: { slug: string; title: string; description: string };
@@ -23,8 +20,11 @@ type Props = {
 
 // https://ondrejsevcik.com/blog/building-perfect-markdown-processor-for-my-blog
 
-const titillum_web = Titillium_Web({style:["normal"],weight:["400"],subsets:["latin"]});
-
+const titillum_web = Titillium_Web({
+  style: ["normal"],
+  weight: ["400"],
+  subsets: ["latin"],
+});
 
 export default async function BlogPage({
   params,
@@ -57,7 +57,10 @@ export default async function BlogPage({
     <MaxWidthWrapper className="prose dark:prose-invert">
       <div className="flex justify-around mx-auto ">
         <div className="px-16  w-3/5">
-          <h1 className={`${titillum_web.className} text-base `}>{"> "}{data.title}</h1>
+          <h1 className={`${titillum_web.className} text-base `}>
+            {"> "}
+            {data.title}
+          </h1>
           <div dangerouslySetInnerHTML={{ __html: htmlContent }}></div>
         </div>
         <Onthispage className="text-sm " htmlContent={htmlContent} />
