@@ -14,28 +14,45 @@ interface BlogType {
   imageUrl?: string;
 }
 
-const dirContent = fs.readdirSync("content", "utf-8");
-console.log(dirContent);
+// const dirContent = fs.readdirSync("content", "utf-8");
+// console.log(dirContent);
 
-let blogs: BlogType[] = dirContent.map((file) => {
-  const fileContent = readFileSync(`content/${file}`, "utf-8");
-  const { data } = matter(fileContent);
-  const value: BlogType = {
-    slug: data.slug,
-    title: data.title,
-    description: data.description,
-    imageUrl: data?.imageUrl,
-  };
-  return value;
-});
+// let blogs: BlogType[] = dirContent.map((file) => {
+//   const fileContent = readFileSync(`content/${file}`, "utf-8");
+//   const { data } = matter(fileContent);
+//   const value: BlogType = {
+//     slug: data.slug,
+//     title: data.title,
+//     description: data.description,
+//     imageUrl: data?.imageUrl,
+//   };
+//   return value;
+// });
 
-console.log(blogs);
+// console.log(blogs);
+const BASE_URL = 'http://130.51.120.58:8080/api/v1' ;
+
 // blogs = [];
 
-const BlogList = () => {
+const BlogList = async () => {
+
+  const res = await fetch(`${BASE_URL}/read_blogs`); 
+  const data = await res.json();
+
+  // console.log(data.data);
+
+  const blogs : BlogType[] = data.data.items.map((blog: BlogType) => {
+    return {
+      slug: blog.slug,
+      title: blog.title,
+      description: blog.description,
+      imageUrl: blog.imageUrl
+    }
+  });
+
   return (
     <div className="container mx-auto p-4">
-      <h1 className="text-3xl font-bold mb-6 text-center my-2">Our Blogs</h1>
+      <h1 className="text-3xl font-bold mb-6 text-center my-2">Bit2Byte Blogs</h1>
       {blogs.length == 0 && (
         <p className="text-7xl font-semibold mt-10 w-full text-center text-gray-600">
           No Blogs found
