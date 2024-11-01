@@ -60,6 +60,7 @@ const NavBar = () => {
                     <li><Link className={`hover:bg-znc-300  py-2 px-4 rounded ${(route=="")&& "bg-znc-200"}`} href={"/"}>Home</Link></li>
                     <li><Link className={`hover:bg-znc-300  py-2 px-4 rounded ${(route=="about")&& "bg-znc-200"}`} href={"/about"}>About</Link></li>
                     <li><Link className={`hover:bg-znc-300  py-2 px-4 rounded ${(route=="blog")&& "bg-znc-200"}`} href={"/blog"}>Blog</Link></li>
+                    <li><Link className={`hover:bg-znc-300  py-2 px-4 rounded ${(route=="syllabus")&& "bg-znc-200"}`} href={"/syllabus"}>Sylabus</Link></li>
                     <li><Link className={`hover:bg-znc-300  py-2 px-4 rounded ${(route=="contact")&& "bg-znc-200"}`} href={"/contact"}>Contact</Link></li>
                 </ul>
 
