@@ -8,10 +8,14 @@ import Image from "next/image";
 import { Metadata } from "next";
 
 interface BlogType {
-  slug: string;
+  id: string;
+  topicID: string;
+  subTopicId: string;
   title: string;
   description: string;
-  imageUrl?: string;
+  image?: string;
+  writtenBy: string;
+  approvedBy: string;
 }
 
 // const dirContent = fs.readdirSync("content", "utf-8");
@@ -39,14 +43,18 @@ const BlogList = async () => {
   const res = await fetch(`${BASE_URL}/read_blogs`); 
   const data = await res.json();
 
-  // console.log(data.data);
+  console.log(data.data);
 
   const blogs : BlogType[] = data.data.items.map((blog: BlogType) => {
     return {
-      slug: blog.slug,
+      id: blog.id,
       title: blog.title,
       description: blog.description,
-      imageUrl: blog.imageUrl
+      image: blog.image,
+      topicID: blog.topicID,
+  subTopicId: blog.subTopicId,
+  writtenBy: blog.writtenBy,
+  approvedBy: blog.approvedBy
     }
   });
 
@@ -67,7 +75,7 @@ const BlogList = async () => {
             <div className="p-4 ">
               <img
                 className="w-full h-64 object-cover object-top"
-                src={blog.imageUrl ? blog.imageUrl : "/blogimg.jpg"}
+                src={blog.image ? blog.image : "/blogimg.jpg"}
                 alt={blog.title}
               />
               <h2 className="text-xl font-semibold my-2">{blog.title}</h2>

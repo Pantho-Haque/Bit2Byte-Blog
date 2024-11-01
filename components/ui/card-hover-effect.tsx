@@ -48,6 +48,24 @@ export const HoverEffect = ({
   );
 };
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 export const Card = ({
   className,
   children,
@@ -58,11 +76,12 @@ export const Card = ({
   return (
     <div
       className={cn(
-        "rounded-2xl h-full w-full p-1 overflow-hidden bg-black border border-transparent dark:border-white/[0.2] group-hover:border-slate-700 relative z-20",
+        "rounded-2xl h-full w-full p-1  bg-transparent border-2   cursor-pointer  relative z-20",
         className
       )}
     >
-      <div className="relative z-50">
+      {/* <div className="relative z-50 "> */}
+      <div className="flex justify-center ">
         <div className="p-2">{children}</div>
       </div>
     </div>
@@ -76,7 +95,7 @@ export const CardTitle = ({
   children: React.ReactNode;
 }) => {
   return (
-    <h4 className={cn("text-zinc-100 font-bold tracking-wide", className)}>
+    <h4 className={cn("dark:text-zinc-100 font-bold tracking-wide", className)}>
       {children}
     </h4>
   );

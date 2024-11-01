@@ -1,4 +1,4 @@
-npm i"use client";
+"use client";
 import React, { useEffect, useState } from "react";
 import ReactMde, { Suggestion, SaveImageHandler } from "react-mde";
 import Showdown from "showdown";

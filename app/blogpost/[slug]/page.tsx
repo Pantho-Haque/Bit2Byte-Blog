@@ -74,11 +74,13 @@ export async function generateMetadata(
   parent: ResolvingMetadata
 ): Promise<Metadata> {
   // read route params
-  const filePath = `content/${params.slug}.md`;
-  const fileContent = fs.readFileSync(filePath, "utf-8");
-  const { data } = matter(fileContent);
+  // const filePath = `content/${params.slug}.md`;
+  // const fileContent = fs.readFileSync(filePath, "utf-8");
+  // const { data } = matter(fileContent);
   return {
-    title: `${data.title} - Bit2Byte`,
-    description: data.description,
+    // title: `${data.title} - Bit2Byte`,
+    // description: data.description,
+    title: ` Bit2Byte`,
+    description: `data.description`,
   };
 }
