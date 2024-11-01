@@ -17,6 +17,7 @@ interface BlogType {
   image?: string;
   writtenBy: string;
   approvedBy: string;
+  creationTime: string;
 }
 
 // const dirContent = fs.readdirSync("content", "utf-8");
@@ -55,6 +56,7 @@ const BlogList = async () => {
       subTopicId: blog.subTopicId,
       writtenBy: blog.writtenBy,
       approvedBy: blog.approvedBy,
+      creationTime: blog.creationTime,
     };
   });
 

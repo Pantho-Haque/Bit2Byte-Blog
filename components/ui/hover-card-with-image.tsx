@@ -16,9 +16,11 @@ export const HoverImageCard = ({
     image?: string;
     writtenBy: string;
     approvedBy: string;
+    creationTime: string;
   }[];
   className?: string;
 }) => {
+  
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 w-4/5 mx-auto">
       {items.map((item) => (
@@ -60,6 +62,13 @@ export const HoverImageCard = ({
             >
               <span className="text-black dark:text-white"> Approved By : </span> {item.approvedBy}
             </CardItem>
+            <CardItem
+              as="p"
+              translateZ="20"
+              className="text-neutral-500 text-sm max-w-sm mt-2 dark:text-neutral-300"
+            >
+              <span className="text-black dark:text-white"> Created At : </span> {DateTimeDisplay({ creationTime: item.creationTime })}
+            </CardItem>
             <div className="flex justify-between items-center mt-5">
               <CardItem
                 translateZ={10}
@@ -77,3 +86,15 @@ export const HoverImageCard = ({
     </div>
   );
 };
+
+export default function DateTimeDisplay({ creationTime }: { creationTime: string }) {
+  const date = new Date(creationTime);
+  const formattedDate = new Intl.DateTimeFormat('en-GB', {
+    weekday: 'short',
+    day: '2-digit',
+    month: 'short',
+    year: 'numeric',
+  }).format(date);
+
+  return formattedDate;
+}
