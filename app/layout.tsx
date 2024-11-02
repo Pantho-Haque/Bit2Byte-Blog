@@ -15,6 +15,8 @@ const fontSans = FontSans({
 export const metadata: Metadata = {
   title: SiteConfig.title,
   description: SiteConfig.description,
+  httpEquiv: 'Content-Security-Policy',
+  content: 'upgrade-insecure-requests',
 };
 
 export default function RootLayout({
