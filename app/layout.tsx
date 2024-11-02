@@ -6,6 +6,7 @@ import SiteConfig from "@/config/site";
 import NavBar from "@/components/NavBar";
 import { ThemeProvider } from "@/components/theme-provider";
 import { AuthProvider } from "@/lib/AuthProvider";
+import Head from "next/head";
 
 const fontSans = FontSans({
   subsets: ["latin"],
@@ -14,9 +15,7 @@ const fontSans = FontSans({
 
 export const metadata: Metadata = {
   title: SiteConfig.title,
-  description: SiteConfig.description,
-  httpEquiv: 'Content-Security-Policy',
-  content: 'upgrade-insecure-requests',
+  description: SiteConfig.description
 };
 
 export default function RootLayout({
@@ -26,6 +25,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="scroll-p-20 scroll-smooth">
+      <Head>
+        <meta
+          httpEquiv="Content-Security-Policy"
+          content="upgrade-insecure-requests"
+        />
+      </Head>
       <body
         className={cn(
           "min-h-screen bg-background font-sans antialiased",
