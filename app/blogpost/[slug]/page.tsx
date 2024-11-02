@@ -53,19 +53,21 @@ export default async function BlogPage({
   const resData = await res.json();
   // const filePath = `content/${params.slug}.md`;
   // const fileContent = fs.readFileSync(filePath, "utf-8");
-  const { data, content } = matter(resData.data.content);
-
-  const htmlContent = (await processor.process(content)).toString();
+  const data = resData.data;
+  const htmlContent = (await processor.process(data.content)).toString();
 
   return (
     <MaxWidthWrapper className="prose dark:prose-invert">
-      <div className="flex justify-around mx-auto ">
-        <div className="px-16  w-3/5">
+      <div className="flex justify-around mx-auto  ">
+        <div className="px-16  md:w-3/5">
           <h1 className={`${titillum_web.className} text-base `}>
             {"> "}
             {data.title}
+            {"    >   "}
+            {data.short_desc}
           </h1>
-          <div dangerouslySetInnerHTML={{ __html: htmlContent }}></div>
+
+          <div className="" dangerouslySetInnerHTML={{ __html: htmlContent }}></div>
         </div>
         <Onthispage className="text-sm " htmlContent={htmlContent} />
       </div>
@@ -81,10 +83,12 @@ export async function generateMetadata(
   // const filePath = `content/${params.slug}.md`;
   // const fileContent = fs.readFileSync(filePath, "utf-8");
   // const { data } = matter(fileContent);
+  const res = await fetch(`${BASE_URL}/read_blog_details/${params.slug}`);
+  const resData = await res.json();
+  const data = resData.data;
+
   return {
-    // title: `${data.title} - Bit2Byte`,
-    // description: data.description,
-    title: ` Bit2Byte`,
-    description: `data.description`,
+    title: `${data.title} - Bit2Byte`,
+    description: data.short_desc,
   };
 }
