@@ -66,7 +66,7 @@ const BlogList = async () => {
     <div className="container mx-auto p-4">
       <h1 className="text-3xl font-bold mb-6 text-center my-2">
         Bit2Byte Blogs
-      </h1>
+      </h1> 
       {blogs.length == 0 && (
         <p className="text-7xl font-semibold mt-10 w-full text-center text-gray-600">
           No Blogs found

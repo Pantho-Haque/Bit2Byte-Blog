@@ -1,9 +1,9 @@
-"use client";
+
 import React from "react";
 import Image from "next/image";
 import { Timeline } from "@/components/ui/timeline";
 import { HoverEffect } from "@/components/ui/card-hover-effect";
-import useSWR from "swr";
+import useSWR from "swr"; 
 
 const fetcher = (...args: [RequestInfo, RequestInit?]) =>
   fetch(...args).then((res) => res.json());
@@ -11,12 +11,11 @@ const fetcher = (...args: [RequestInfo, RequestInit?]) =>
 const BASE_URL = "http://130.51.120.58:8080/api/v1";
 
 
-const syllabus = () => {
+const syllabus = async () => {
   // // http://130.51.120.58:8080/api/v1/read_syllabus
-  const { data, error, isLoading } = useSWR(
-    `${BASE_URL}/read_syllabus`,
-    fetcher
-  );
+  const res = await fetch(`${BASE_URL}/read_syllabus`);
+  const data = await res.json();
+
   console.log(data);
 
   const dataEntry = data?.data.map((item:any) => ({
@@ -37,8 +36,6 @@ const syllabus = () => {
     ),
   }));
 
-  if (error) return <div>failed to load</div>;
-  if (isLoading) return <div>loading...</div>;
   return (
     <div>
       <div className="w-full bg-white dark:bg-neutral-950 font-sans md:px-10 pb-[80vh]">
