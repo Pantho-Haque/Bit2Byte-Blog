@@ -2,7 +2,9 @@
 import React, { useState } from 'react';
 import { ChevronDown, ChevronUp, ChevronRight, ChevronLeft } from 'lucide-react';
 
-const SingleComment = ({ username, date, content, upvotes, downvotes, replies }) => {
+const SingleComment = ({ username, date, content, upvotes, downvotes, replies }
+  : { username: string; date: string; content: string; upvotes: number; downvotes: number; replies: any[] }
+) => {
   const [showReplies, setShowReplies] = useState(false);
 
   const toggleReplies = () => {

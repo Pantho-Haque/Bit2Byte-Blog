@@ -19,6 +19,7 @@ export const HoverEffect = ({
     <div className={cn("flex flex-col md:flex-row flex-wrap gap-2", className)}>
       {items.map((item, idx) => (
         <div
+          key={idx}
           className="relative group block p-2 h-full w-full md:w-[45%]"
           onMouseEnter={() => setHoveredIndex(idx)}
           onMouseLeave={() => setHoveredIndex(null)}

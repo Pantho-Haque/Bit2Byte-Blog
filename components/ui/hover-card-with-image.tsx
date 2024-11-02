@@ -23,8 +23,8 @@ export const HoverImageCard = ({
   
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 w-4/5 mx-auto">
-      {items.map((item) => (
-        <CardContainer className="inter-var w-full">
+      {items.map((item , idx) => (
+        <CardContainer key={idx} className="inter-var w-full">
           <CardBody className="bg-gray-50 relative group/card  dark:hover:shadow-2xl dark:hover:shadow-emerald-500/[0.1] w-auto sm:w-[30rem] h-auto rounded-xl p-6 bg-gradient-to-bl from-slate-100 to-cyan-100 dark:from-slate-950 dark:to-cyan-950 ">
             <CardItem
               translateZ="20"
