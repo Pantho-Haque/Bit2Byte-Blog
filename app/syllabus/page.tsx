@@ -5,18 +5,15 @@ import { Timeline } from "@/components/ui/timeline";
 import { HoverEffect } from "@/components/ui/card-hover-effect";
 import useSWR from "swr"; 
 
-const fetcher = (...args: [RequestInfo, RequestInit?]) =>
-  fetch(...args).then((res) => res.json());
-
 const BASE_URL = "http://130.51.120.58:8080/api/v1";
 
 
 const syllabus = async () => {
   // // http://130.51.120.58:8080/api/v1/read_syllabus
-  const res = await fetch(`${BASE_URL}/read_syllabus`);
+  const res = await fetch(`${BASE_URL}/read_syllabus`, { cache: "no-store" });
   const data = await res.json();
 
-  console.log(data);
+  console.log(data.data);
 
   const dataEntry = data?.data.map((item:any) => ({
     title: item.topic_name,
