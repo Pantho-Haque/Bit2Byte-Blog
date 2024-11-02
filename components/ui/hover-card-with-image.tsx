@@ -1,84 +1,100 @@
-import { cn } from "@/lib/utils";
-import { AnimatePresence, motion } from "framer-motion";
-import { useState } from "react";
+"use client";
+import Image from "next/image";
+import Link from "next/link";
+import { CardBody, CardContainer, CardItem } from "@/components/ui/3d-card";
 
 export const HoverImageCard = ({
   items,
   className,
 }: {
   items: {
+    id: string;
+    topicID: string;
+    subTopicId: string;
     title: string;
-    description: string;
-    
+    shortDesc: string;
+    image?: string;
+    writtenBy: string;
+    approvedBy: string;
+    creationTime: string;
   }[];
   className?: string;
 }) => {
-  let [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
-
+  
   return (
-    <div className={cn("flex flex-col md:flex-row flex-wrap gap-2", className)}>
-      {items.map((item, idx) => (
-        <div
-          className="relative group block p-2 h-full w-full md:w-[45%]"
-          onMouseEnter={() => setHoveredIndex(idx)}
-          onMouseLeave={() => setHoveredIndex(null)}
-        >
-          <AnimatePresence>
-            {hoveredIndex === idx && (
-              <motion.span
-                className="absolute inset-0 h-full w-full bg-neutral-200 dark:bg-slate-800/[0.8] block  rounded-3xl"
-                layoutId="hoverBackground"
-                initial={{ opacity: 0 }}
-                animate={{
-                  opacity: 1,
-                  transition: { duration: 0.15 },
-                }}
-                exit={{
-                  opacity: 0,
-                  transition: { duration: 0.15, delay: 0.2 },
-                }}
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 w-4/5 mx-auto">
+      {items.map((item) => (
+        <CardContainer className="inter-var w-full">
+          <CardBody className="bg-gray-50 relative group/card  dark:hover:shadow-2xl dark:hover:shadow-emerald-500/[0.1] w-auto sm:w-[30rem] h-auto rounded-xl p-6 bg-gradient-to-bl from-slate-100 to-cyan-100 dark:from-slate-950 dark:to-cyan-950 ">
+            <CardItem
+              translateZ="20"
+              className="text-xl font-bold text-neutral-600 dark:text-white"
+            >
+              {item.title}
+            </CardItem>
+            <CardItem
+              as="p"
+              translateZ="20"
+              className="text-neutral-500 text-sm max-w-sm mt-2 dark:text-neutral-300"
+            >
+              {item.shortDesc}
+            </CardItem>
+            <CardItem translateZ="10" className="w-full mt-4">
+              <Image
+                src={item.image || "/images/hero-image.jpg"}
+                height="1000"
+                width="1000"
+                className="h-60 w-full object-cover rounded-xl group-hover/card:shadow-xl"
+                alt="thumbnail"
               />
-            )}
-          </AnimatePresence>
-          <Card>
-            <CardTitle>{item.title}</CardTitle>
-          </Card>
-        </div>
+            </CardItem>
+            <CardItem
+              as="p"
+              translateZ="20"
+              className="text-neutral-500 text-sm max-w-sm mt-2 dark:text-neutral-300"
+            >
+              <span className="text-black dark:text-white"> Author : </span> {item.writtenBy}
+            </CardItem>
+            <CardItem
+              as="p"
+              translateZ="20"
+              className="text-neutral-500 text-sm max-w-sm mt-2 dark:text-neutral-300"
+            >
+              <span className="text-black dark:text-white"> Approved By : </span> {item.approvedBy}
+            </CardItem>
+            <CardItem
+              as="p"
+              translateZ="20"
+              className="text-neutral-500 text-sm max-w-sm mt-2 dark:text-neutral-300"
+            >
+              <span className="text-black dark:text-white"> Created At : </span> {DateTimeDisplay({ creationTime: item.creationTime })}
+            </CardItem>
+            <div className="flex justify-between items-center mt-5">
+              <CardItem
+                translateZ={10}
+                as={Link}
+                href={`/blogpost/${item.id}`}
+                target="__blank"
+                className="py-2 rounded-xl text-xs font-normal dark:text-white"
+              >
+                Read →
+              </CardItem>
+            </div>
+          </CardBody>
+        </CardContainer>
       ))}
     </div>
   );
 };
 
-export const Card = ({
-  className,
-  children,
-}: {
-  className?: string;
-  children: React.ReactNode;
-}) => {
-  return (
-    <div
-      className={cn(
-        "rounded-2xl h-full w-full p-1 overflow-hidden bg-black border border-transparent dark:border-white/[0.2] group-hover:border-slate-700 relative z-20",
-        className
-      )}
-    >
-      <div className="relative z-50">
-        <div className="p-2">{children}</div>
-      </div>
-    </div>
-  );
-};
-export const CardTitle = ({
-  className,
-  children,
-}: {
-  className?: string;
-  children: React.ReactNode;
-}) => {
-  return (
-    <h4 className={cn("text-zinc-100 font-bold tracking-wide", className)}>
-      {children}
-    </h4>
-  );
-};
+export default function DateTimeDisplay({ creationTime }: { creationTime: string }) {
+  const date = new Date(creationTime);
+  const formattedDate = new Intl.DateTimeFormat('en-GB', {
+    weekday: 'short',
+    day: '2-digit',
+    month: 'short',
+    year: 'numeric',
+  }).format(date);
+
+  return formattedDate;
+}

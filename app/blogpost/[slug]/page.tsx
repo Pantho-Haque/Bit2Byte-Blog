@@ -18,6 +18,8 @@ type Props = {
   searchParams: { [key: string]: string | string[] | undefined };
 };
 
+const BASE_URL = "http://130.51.120.58:8080/api/v1";
+
 // https://ondrejsevcik.com/blog/building-perfect-markdown-processor-for-my-blog
 
 const titillum_web = Titillium_Web({
@@ -47,9 +49,11 @@ export default async function BlogPage({
     })
     .use(rehypeAutolinkHeadings);
 
-  const filePath = `content/${params.slug}.md`;
-  const fileContent = fs.readFileSync(filePath, "utf-8");
-  const { data, content } = matter(fileContent);
+  const res = await fetch(`${BASE_URL}/read_blog_details/${params.slug}`);
+  const resData = await res.json();
+  // const filePath = `content/${params.slug}.md`;
+  // const fileContent = fs.readFileSync(filePath, "utf-8");
+  const { data, content } = matter(resData.data.content);
 
   const htmlContent = (await processor.process(content)).toString();
 

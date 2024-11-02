@@ -6,16 +6,18 @@ import matter from "gray-matter";
 import Link from "next/link";
 import Image from "next/image";
 import { Metadata } from "next";
+import { HoverImageCard } from "@/components/ui/hover-card-with-image";
 
 interface BlogType {
   id: string;
   topicID: string;
   subTopicId: string;
   title: string;
-  description: string;
+  shortDesc: string;
   image?: string;
   writtenBy: string;
   approvedBy: string;
+  creationTime: string;
 }
 
 // const dirContent = fs.readdirSync("content", "utf-8");
@@ -34,62 +36,45 @@ interface BlogType {
 // });
 
 // console.log(blogs);
-const BASE_URL = 'http://130.51.120.58:8080/api/v1' ;
+const BASE_URL = "http://130.51.120.58:8080/api/v1";
 
 // blogs = [];
 
 const BlogList = async () => {
-
-  const res = await fetch(`${BASE_URL}/read_blogs`); 
+  const res = await fetch(`${BASE_URL}/read_blogs`);
   const data = await res.json();
 
   console.log(data.data);
 
-  const blogs : BlogType[] = data.data.items.map((blog: BlogType) => {
+  const blogs: BlogType[] = data.data?.items.map((blog: BlogType) => {
     return {
       id: blog.id,
       title: blog.title,
-      description: blog.description,
+      shortDesc: blog.shortDesc,
       image: blog.image,
       topicID: blog.topicID,
-  subTopicId: blog.subTopicId,
-  writtenBy: blog.writtenBy,
-  approvedBy: blog.approvedBy
-    }
+      subTopicId: blog.subTopicId,
+      writtenBy: blog.writtenBy,
+      approvedBy: blog.approvedBy,
+      creationTime: blog.creationTime,
+    };
   });
+
+  const MultipliedBlog4Testing = [...blogs, ...blogs, ...blogs, ...blogs];
 
   return (
     <div className="container mx-auto p-4">
-      <h1 className="text-3xl font-bold mb-6 text-center my-2">Bit2Byte Blogs</h1>
+      <h1 className="text-3xl font-bold mb-6 text-center my-2">
+        Bit2Byte Blogs
+      </h1>
       {blogs.length == 0 && (
         <p className="text-7xl font-semibold mt-10 w-full text-center text-gray-600">
           No Blogs found
         </p>
       )}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 w-4/5 mx-auto">
-        {blogs.map((blog: BlogType, index: number) => (
-          <div
-            key={index}
-            className="shadow-lg shadow-znc-200 rounded-lg overflow-hidden  pb-3 flex flex-col justify-between"
-          >
-            <div className="p-4 ">
-              <img
-                className="w-full h-64 object-cover object-top"
-                src={blog.image ? blog.image : "/blogimg.jpg"}
-                alt={blog.title}
-              />
-              <h2 className="text-xl font-semibold my-2">{blog.title}</h2>
-              <p className="mb-4">{blog.description}</p>
-            </div>
-            <Link
-              href={`/blogpost/${blog.slug}`}
-              className={`${buttonVariants({ variant: "default" })} w-1/3 ml-4`}
-            >
-              Read More
-            </Link>
-          </div>
-        ))}
-      </div>
+          <HoverImageCard
+            items = {blogs}
+          />
     </div>
   );
 };
