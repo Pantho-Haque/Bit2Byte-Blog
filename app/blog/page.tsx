@@ -1,12 +1,9 @@
 // import SampleBlogs from "@/config/sampleblogs";
-import React from "react";
-import { Button, buttonVariants } from "@/components/ui/button";
-import fs, { readFileSync } from "fs";
-import matter from "gray-matter";
-import Link from "next/link";
-import Image from "next/image";
-import { Metadata } from "next";
 import { HoverImageCard } from "@/components/ui/hover-card-with-image";
+
+import { getAllBlogs } from "@/lib/api";
+
+import { Metadata } from "next";
 
 interface BlogType {
   id: string;
@@ -36,15 +33,10 @@ interface BlogType {
 // });
 
 // console.log(blogs);
-const BASE_URL = "http://130.51.120.58:8080/api/v1";
-
 // blogs = [];
 
 const BlogList = async () => {
-  const res = await fetch(`${BASE_URL}/read_blogs`);
-  const data = await res.json();
-
-  console.log(data.data);
+  const data = await getAllBlogs();
 
   const blogs: BlogType[] = data.data?.items.map((blog: BlogType) => {
     return {
@@ -60,21 +52,19 @@ const BlogList = async () => {
     };
   });
 
-  const MultipliedBlog4Testing = [...blogs, ...blogs, ...blogs, ...blogs];
+  // const MultipliedBlog4Testing = [...blogs, ...blogs, ...blogs, ...blogs];
 
   return (
     <div className="container mx-auto p-4">
       <h1 className="text-3xl font-bold mb-6 text-center my-2">
         Bit2Byte Blogs
-      </h1> 
+      </h1>
       {blogs.length == 0 && (
         <p className="text-7xl font-semibold mt-10 w-full text-center text-gray-600">
           No Blogs found
         </p>
       )}
-          <HoverImageCard
-            items = {blogs}
-          />
+      <HoverImageCard items={blogs} />
     </div>
   );
 };

@@ -1,28 +1,18 @@
-
-import React from "react";
-import Image from "next/image";
-import { Timeline } from "@/components/ui/timeline";
 import { HoverEffect } from "@/components/ui/card-hover-effect";
-import useSWR from "swr"; 
-
-const BASE_URL = "http://130.51.120.58:8080/api/v1";
-
+import { Timeline } from "@/components/ui/timeline";
+import { getSyllabus } from "@/lib/api";
 
 const syllabus = async () => {
-  // // http://130.51.120.58:8080/api/v1/read_syllabus
-  const res = await fetch(`${BASE_URL}/read_syllabus`, { cache: "no-store" });
-  const data = await res.json();
+  const data = await getSyllabus();
 
-  console.log(data.data);
-
-  const dataEntry = data?.data.map((item:any) => ({
+  const dataEntry = data?.data.map((item: any) => ({
     title: item.topic_name,
     content: (
       <div>
         <ul>
           <HoverEffect
-          className={"bg-white dark:bg-neutral-950"}
-            items={item.sub_topics.map((subItem:any) => ({
+            className={"bg-white dark:bg-neutral-950"}
+            items={item.sub_topics.map((subItem: any) => ({
               title: subItem.sub_topic_name,
               description: "",
               link: "",

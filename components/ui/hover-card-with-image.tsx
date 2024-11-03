@@ -51,6 +51,8 @@ export const HoverImageCard = ({
               width={500}
               height={500}
               quality={70}
+              placeholder="blur"
+              blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mOsaquqBwAE9wH7ovCCVwAAAABJRU5ErkJggg=="
               className="h-60 w-full object-cover rounded-xl"
               alt={item.title}
             />

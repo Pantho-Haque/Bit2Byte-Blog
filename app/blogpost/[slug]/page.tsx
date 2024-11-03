@@ -1,8 +1,10 @@
+import Comments from "@/components/Comments";
 import MaxWidthWrapper from "@/components/MaxWidthWrapper";
 import Onthispage from "@/components/Onthispage";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { getSingleBlog } from "@/lib/api";
 import { transformerCopyButton } from "@rehype-pretty/transformers";
-import fs from "fs";
-import matter from "gray-matter";
 import { Metadata, ResolvingMetadata } from "next";
 import { Titillium_Web } from "next/font/google";
 import rehypeAutolinkHeadings from "rehype-autolink-headings";
@@ -12,16 +14,11 @@ import rehypeStringify from "rehype-stringify";
 import remarkParse from "remark-parse";
 import remarkRehype from "remark-rehype";
 import { unified } from "unified";
-import Comments from "@/components/Comments";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 
 type Props = {
   params: { slug: string; title: string; description: string };
   searchParams: { [key: string]: string | string[] | undefined };
 };
-
-const BASE_URL = "http://130.51.120.58:8080/api/v1";
 
 const commentsData = [
   {
@@ -124,12 +121,10 @@ export default async function BlogPage({
     })
     .use(rehypeAutolinkHeadings);
 
-  const res = await fetch(`${BASE_URL}/read_blog_details/${params.slug}`, {
-    cache: "no-store",
-  });
-  const resData = await res.json();
   // const filePath = `content/${params.slug}.md`;
   // const fileContent = fs.readFileSync(filePath, "utf-8");
+
+  const resData = await getSingleBlog(params.slug);
   const data = resData.data;
   const htmlContent = (await processor.process(data.content)).toString();
 
@@ -176,8 +171,7 @@ export async function generateMetadata(
   // const filePath = `content/${params.slug}.md`;
   // const fileContent = fs.readFileSync(filePath, "utf-8");
   // const { data } = matter(fileContent);
-  const res = await fetch(`${BASE_URL}/read_blog_details/${params.slug}`);
-  const resData = await res.json();
+  const resData = await getSingleBlog(params.slug);
   const data = resData.data;
 
   return {
