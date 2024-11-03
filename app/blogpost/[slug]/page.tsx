@@ -4,16 +4,14 @@ import Onthispage from "@/components/Onthispage";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { getSingleBlog } from "@/lib/api";
-import { transformerCopyButton } from "@rehype-pretty/transformers";
+import { marked } from "marked";
+import hljs from "highlight.js";
+import "./index.css"
 import { Metadata, ResolvingMetadata } from "next";
 import { Titillium_Web } from "next/font/google";
-import rehypeAutolinkHeadings from "rehype-autolink-headings";
-import { rehypePrettyCode } from "rehype-pretty-code";
-import rehypeSlug from "rehype-slug";
-import rehypeStringify from "rehype-stringify";
-import remarkParse from "remark-parse";
-import remarkRehype from "remark-rehype";
-import { unified } from "unified";
+
+
+
 
 type Props = {
   params: { slug: string; title: string; description: string };
@@ -105,28 +103,42 @@ export default async function BlogPage({
 }: {
   params: { slug: string };
 }) {
-  const processor = unified()
-    .use(remarkParse)
-    .use(remarkRehype)
-    .use(rehypeStringify)
-    .use(rehypeSlug)
-    .use(rehypePrettyCode, {
-      theme: "github-dark",
-      transformers: [
-        transformerCopyButton({
-          visibility: "always",
-          feedbackDuration: 3_000,
-        }),
-      ],
-    })
-    .use(rehypeAutolinkHeadings);
+  // const processor = unified()
+  //   .use(remarkParse)
+  //   .use(remarkGfm)
+  //   .use(remarkRehype)
+  //   .use(rehypeStringify)
+  //   .use(rehypeSlug)
+  //   .use(rehypePrettyCode, {
+  //     theme: "github-dark",
+  //     transformers: [
+  //       transformerCopyButton({
+  //         visibility: "always",
+  //         feedbackDuration: 3_000,
+  //       }),
+  //     ],
+  //   })
+  //   .use(rehypeAutolinkHeadings);
 
   // const filePath = `content/${params.slug}.md`;
   // const fileContent = fs.readFileSync(filePath, "utf-8");
 
+  marked.setOptions({
+    highlight: function (code: string, language?: string): string {
+      if (language && hljs.getLanguage(language)) {
+        // Use the specified language if it is supported
+        return hljs.highlight(code, { language }).value;
+      } else {
+        // Use auto-detection otherwise
+        return hljs.highlightAuto(code).value;
+      }
+    },
+  });
   const resData = await getSingleBlog(params.slug);
   const data = resData.data;
-  const htmlContent = (await processor.process(data.content)).toString();
+
+  // const htmlContent = (await processor.process(data.content)).toString();
+  const htmlContent = marked(data.content);
 
   return (
     <MaxWidthWrapper className="prose dark:prose-invert">
@@ -191,3 +203,4 @@ function DateTimeDisplay({ creationTime }: { creationTime: string }) {
 
   return formattedDate;
 }
+
