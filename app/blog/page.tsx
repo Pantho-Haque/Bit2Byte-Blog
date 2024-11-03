@@ -1,4 +1,5 @@
 // import SampleBlogs from "@/config/sampleblogs";
+import { SearchBlogBar } from "@/components/SearchBlogBar";
 import { HoverImageCard } from "@/components/ui/hover-card-with-image";
 
 import { getAllBlogs } from "@/lib/api";
@@ -56,9 +57,7 @@ const BlogList = async () => {
 
   return (
     <div className="container mx-auto p-4">
-      <h1 className="text-3xl font-bold mb-6 text-center my-2">
-        Bit2Byte Blogs
-      </h1>
+      <SearchBlogBar />
       {blogs.length == 0 && (
         <p className="text-7xl font-semibold mt-10 w-full text-center text-gray-600">
           No Blogs found
