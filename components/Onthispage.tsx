@@ -30,7 +30,7 @@ const Onthispage = ({
       const id = heading.id || `heading-${index}`;
       heading.id = id;
 
-      console.log();
+      // console.log(heading);
       generatedLinks.push({
         id: id,
         tag: heading.tagName,
@@ -39,14 +39,14 @@ const Onthispage = ({
     });
 
     setLinks(generatedLinks);
-    // console.log(generatedLinks);
+    console.log(generatedLinks);
   }, [htmlContent]);
 
   return (
     <div className={cn("hidden md:block ", className)}>
       <div className="sticky top-20">
         <h2>On This Page </h2>
-        <ul className="not-prose text-xs">
+        <ul className="not-prose text-sm font-semibold">
           {links &&
             links.map((link) => {
               return (

@@ -6,12 +6,9 @@ import { Input } from "@/components/ui/input";
 import { getSingleBlog } from "@/lib/api";
 import { marked } from "marked";
 import hljs from "highlight.js";
-import "./index.css"
+import "./index.css";
 import { Metadata, ResolvingMetadata } from "next";
 import { Titillium_Web } from "next/font/google";
-
-
-
 
 type Props = {
   params: { slug: string; title: string; description: string };
@@ -122,20 +119,31 @@ export default async function BlogPage({
 
   // const filePath = `content/${params.slug}.md`;
   // const fileContent = fs.readFileSync(filePath, "utf-8");
-
-
-
+  function addHeadingIds(htmlContent: string): string {
+    let headingCounter = 0;
+  
+    // Use a regular expression to match heading tags and add unique IDs
+    const updatedHtml = htmlContent.replace(/<(h[1-6])([^>]*)>/gi, (match, tag, attributes) => {
+      // Add an ID attribute with a unique identifier for each heading
+      const newAttributes = `${attributes} id="heading-${headingCounter}"`;
+      headingCounter++;
+      return `<${tag}${newAttributes}>`;
+    });
+  
+    return updatedHtml;
+  }
+  
   const resData = await getSingleBlog(params.slug);
   const data = resData.data;
 
   // const htmlContent = (await processor.process(data.content)).toString();
-  const htmlContent =await  marked(data.content);
+  const htm = await marked(data.content);
+  const htmlContent = addHeadingIds(htm); 
   
-
   return (
     <MaxWidthWrapper className="prose dark:prose-invert">
-      <div className="flex justify-around mx-auto">
-        <div className="px-16  md:w-3/5">
+      <div className="flex justify-around mx-auto ">
+        <div className="px-16  md:w-4/5 ">
           <h1 className={`${titillum_web.className} text-base `}>
             {"> "}
             {data.title}
@@ -148,11 +156,11 @@ export default async function BlogPage({
           </p>
 
           <div
-            className=""
+            className="text-lg"
             dangerouslySetInnerHTML={{ __html: htmlContent }}
           ></div>
         </div>
-        <Onthispage className="text-sm " htmlContent={htmlContent} />
+        <Onthispage className="md:w-1/5" htmlContent={htmlContent} />
       </div>
       <div className="mt-10 flex flex-col justify-center items-center w-full">
         <div className="flex w-[70vw] max-w-[800px] items-center space-x-2">
@@ -195,4 +203,3 @@ function DateTimeDisplay({ creationTime }: { creationTime: string }) {
 
   return formattedDate;
 }
-

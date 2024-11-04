@@ -1,63 +1,48 @@
 "use client";
+import { Textarea } from "@/components/ui/textarea";
+import { marked } from "marked";
 import React, { useEffect, useState } from "react";
-import ReactMde, { Suggestion, SaveImageHandler } from "react-mde";
-import Showdown from "showdown";
 import ReactMarkdown from "react-markdown";
-import remarkGfm from "remark-gfm";
+import { SaveImageHandler } from "react-mde";
 import "react-mde/lib/styles/css/react-mde-all.css";
+import Showdown from "showdown";
 import "./styles.css";
-import { markdownProcessor } from "@/lib/markdownProcessor";
 
-const loadSuggestions = async (text: string) => {
-  return new Promise<Suggestion[]>((accept, reject) => {
-    setTimeout(() => {
-      const suggestions: Suggestion[] = [
-        {
-          preview: "Andre",
-          value: "@andre",
-        },
-        {
-          preview: "Angela",
-          value: "@angela",
-        },
-        {
-          preview: "David",
-          value: "@david",
-        },
-        {
-          preview: "Louise",
-          value: "@louise",
-        },
-      ].filter((i) => i.preview.toLowerCase().includes(text.toLowerCase()));
-      accept(suggestions);
-    }, 250);
-  });
-};
 const converter = new Showdown.Converter({
-  tables: true,                // Enables table support
-  simplifiedAutoLink: true,     // Automatically creates links
-  strikethrough: true,          // Enables strikethrough syntax
-  tasklists: true,              // Enables GitHub-style task lists
-  openLinksInNewWindow: true,   // Opens links in new tab
-  emoji: true,                  // Enables emoji support
-  parseImgDimensions: true,     // Allows specifying image dimensions (e.g., ![image](url =100x200))
-  ghCodeBlocks: true,           // Enables GitHub-flavored code blocks
-  underline: true,              // Enables underline syntax
+  tables: true, // Enables table support
+  simplifiedAutoLink: true, // Automatically creates links
+  strikethrough: true, // Enables strikethrough syntax
+  tasklists: true, // Enables GitHub-style task lists
+  openLinksInNewWindow: true, // Opens links in new tab
+  emoji: true, // Enables emoji support
+  parseImgDimensions: true, // Allows specifying image dimensions (e.g., ![image](url =100x200))
+  ghCodeBlocks: true, // Enables GitHub-flavored code blocks
+  underline: true, // Enables underline syntax
   backslashEscapesHTMLTags: true, // Escapes HTML tags with backslashes
-  ghMentions: true,             // Enables GitHub @mentions
-  smartIndentationFix: true,    // Fixes indentation for lists
-  smoothLivePreview: true,      // Enables smooth live previewing of changes
+  ghMentions: true, // Enables GitHub @mentions
+  smartIndentationFix: true, // Fixes indentation for lists
+  smoothLivePreview: true, // Enables smooth live previewing of changes
   requireSpaceBeforeHeadingText: true, // Requires a space before heading text
   disableForced4SpacesIndentedSublists: true, // Prevents sublists from needing 4 spaces
-  completeHTMLDocument: false,   // Determines if the output is a complete HTML document
-  simpleLineBreaks:true,
+  completeHTMLDocument: false, // Determines if the output is a complete HTML document
+  simpleLineBreaks: true,
 });
 
 const MarkdownEditorWithImages = () => {
   const [value, setValue] = useState("**Hello world!!!**");
+  const [htmlString, setHtmlString] = useState("");
   const [selectedTab, setSelectedTab] = React.useState<"write" | "preview">(
     "write"
   );
+
+  useEffect(() => {
+    const makeHtml = async () => {
+      const htmlContent = await marked(value);
+      setHtmlString(htmlContent);
+    };
+
+    makeHtml();
+  }, [value]);
 
   const save: SaveImageHandler = async function* (data: ArrayBuffer) {
     // Promise that waits for "time" milliseconds
@@ -104,10 +89,20 @@ const MarkdownEditorWithImages = () => {
     }
   };
 
-
   return (
     <div className="w-1/2 mx-auto text-zinc-900 dark:text-zinc-200  ">
-      <ReactMde
+      <Textarea
+        id="review"
+        value={value}
+        onChange={(e) => setValue(e.target.value)}
+        onKeyDown={handleKeyDown}
+        rows={6}
+      />
+
+      <ReactMarkdown className="prose dark:prose-invert max-w-none">
+        {value}
+      </ReactMarkdown>
+      {/* <ReactMde
         value={value}
         onChange={setValue}
         selectedTab={selectedTab}
@@ -115,7 +110,7 @@ const MarkdownEditorWithImages = () => {
         generateMarkdownPreview={(markdown) =>
           Promise.resolve(converter.makeHtml(markdown))
         }
-        loadSuggestions={loadSuggestions}
+        // loadSuggestions={loadSuggestions}
         childProps={{
           writeButton: {
             tabIndex: -1,
@@ -132,7 +127,7 @@ const MarkdownEditorWithImages = () => {
         paste={{
           saveImage: save,
         }}
-      />
+      /> */}
     </div>
   );
 };
