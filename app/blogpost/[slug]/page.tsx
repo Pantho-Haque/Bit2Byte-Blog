@@ -6,15 +6,12 @@ import { Input } from "@/components/ui/input";
 import { getSingleBlog } from "@/lib/api";
 import { marked } from "marked";
 import hljs from "highlight.js";
-import "./index.css"
+import "./index.css";
 import { Metadata, ResolvingMetadata } from "next";
 import { Titillium_Web } from "next/font/google";
 import { createElement } from "react";
 import Image from "next/image";
-import parse , { domToReact , Element } from "html-react-parser";
-
-
-
+import parse, { DOMNode, domToReact, Element } from "html-react-parser";
 
 type Props = {
   params: { slug: string; title: string; description: string };
@@ -93,11 +90,12 @@ const commentsData = [
   },
 ];
 
-const convertHtmlToNextImage = (htmlContent) => {
+const convertHtmlToNextImage = (htmlContent: string ) => {
+  let idx = -1 ; 
   const options = {
-    replace: (node) => {
-      if (node instanceof Element && node.name === 'img') {
-        console.log(node.attribs);
+    replace: (node: { name: string; attribs: { [x: string]: any; src: any; alt: any; width: any; height: any; }; children: DOMNode[]; }) => {
+      if (node instanceof Element && node.name === "img") {
+        // console.log(node.attribs);
         const { src, alt, width, height, ...rest } = node.attribs;
         if (!src) return null;
 
@@ -106,20 +104,23 @@ const convertHtmlToNextImage = (htmlContent) => {
 
         const imageProps = {
           src,
-          alt: 'next image',
+          alt: "next image",
           width: imgWidth || 800,
           height: imgHeight || 600,
-          ...rest
+          ...rest,
         };
-
 
         return createElement(Image, {
           ...imageProps,
           loading: "lazy",
-          className: rest.className || 'w-full h-auto',
+          className: rest.className || "w-full h-auto",
         });
       }
-    }
+      else if (node instanceof Element && (node.name === "h1" || node.name === "h2" || node.name === "h3")){
+        idx++;
+        return createElement(node.name, {id: `heading-${idx}`}, domToReact(node.children, options));
+      }
+    },
   };
 
   return parse(htmlContent, options);
@@ -191,17 +192,17 @@ export default async function BlogPage({
             {DateTimeDisplay({ creationTime: data.creation_time })}
           </p>
 
-          <div
+          {/* <div
             className=""
             dangerouslySetInnerHTML={{ __html: htmlContent }}
-          ></div>
+          ></div> */}
+          <div className="">{htmlContentWithNextImage}</div>
         </div>
-        <div>
-          {
-            htmlContentWithNextImage
-          }
-        </div>
-        <Onthispage className="text-sm " htmlContent={htmlContentWithNextImage} />
+
+        <Onthispage
+          className="text-sm "
+          htmlContent={htmlContent}
+        />
       </div>
       <div className="mt-10 flex flex-col justify-center items-center w-full">
         <div className="flex w-[70vw] max-w-[800px] items-center space-x-2">
@@ -244,4 +245,3 @@ function DateTimeDisplay({ creationTime }: { creationTime: string }) {
 
   return formattedDate;
 }
-

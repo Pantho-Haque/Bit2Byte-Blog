@@ -16,7 +16,6 @@ const ClientOnThisPage = ({
   className: string;
 }) => {
   useEffect(() => {
-    // Add IDs to headings in the client
     links.forEach((link) => {
       const element = document.getElementById(link.id);
       if (element && !element.id) {
@@ -30,7 +29,6 @@ const ClientOnThisPage = ({
     const element = document.getElementById(id);
     if (element) {
       element.scrollIntoView({ behavior: 'smooth' });
-      // Update URL without scroll
       window.history.pushState({}, '', `#${id}`);
     }
   };
