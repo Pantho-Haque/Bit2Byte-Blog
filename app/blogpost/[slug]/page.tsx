@@ -9,6 +9,9 @@ import hljs from "highlight.js";
 import "./index.css"
 import { Metadata, ResolvingMetadata } from "next";
 import { Titillium_Web } from "next/font/google";
+import { createElement } from "react";
+import Image from "next/image";
+import parse , { domToReact , Element } from "html-react-parser";
 
 
 
@@ -90,6 +93,38 @@ const commentsData = [
   },
 ];
 
+const convertHtmlToNextImage = (htmlContent) => {
+  const options = {
+    replace: (node) => {
+      if (node instanceof Element && node.name === 'img') {
+        console.log(node.attribs);
+        const { src, alt, width, height, ...rest } = node.attribs;
+        if (!src) return null;
+
+        const imgWidth = width ? parseInt(width, 10) : undefined;
+        const imgHeight = height ? parseInt(height, 10) : undefined;
+
+        const imageProps = {
+          src,
+          alt: 'next image',
+          width: imgWidth || 800,
+          height: imgHeight || 600,
+          ...rest
+        };
+
+
+        return createElement(Image, {
+          ...imageProps,
+          loading: "lazy",
+          className: rest.className || 'w-full h-auto',
+        });
+      }
+    }
+  };
+
+  return parse(htmlContent, options);
+};
+
 // https://ondrejsevcik.com/blog/building-perfect-markdown-processor-for-my-blog
 
 const titillum_web = Titillium_Web({
@@ -123,22 +158,23 @@ export default async function BlogPage({
   // const filePath = `content/${params.slug}.md`;
   // const fileContent = fs.readFileSync(filePath, "utf-8");
 
-  marked.setOptions({
-    highlight: function (code: string, language?: string): string {
-      if (language && hljs.getLanguage(language)) {
-        // Use the specified language if it is supported
-        return hljs.highlight(code, { language }).value;
-      } else {
-        // Use auto-detection otherwise
-        return hljs.highlightAuto(code).value;
-      }
-    },
-  });
+  // marked.setOptions({
+  //   highlight: function (code: string, language?: string): string {
+  //     if (language && hljs.getLanguage(language)) {
+  //       // Use the specified language if it is supported
+  //       return hljs.highlight(code, { language }).value;
+  //     } else {
+  //       // Use auto-detection otherwise
+  //       return hljs.highlightAuto(code).value;
+  //     }
+  //   },
+  // });
   const resData = await getSingleBlog(params.slug);
   const data = resData.data;
 
   // const htmlContent = (await processor.process(data.content)).toString();
   const htmlContent = marked(data.content);
+  const htmlContentWithNextImage = convertHtmlToNextImage(htmlContent);
 
   return (
     <MaxWidthWrapper className="prose dark:prose-invert">
@@ -160,7 +196,12 @@ export default async function BlogPage({
             dangerouslySetInnerHTML={{ __html: htmlContent }}
           ></div>
         </div>
-        <Onthispage className="text-sm " htmlContent={htmlContent} />
+        <div>
+          {
+            htmlContentWithNextImage
+          }
+        </div>
+        <Onthispage className="text-sm " htmlContent={htmlContentWithNextImage} />
       </div>
       <div className="mt-10 flex flex-col justify-center items-center w-full">
         <div className="flex w-[70vw] max-w-[800px] items-center space-x-2">
