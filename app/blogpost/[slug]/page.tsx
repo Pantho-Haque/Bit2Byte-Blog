@@ -90,10 +90,10 @@ const commentsData = [
   },
 ];
 
-const convertHtmlToNextImage = (htmlContent: string ) => {
+const convertHtmlToNextImage = (htmlContent: string  ) => {
   let idx = -1 ; 
   const options = {
-    replace: (node: { name: string; attribs: { [x: string]: any; src: any; alt: any; width: any; height: any; }; children: DOMNode[]; }) => {
+    replace: (node: any ) => {
       if (node instanceof Element && node.name === "img") {
         // console.log(node.attribs);
         const { src, alt, width, height, ...rest } = node.attribs;
@@ -118,7 +118,7 @@ const convertHtmlToNextImage = (htmlContent: string ) => {
       }
       else if (node instanceof Element && (node.name === "h1" || node.name === "h2" || node.name === "h3")){
         idx++;
-        return createElement(node.name, {id: `heading-${idx}`}, domToReact(node.children, options));
+        return createElement(node.name, {id: `heading-${idx}`}, domToReact(node.children as DOMNode[], options));
       }
     },
   };
@@ -174,7 +174,7 @@ export default async function BlogPage({
   const data = resData.data;
 
   // const htmlContent = (await processor.process(data.content)).toString();
-  const htmlContent = marked(data.content);
+  const htmlContent = await marked(data.content);
   const htmlContentWithNextImage = convertHtmlToNextImage(htmlContent);
 
   return (
