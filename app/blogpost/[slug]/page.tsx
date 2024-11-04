@@ -123,22 +123,14 @@ export default async function BlogPage({
   // const filePath = `content/${params.slug}.md`;
   // const fileContent = fs.readFileSync(filePath, "utf-8");
 
-  marked.setOptions({
-    highlight: function (code: string, language?: string): string {
-      if (language && hljs.getLanguage(language)) {
-        // Use the specified language if it is supported
-        return hljs.highlight(code, { language }).value;
-      } else {
-        // Use auto-detection otherwise
-        return hljs.highlightAuto(code).value;
-      }
-    },
-  });
+
+
   const resData = await getSingleBlog(params.slug);
   const data = resData.data;
 
   // const htmlContent = (await processor.process(data.content)).toString();
-  const htmlContent = marked(data.content);
+  const htmlContent =await  marked(data.content);
+  
 
   return (
     <MaxWidthWrapper className="prose dark:prose-invert">
