@@ -5,10 +5,9 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { getSingleBlog } from "@/lib/api";
 import { marked } from "marked";
-import hljs from "highlight.js";
-import "./index.css";
 import { Metadata, ResolvingMetadata } from "next";
 import { Titillium_Web } from "next/font/google";
+
 
 type Props = {
   params: { slug: string; title: string; description: string };

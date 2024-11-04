@@ -90,18 +90,28 @@ const MarkdownEditorWithImages = () => {
   };
 
   return (
-    <div className="w-1/2 mx-auto text-zinc-900 dark:text-zinc-200  ">
-      <Textarea
-        id="review"
-        value={value}
-        onChange={(e) => setValue(e.target.value)}
-        onKeyDown={handleKeyDown}
-        rows={6}
-      />
+    <div className="w-full mx-auto text-zinc-900 dark:text-zinc-200  ">
+      <div className="flex flex-col md:flex-row  mx-auto my-10 md:space-x-5 space-y-5 md:space-y-0  md:justify-even px-20 h-[50vh]">
+        <Textarea
+          className="w-full md:w-1/2 h-full overflow-auto break-words resize-none"
+          id="markdown"
+          value={value}
+          onChange={(e) => setValue(e.target.value)}
+          onKeyDown={handleKeyDown}
+          rows={6}
+        />
+        
+        
 
-      <ReactMarkdown className="prose dark:prose-invert max-w-none">
-        {value}
-      </ReactMarkdown>
+        <div className="w-full md:w-1/2 h-full overflow-y-auto border ">
+          <p className="text-xl font-semibold p-5" >Preview</p>
+          <hr />
+          <ReactMarkdown className="prose dark:prose-invert max-w-none mx-auto md:w-full p-5  overflow-auto break-words">
+            {value}
+          </ReactMarkdown>
+        </div>
+      </div>
+
       {/* <ReactMde
         value={value}
         onChange={setValue}

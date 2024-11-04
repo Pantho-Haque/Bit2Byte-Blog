@@ -25,12 +25,6 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="scroll-p-20 scroll-smooth">
-      <Head>
-        <meta
-          httpEquiv="Content-Security-Policy"
-          content="upgrade-insecure-requests"
-        />
-      </Head>
       <body
         className={cn(
           "min-h-screen bg-background font-sans antialiased",

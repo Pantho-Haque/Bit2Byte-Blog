@@ -5,7 +5,7 @@ import { PlaceholdersAndVanishInput } from "@/components/ui/placeholders-and-van
 export function SearchBlogBar() {
   const placeholders = [
     "C language",
-    "Reac js",
+    "React js",
     "Object Oriented Programming",
     "Data Structure and Algorithms",
     "Laravel",

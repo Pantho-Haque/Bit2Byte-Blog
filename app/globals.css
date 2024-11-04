@@ -86,14 +86,14 @@
   }
 }
 
-code {
+ /* code {
   counter-reset: line;
 }
 
 code > [data-line]::before {
   counter-increment: line;
   content: counter(line);
-  /* Other styling */
+  // Other styling 
   display: inline-block;
   width: 1rem;
   margin-right: 2rem;
@@ -107,7 +107,7 @@ code[data-line-numbers-max-digits="2"] > [data-line]::before {
 
 code[data-line-numbers-max-digits="3"] > [data-line]::before {
   width: 3rem;
-}
+} */
 
 [data-highlighted-line] {
   background: #c8c8ff1a;
@@ -127,5 +127,6 @@ code[data-line-numbers-max-digits="3"] > [data-line]::before {
 }
 
 .commandColor svg path {
-  fill: var(--icon-color) !important; /* Apply the dynamic icon color */
-}
+  fill: var(--icon-color) !important; 
+} 
+
