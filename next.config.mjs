@@ -12,7 +12,13 @@ const nextConfig = {
             hostname: '130.51.120.58',
             port: '8080',
             pathname: '/**',
-        }
+        },
+        {
+            protocol: 'https',
+            hostname: 'i.postimg.cc',
+            pathname: '/**',
+            port: '',
+        },
     
     ],
     },

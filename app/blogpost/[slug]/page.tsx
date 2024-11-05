@@ -7,6 +7,9 @@ import { getSingleBlog } from "@/lib/api";
 import { marked } from "marked";
 import { Metadata, ResolvingMetadata } from "next";
 import { Titillium_Web } from "next/font/google";
+import { createElement } from "react";
+import Image from "next/image";
+import parse, { DOMNode, domToReact, Element } from "html-react-parser";
 
 
 type Props = {
@@ -86,6 +89,42 @@ const commentsData = [
   },
 ];
 
+const convertHtmlToNextImage = (htmlContent: string  ) => {
+  let idx = -1 ; 
+  const options = {
+    replace: (node: any ) => {
+      if (node instanceof Element && node.name === "img") {
+        // console.log(node.attribs);
+        const { src, alt, width, height, ...rest } = node.attribs;
+        if (!src) return null;
+
+        const imgWidth = width ? parseInt(width, 10) : undefined;
+        const imgHeight = height ? parseInt(height, 10) : undefined;
+
+        const imageProps = {
+          src,
+          alt: "next image",
+          width: imgWidth || 800,
+          height: imgHeight || 600,
+          ...rest,
+        };
+
+        return createElement(Image, {
+          ...imageProps,
+          loading: "lazy",
+          className: rest.className || "w-full h-auto",
+        });
+      }
+      else if (node instanceof Element && (node.name === "h1" || node.name === "h2" || node.name === "h3")){
+        idx++;
+        return createElement(node.name, {id: `heading-${idx}`}, domToReact(node.children as DOMNode[], options));
+      }
+    },
+  };
+
+  return parse(htmlContent, options);
+};
+
 // https://ondrejsevcik.com/blog/building-perfect-markdown-processor-for-my-blog
 
 const titillum_web = Titillium_Web({
@@ -118,31 +157,29 @@ export default async function BlogPage({
 
   // const filePath = `content/${params.slug}.md`;
   // const fileContent = fs.readFileSync(filePath, "utf-8");
-  function addHeadingIds(htmlContent: string): string {
-    let headingCounter = 0;
-  
-    // Use a regular expression to match heading tags and add unique IDs
-    const updatedHtml = htmlContent.replace(/<(h[1-6])([^>]*)>/gi, (match, tag, attributes) => {
-      // Add an ID attribute with a unique identifier for each heading
-      const newAttributes = `${attributes} id="heading-${headingCounter}"`;
-      headingCounter++;
-      return `<${tag}${newAttributes}>`;
-    });
-  
-    return updatedHtml;
-  }
-  
+
+  // marked.setOptions({
+  //   highlight: function (code: string, language?: string): string {
+  //     if (language && hljs.getLanguage(language)) {
+  //       // Use the specified language if it is supported
+  //       return hljs.highlight(code, { language }).value;
+  //     } else {
+  //       // Use auto-detection otherwise
+  //       return hljs.highlightAuto(code).value;
+  //     }
+  //   },
+  // });
   const resData = await getSingleBlog(params.slug);
   const data = resData.data;
 
   // const htmlContent = (await processor.process(data.content)).toString();
-  const htm = await marked(data.content);
-  const htmlContent = addHeadingIds(htm); 
-  
+  const htmlContent = await marked(data.content);
+  const htmlContentWithNextImage = convertHtmlToNextImage(htmlContent);
+
   return (
     <MaxWidthWrapper className="prose dark:prose-invert">
-      <div className="flex justify-around mx-auto ">
-        <div className="px-16  md:w-4/5 ">
+      <div className="flex justify-around mx-auto">
+        <div className="px-16  md:w-3/5">
           <h1 className={`${titillum_web.className} text-base `}>
             {"> "}
             {data.title}
@@ -154,12 +191,17 @@ export default async function BlogPage({
             {DateTimeDisplay({ creationTime: data.creation_time })}
           </p>
 
-          <div
-            className="text-lg"
+          {/* <div
+            className=""
             dangerouslySetInnerHTML={{ __html: htmlContent }}
-          ></div>
+          ></div> */}
+          <div className="">{htmlContentWithNextImage}</div>
         </div>
-        <Onthispage className="md:w-1/5" htmlContent={htmlContent} />
+
+        <Onthispage
+          className="text-sm "
+          htmlContent={htmlContent}
+        />
       </div>
       <div className="mt-10 flex flex-col justify-center items-center w-full">
         <div className="flex w-[70vw] max-w-[800px] items-center space-x-2">
