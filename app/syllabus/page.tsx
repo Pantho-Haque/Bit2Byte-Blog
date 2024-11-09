@@ -34,7 +34,7 @@ const syllabus = async () => {
                 Here&apos;s the syllabus for the Bit2Byte Mission.
             </p>
             </div> */}
-
+        {/* <p>{JSON.stringify(data?.data)}</p> */}
         <div className="relative max-w-7xl mx-auto pb-20">
           <Timeline data={dataEntry} />
         </div>

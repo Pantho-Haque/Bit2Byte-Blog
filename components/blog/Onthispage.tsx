@@ -1,6 +1,7 @@
+'use server'
 import { cn } from "@/lib/utils";
-import { JSDOM } from 'jsdom';
-import ClientOnThisPage from './ClientOnThisPage';
+import { JSDOM } from "jsdom";
+import ClientOnThisPage from "./ClientOnThisPage";
 
 interface LinkType {
   id: string;
@@ -23,7 +24,7 @@ const extractHeadings = (htmlContent: string): LinkType[] => {
     generatedLinks.push({
       id: id,
       tag: heading.tagName,
-      text: heading.textContent || '',
+      text: heading.textContent || "",
     });
   });
   // console.log(generatedLinks);
@@ -40,12 +41,7 @@ const OnThisPage = ({
   // Extract headings on the server
   const links = extractHeadings(htmlContent);
 
-  return (
-    <ClientOnThisPage 
-      links={links}
-      className={className}
-    />
-  );
+  return <ClientOnThisPage links={links} className={className} />;
 };
 
 export default OnThisPage;

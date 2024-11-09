@@ -1,12 +1,10 @@
 "use client";
-import Footer from "@/components/Footer";
-import GlobeComp from "@/components/GlobeComp";
-import Mission from "@/components/Mission";
+import { Footer, Mission } from "@/components/index";
 
 export default function Home() {
   return (
     <div className="min-h-[100vh]">
-      <GlobeComp />
+      {/* <GlobeComp /> */}
       <Mission />
       <Footer />
     </div>

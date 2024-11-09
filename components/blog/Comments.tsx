@@ -1,5 +1,5 @@
 import React from 'react';
-import SingleComment from '@/components/SingleComment';
+import SingleComment from './SingleComment';
 
 const Comments = ({ comments } : 
     { comments: { username: string; date: string; content: string; upvotes: number; downvotes: number; replies: any[] }[] }

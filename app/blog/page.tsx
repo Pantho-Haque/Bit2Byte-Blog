@@ -1,5 +1,5 @@
 // import SampleBlogs from "@/config/sampleblogs";
-import { SearchBlogBar } from "@/components/SearchBlogBar";
+import { SearchBlogBar } from "@/components/index";
 import { HoverImageCard } from "@/components/ui/hover-card-with-image";
 
 import { getAllBlogs } from "@/lib/api";

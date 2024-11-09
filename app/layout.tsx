@@ -1,12 +1,11 @@
+import { NavBar } from "@/components/index";
+import { ThemeProvider } from "@/components/theme-provider";
+import SiteConfig from "@/config/site";
+import { AuthProvider } from "@/lib/AuthProvider";
+import { cn } from "@/lib/utils";
 import type { Metadata } from "next";
 import { Inter as FontSans } from "next/font/google";
 import "./globals.css";
-import { cn } from "@/lib/utils";
-import SiteConfig from "@/config/site";
-import NavBar from "@/components/NavBar";
-import { ThemeProvider } from "@/components/theme-provider";
-import { AuthProvider } from "@/lib/AuthProvider";
-import Head from "next/head";
 
 const fontSans = FontSans({
   subsets: ["latin"],
@@ -15,7 +14,7 @@ const fontSans = FontSans({
 
 export const metadata: Metadata = {
   title: SiteConfig.title,
-  description: SiteConfig.description
+  description: SiteConfig.description,
 };
 
 export default function RootLayout({

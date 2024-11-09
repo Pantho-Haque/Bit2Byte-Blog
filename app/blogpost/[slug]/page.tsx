@@ -1,15 +1,19 @@
-import Comments from "@/components/Comments";
-import MaxWidthWrapper from "@/components/MaxWidthWrapper";
-import Onthispage from "@/components/Onthispage";
+import {
+  Comments,
+  MaxWidthWrapper,
+  OnThisPage
+} from "@/components/index";
+
+
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { getSingleBlog } from "@/lib/api";
+import parse, { DOMNode, domToReact, Element } from "html-react-parser";
 import { marked } from "marked";
 import { Metadata, ResolvingMetadata } from "next";
 import { Titillium_Web } from "next/font/google";
-import { createElement } from "react";
 import Image from "next/image";
-import parse, { DOMNode, domToReact, Element } from "html-react-parser";
+import { createElement } from "react";
 
 
 type Props = {
@@ -198,7 +202,7 @@ export default async function BlogPage({
           <div className="">{htmlContentWithNextImage}</div>
         </div>
 
-        <Onthispage
+        <OnThisPage
           className="text-sm "
           htmlContent={htmlContent}
         />

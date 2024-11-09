@@ -1,6 +1,6 @@
 import React from 'react'
 import Link from 'next/link'
-import { Button, buttonVariants } from './ui/button'
+import { Button, buttonVariants } from '@/components/ui/button'
 
 const MobileNav = () => {
   return (
@@ -17,8 +17,6 @@ const MobileNav = () => {
             </li>
 
             <div className="buttons gap-2 flex flex-col text-xsm w-1/3">
-
-           
                 <Link className={buttonVariants({ variant: "secondary" })} href="/login">Login</Link>  
                 <Link className={buttonVariants({ variant: "secondary" })} href="/login">Signup</Link> 
             </div>
