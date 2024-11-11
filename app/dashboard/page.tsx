@@ -12,7 +12,7 @@ import { motion } from "framer-motion";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
 
-export function Dashboard() {
+export default function Dashboard() {
   const links = [
     {
       label: "Dashboard",
@@ -137,5 +137,3 @@ const DashboardComponent = () => {
     </div>
   );
 };
-
-export default Dashboard;
