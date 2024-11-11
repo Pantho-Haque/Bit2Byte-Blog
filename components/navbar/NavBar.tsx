@@ -112,7 +112,7 @@ const NavBar = () => {
       <div className="flex items-center justify-center sm:hidden">
         <Sheet>
           <SheetTrigger>
-            <Menu />
+            <Menu className="ml-2" />
           </SheetTrigger>
           <SheetContent>
             <MobileNav />
