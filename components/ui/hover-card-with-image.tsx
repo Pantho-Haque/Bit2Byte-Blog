@@ -10,7 +10,7 @@ export const HoverImageCard = ({
   items: {
     id: string;
     topicID: string;
-    subTopicId: string;
+    subTopicId: string; 
     title: string;
     shortDesc: string;
     image?: string;

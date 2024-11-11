@@ -1,5 +1,5 @@
-import MaxWidthWrapper from "./MaxWidthWrapper";
 import MarkdownEditor from "./MarkDownEditor";
+import MaxWidthWrapper from "./MaxWidthWrapper";
 import { SearchBlogBar } from "./SearchBlogBar";
 import Comments from "./blog/Comments";
 import OnThisPage from "./blog/Onthispage";
@@ -10,6 +10,8 @@ import Mission from "./home/Mission";
 import NavBar from "./navbar/NavBar";
 import MobileNav from "./navbar/mobile-nav";
 import { ModeToggle } from "./theme-toggle";
+
+import BlogCard from "./blog/BlogCard";
 
 /*
 import {
@@ -31,9 +33,11 @@ import {
 */
 
 export {
+  BlogCard,
   Comments,
   Footer,
   GlobeComp,
+  MarkdownEditor,
   MaxWidthWrapper,
   Mission,
   MobileNav,
@@ -42,5 +46,4 @@ export {
   OnThisPage,
   SearchBlogBar,
   SingleComment,
-  MarkdownEditor,
 };

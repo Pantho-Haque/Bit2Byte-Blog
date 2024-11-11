@@ -1,5 +1,5 @@
 // import SampleBlogs from "@/config/sampleblogs";
-import { SearchBlogBar } from "@/components/index";
+import { BlogCard, SearchBlogBar } from "@/components/index";
 import { HoverImageCard } from "@/components/ui/hover-card-with-image";
 
 import { getAllBlogs } from "@/lib/api";
@@ -63,7 +63,12 @@ const BlogList = async () => {
           No Blogs found
         </p>
       )}
-      <HoverImageCard items={blogs} />
+      {/* <HoverImageCard items={blogs} /> */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 w-full  mx-auto">
+        {blogs.map((e, i) => (
+          <BlogCard key={i} blog={e} />
+        ))}
+      </div>
     </div>
   );
 };
