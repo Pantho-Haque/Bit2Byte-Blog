@@ -23,11 +23,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="scroll-p-20 scroll-smooth">
+    <html lang="en">
       <body
         className={cn(
           "min-h-screen bg-background font-sans antialiased",
-          fontSans.variable
+          fontSans.variable,
+          "scroll-p-20 scroll-smooth"
         )}
       >
         <ThemeProvider
