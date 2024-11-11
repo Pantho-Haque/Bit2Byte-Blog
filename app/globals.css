@@ -36,8 +36,6 @@
     --znc-400: 217 13% 66%;
     --znc-500: 215 21% 46%;
     --icon-color: black;
-    --code-background: #d8dee9; /* Custom background color */
-    --code-color: #2e3440; /* Custom text color */
    
   }
   .dark {
@@ -71,8 +69,7 @@
     --znc-400: 220 60% 8%;
     --znc-500: 222 93% 2%;
     --icon-color: white;
-    --code-background: #889cc2; /* Custom background color */
-    --code-color: #d8dee9; /* Custom text color */
+
     
   }
 }
