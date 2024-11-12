@@ -1,20 +1,26 @@
-"use client"
+"use client";
 import { cn } from "@/lib/utils";
 import { AnimatePresence, motion } from "framer-motion";
+import Link from "next/link";
 import { useState } from "react";
 
 export const HoverEffect = ({
   items,
+  topicId,
   className,
 }: {
   items: {
     title: string;
     description: string;
+    id: string;
+    link: string;
   }[];
+  topicId:string;
   className?: string;
 }) => {
   let [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 
+  console.log(items);
   return (
     <div className={cn("flex flex-col md:flex-row flex-wrap gap-2", className)}>
       {items.map((item, idx) => (
@@ -41,32 +47,16 @@ export const HoverEffect = ({
               />
             )}
           </AnimatePresence>
-          <Card>
-            <CardTitle>{item.title}</CardTitle>
-          </Card>
+          <Link href={`/blog/filteredby?topic=${topicId}&subtopic=${item.id}`}>
+            <Card>
+              <CardTitle>{item.title}</CardTitle>
+            </Card>
+          </Link>
         </div>
       ))}
     </div>
   );
 };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 export const Card = ({
   className,

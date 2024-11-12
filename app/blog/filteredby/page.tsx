@@ -11,7 +11,7 @@ interface BlogType {
   subTopicId: string;
   title: string;
   shortDesc: string;
-  image?: string;
+  image?: string; 
   writtenBy: string;
   approvedBy: string;
   creationTime: string;
@@ -26,7 +26,7 @@ export default async function FilteredBy({ searchParams }: Props) {
 
   return (
     <div className="container mx-auto p-4">
-      <BlogControl />
+      <BlogControl topic={topic} />
       {/* blog list */}
       <BlogView blogs={data} />
     </div>

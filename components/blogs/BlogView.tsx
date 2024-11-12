@@ -13,6 +13,7 @@ interface BlogType {
   approvedBy: string;
   creationTime: string;
   basePhotoUrl:string;
+  authorImage:string;
 }
 type Props = {
   blogs:BlogType[]
@@ -22,7 +23,7 @@ export default function BlogView({blogs}: Props) {
   return (
     <div>
       {blogs.length == 0 && (
-        <p className="text-7xl font-semibold mt-10 w-full text-center text-gray-600">
+        <p className="text-5xl font-semibold mt-10 w-full text-center text-gray-600">
           No Blogs found
         </p>
       )}

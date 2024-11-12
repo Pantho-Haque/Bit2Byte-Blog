@@ -12,6 +12,7 @@ interface BlogType {
   writtenBy: string;
   approvedBy: string;
   creationTime: string;
+  authorImage:string;
 }
 
 export default function BlogCard({ blog }: { blog: BlogType }) {
@@ -34,7 +35,7 @@ export default function BlogCard({ blog }: { blog: BlogType }) {
               height="100"
               width="100"
               alt="Avatar"
-              src="https://img.icons8.com/?size=100&id=23264&format=png&color=000000"
+              src={blog.authorImage}
               className="h-10 w-10 rounded-full border-2 object-cover"
             />
             <div className="flex flex-col">
@@ -45,8 +46,8 @@ export default function BlogCard({ blog }: { blog: BlogType }) {
             </div>
           </div>
           <Image
-            src={"/images/blogimg.jpg"}
-            // src={blog.image || "/images/blogimg.jpg"}
+            // src={"/images/blogimg.jpg"}
+            src={blog.image || "/images/blogimg.jpg"}
             width={500}
             height={100}
             quality={70}

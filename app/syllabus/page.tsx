@@ -9,11 +9,13 @@ const syllabus = async () => {
     title: item.topic_name,
     content: (
       <div>
-        <ul>
+        <ul >
           <HoverEffect
             className={"bg-white dark:bg-neutral-950"}
+            topicId={item.id.toString()}
             items={item.sub_topics.map((subItem: any) => ({
               title: subItem.sub_topic_name,
+              id:subItem.id.toString(),
               description: "",
               link: "",
             }))}
