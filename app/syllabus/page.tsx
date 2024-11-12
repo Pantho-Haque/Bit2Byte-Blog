@@ -4,7 +4,7 @@ import { getSyllabus } from "@/lib/api";
 
 const syllabus = async () => {
   const data = await getSyllabus();
-  // console.log(data);
+
   const dataEntry = data?.data.map((item: any) => ({
     title: item.topic_name,
     content: (

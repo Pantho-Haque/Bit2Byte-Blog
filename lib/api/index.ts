@@ -1,4 +1,4 @@
-import { getAllBlogs,getSingleBlog,getSyllabus } from "./getMethods";
+import { getAllBlogs,getSingleBlog,getSyllabus,getFilteredBlog } from "./getMethods";
 
 
-export {getAllBlogs,getSingleBlog,getSyllabus}
+export {getAllBlogs,getSingleBlog,getSyllabus,getFilteredBlog}

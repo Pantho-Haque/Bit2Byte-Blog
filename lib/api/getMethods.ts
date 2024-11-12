@@ -40,4 +40,22 @@ export async function getSyllabus() {
     }
     return result.json();
   }
+export async function getFilteredBlog(topic:string,subtopic:string|null) {
+    let url=""
+    if(subtopic){
+      url=`${BASE_URL}/filter_by?topic=${topic}&subtopic=${subtopic}`;
+    }else{
+      url= `${BASE_URL}/filter_by?topic=${topic}`
+    }
+    const result: any = await fetch(url, {
+      //   cache: "no-store",
+      next: {
+        revalidate: revalidationTime,
+      },
+    });
+    if (!result.ok) {
+      throw new Error("Error occured while fetching");
+    }
+    return result.json();
+  }
   

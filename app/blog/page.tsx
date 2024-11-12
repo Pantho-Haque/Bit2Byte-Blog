@@ -1,10 +1,27 @@
 // import SampleBlogs from "@/config/sampleblogs";
-import { BlogCard, SearchBlogBar } from "@/components/index";
+import {
+  BlogCard,
+  BlogControl,
+  BlogView,
+  SearchBlogBar,
+} from "@/components/index";
+import { Button } from "@/components/ui/button";
 import { HoverImageCard } from "@/components/ui/hover-card-with-image";
 
-import { getAllBlogs } from "@/lib/api";
+import { getAllBlogs, getSyllabus } from "@/lib/api";
+import { Separator } from "@/components/ui/separator";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination";
 
 import { Metadata } from "next";
+import Link from "next/link";
 
 interface BlogType {
   id: string;
@@ -16,59 +33,39 @@ interface BlogType {
   writtenBy: string;
   approvedBy: string;
   creationTime: string;
+  basePhotoUrl: string;
 }
 
-// const dirContent = fs.readdirSync("content", "utf-8");
-// console.log(dirContent);
-
-// let blogs: BlogType[] = dirContent.map((file) => {
-//   const fileContent = readFileSync(`content/${file}`, "utf-8");
-//   const { data } = matter(fileContent);
-//   const value: BlogType = {
-//     slug: data.slug,
-//     title: data.title,
-//     description: data.description,
-//     imageUrl: data?.imageUrl,
-//   };
-//   return value;
-// });
-
-// console.log(blogs);
-// blogs = [];
-
 const BlogList = async () => {
-  const data = await getAllBlogs();
+  const { data } = await getAllBlogs();
 
-  const blogs: BlogType[] = data.data?.items.map((blog: BlogType) => {
-    return {
-      id: blog.id,
-      title: blog.title,
-      shortDesc: blog.shortDesc,
-      image: blog.image,
-      topicID: blog.topicID,
-      subTopicId: blog.subTopicId,
-      writtenBy: blog.writtenBy,
-      approvedBy: blog.approvedBy,
-      creationTime: blog.creationTime,
-    };
-  });
+  const blogs: BlogType[] = data?.items;
 
-  // const MultipliedBlog4Testing = [...blogs, ...blogs, ...blogs, ...blogs];
+  const {pageNo,totalPages}=data;
 
+  
   return (
     <div className="container mx-auto p-4">
-      <SearchBlogBar />
-      {blogs.length == 0 && (
-        <p className="text-7xl font-semibold mt-10 w-full text-center text-gray-600">
-          No Blogs found
-        </p>
-      )}
-      {/* <HoverImageCard items={blogs} /> */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 w-full  mx-auto">
-        {blogs.map((e, i) => (
-          <BlogCard key={i} blog={e} />
-        ))}
-      </div>
+      <BlogControl />
+      {/* blog list */}
+      <BlogView blogs={blogs} />
+
+      <Pagination>
+        <PaginationContent>
+          <PaginationItem>
+            <PaginationPrevious href="#" />
+          </PaginationItem>
+          <PaginationItem>
+            <PaginationLink href="#">1</PaginationLink>
+          </PaginationItem>
+          <PaginationItem>
+            <PaginationEllipsis />
+          </PaginationItem>
+          <PaginationItem>
+            <PaginationNext href="#" />
+          </PaginationItem>
+        </PaginationContent>
+      </Pagination>
     </div>
   );
 };

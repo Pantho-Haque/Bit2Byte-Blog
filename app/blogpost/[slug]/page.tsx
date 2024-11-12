@@ -18,7 +18,6 @@ import { createElement } from "react";
 
 type Props = {
   params: { slug: string; title: string; description: string };
-  searchParams: { [key: string]: string | string[] | undefined };
 };
 
 const commentsData = [
@@ -221,7 +220,7 @@ export default async function BlogPage({
 }
 
 export async function generateMetadata(
-  { params, searchParams }: Props,
+  { params }: Props,
   parent: ResolvingMetadata
 ): Promise<Metadata> {
   // read route params

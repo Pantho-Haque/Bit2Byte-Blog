@@ -45,7 +45,8 @@ export default function BlogCard({ blog }: { blog: BlogType }) {
             </div>
           </div>
           <Image
-            src={blog.image || "/images/blogimg.jpg"}
+            src={"/images/blogimg.jpg"}
+            // src={blog.image || "/images/blogimg.jpg"}
             width={500}
             height={100}
             quality={70}
