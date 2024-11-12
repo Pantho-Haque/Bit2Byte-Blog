@@ -16,6 +16,7 @@ interface BlogType {
   approvedBy: string;
   creationTime: string;
   basePhotoUrl: string;
+  authorImage:string;
 }
 
 export default async function FilteredBy({ searchParams }: Props) {

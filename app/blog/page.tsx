@@ -34,6 +34,7 @@ interface BlogType {
   approvedBy: string;
   creationTime: string;
   basePhotoUrl: string;
+  authorImage:string;
 }
 
 const BlogList = async () => {
