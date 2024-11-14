@@ -1,4 +1,4 @@
-import { NavBar } from "@/components/index";
+import { Footer, NavBar } from "@/components/index";
 import { ThemeProvider } from "@/components/theme-provider";
 import SiteConfig from "@/config/site";
 import { AuthProvider } from "@/lib/AuthProvider";
@@ -40,6 +40,7 @@ export default function RootLayout({
           <AuthProvider>
             <NavBar />
             {children}
+            <Footer/>
           </AuthProvider>
         </ThemeProvider>
       </body>

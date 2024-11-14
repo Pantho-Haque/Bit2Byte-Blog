@@ -7,7 +7,6 @@ export default function Home() {
       {/* <GlobeComp /> */}
       <LampHeader />
       <Mission />
-      <Footer />
     </div>
   );
 }

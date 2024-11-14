@@ -36,7 +36,7 @@ export default function ContactPage() {
 
   return (
     <>
-      <div className="container mx-auto py-10">
+      <div className="container mx-auto min-h-[75vh] py-10">
         <Card className="max-w-lg mx-auto border-none">
           <CardHeader>
             <CardTitle>Contact Us</CardTitle>
