@@ -20,9 +20,9 @@ export default function CarouselImage({ imageList }: { imageList: string[] }) {
   return (
     <Carousel
       plugins={[plugin.current]}
-      className="w-[50vw] mx-auto"
-      onMouseEnter={plugin.current.stop}
-      onMouseLeave={plugin.current.reset}
+      className="w-[90vw] lg:w-[50vw] mx-auto"
+      onMouseEnter={() => plugin.current.stop()} // Wrap with arrow function
+      onMouseLeave={() => plugin.current.play()} 
     >
       <CarouselContent className="">
         {imageList?.map((e, index) => (

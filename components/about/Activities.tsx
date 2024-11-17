@@ -11,7 +11,7 @@ export default function Activiteis({testimonials}: Props) {
  
 
   return (
-    <div className="h-[50rem] rounded-md flex flex-col antialiased  items-center justify-center relative overflow-hidden">
+    <div className="h-full lg:h-[50rem] rounded-md flex flex-col antialiased  items-center justify-center relative lg:overflow-hidden">
       <p className="text-5xl font-extrabold mb-10 text-center">
         Our Activities
       </p>

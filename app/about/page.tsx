@@ -150,13 +150,15 @@ export default function About() {
   ];
 
   return (
-    <div className="min-h-screen p-8">
+    <div className="min-h-screen 2xl:max-w-[80vw] mx-auto p-8">
       {/* careousel portion*/}
-      <div className="flex justify-between">
+      <div className="flex flex-col lg:flex-row justify-between  ">
         <CarouselImage imageList={imageList} />
-        <div className="align-left text-justify flex flex-col justify-center ">
-          <p className="text-5xl font-extrabold mb-10">Bit2Byte</p>
-          <p className="text-xl text-gray-500 max-w-2xl mx-auto mt-5">
+
+
+        <div className="align-left text-justify max-w-[60%] mx-auto lg:max-w-[30vw] lg:ml-10 p-10 flex flex-col justify-center ">
+          <p className="text-5xl font-extrabold text-center  lg:text-left mb-10">Bit2Byte</p>
+          <p className="text-xl text-gray-500  mx-auto mt-5">
             A software research and development club focused on building a
             community of skilled developers. We prepare our members to excel in
             hackathons, work on real-world projects, secure top jobs, and

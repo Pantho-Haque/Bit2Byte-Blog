@@ -1,4 +1,5 @@
-const BASE_URL = "http://88.222.244.211:8080/api/v1";
+const BASE_URL = process.env.BACKEND_HOST_URL;
+
 const revalidationTime = 10;
 
 export async function getAllBlogs() {

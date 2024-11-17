@@ -30,7 +30,7 @@ export default function TopicwiseCover({ topics }: Props) {
           key={i}
           className="flex flex-col lg:flex-row items-start lg:items-center p-6 rounded-lg "
         >
-          <p className="text-2xl font-semibold  mb-4 lg:mb-0 lg:mr-6">
+          <p className="text-2xl font-semibold self-center  border-b-2 lg:border-none  px-3 rounded mb-4 lg:mb-0 lg:mr-6">
             {e.title}
           </p>
           <div className="flex-1">
