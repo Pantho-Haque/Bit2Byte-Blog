@@ -18,10 +18,10 @@ interface BlogType {
 export default function BlogCard({ blog }: { blog: BlogType }) {
   return (
     <Link href={`/blogpost/${blog.id}`} passHref>
-      <div className="max-w-sm  w-full  group/card mx-auto dark:text-gray-50 text-gray-900">
+      <div className="w-full md:max-w-sm shrink-0 group/card mx-auto  dark:text-gray-50 text-gray-900">
         <div
           className={cn(
-            " cursor-pointer overflow-hidden relative card h-96 rounded-md shadow-2xl shadow-gray-400 dark:shadow-gray-800  max-w-sm mx-auto backgroundImage flex flex-col justify-between p-4  "
+            " cursor-pointer overflow-hidden relative card h-96 rounded-md shadow-2xl shadow-gray-400 dark:shadow-gray-800/70  w-full md:max-w-sm mx-auto backgroundImage flex flex-col justify-between p-4  "
           )}
           // style={{
           //     backgroundImage: `url(${blog.image}?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1651&q=80)`,
@@ -53,14 +53,14 @@ export default function BlogCard({ blog }: { blog: BlogType }) {
             quality={70}
             placeholder="blur"
             blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mOsaquqBwAE9wH7ovCCVwAAAABJRU5ErkJggg=="
-            className="h-40 w-full object-cover rounded-xl"
+            className="h-40 w-full object-contain rounded-xl"
             alt={blog.title}
           />
           <div className="text content">
-            <h1 className="font-bold text-lg md:text-xl  relative ">
+            <h1 className="font-semibold  text-sm md:text-xl  relative ">
               {blog.title}
             </h1>
-            <p className="font-normal text-sm relative  my-4">
+            <p className="font-normal text-sm relative  my-2 lg:my-4">
               {blog.shortDesc}
             </p>
           </div>

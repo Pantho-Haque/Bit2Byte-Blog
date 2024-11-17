@@ -78,6 +78,7 @@ export const InfiniteMovingCards = ({
         className
       )}
     >
+      {/* large screen */}
       <ul
         ref={scrollerRef}
         className={cn(
@@ -91,6 +92,7 @@ export const InfiniteMovingCards = ({
         ))}
       </ul>
 
+      {/* small screen */}
       <ul
         className={cn(
           "flex flex-col lg:hidden min-w-full shrink-0 gap-4 py-4 w-max flex-nowrap"
@@ -114,29 +116,29 @@ const EachCard = ({
   };
 }) => (
   <li
-    className="w-[350px] max-w-full rounded-2xl border  flex-shrink-0 border-slate-700 px-8 py-6"
+    className="w-full lg:w-[350px] max-w-full rounded-2xl border  flex-shrink-0 border-slate-700 px-8 py-6"
     style={{
       background: "linear-gradient(180deg, var(--slate-800), var(--slate-900)",
     }}
   >
-    <blockquote>
+    <blockquote className="flex flex-col justify-between  h-full">
       <div
         aria-hidden="true"
         className="user-select-none -z-1 pointer-events-none absolute -left-0.5 -top-0.5 h-[calc(100%_+_4px)] w-[calc(100%_+_4px)]"
       ></div>
       <div className="flex flex-row justify-center gap-5">
-        <div className="  text-xl font-semibold self-center leading-[1.6] ">
+        <div className="text-xl lg:text-xl text-center font-semibold leading-[1.6]">
           {item.title}
         </div>
         <Image
           src={item.icon}
           alt="Custom Icon"
-          width={40} // Adjust width as desired
-          height={40} // Adjust height as desired
+          width={36} // Adjust width as desired
+          height={36} // Adjust height as desired
         />
       </div>
       <div className=" mt-6 flex flex-row items-center">
-        <span className="  lg:w-[75%] mx-auto text-sm leading-[1.6] text-justify font-normal">
+        <span className="w-[70%]  lg:w-[100%] mx-auto text-sm leading-[1.6] text-center lg:text-justify font-normal">
           {item.desc}
         </span>
       </div>
