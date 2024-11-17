@@ -1,9 +1,4 @@
-import {
-  Comments,
-  MaxWidthWrapper,
-  OnThisPage
-} from "@/components/index";
-
+import { Comments, MaxWidthWrapper, OnThisPage } from "@/components/index";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -14,7 +9,6 @@ import { Metadata, ResolvingMetadata } from "next";
 import { Titillium_Web } from "next/font/google";
 import Image from "next/image";
 import { createElement } from "react";
-
 
 type Props = {
   params: { slug: string; title: string; description: string };
@@ -92,10 +86,10 @@ const commentsData = [
   },
 ];
 
-const convertHtmlToNextImage = (htmlContent: string  ) => {
-  let idx = -1 ; 
+const convertHtmlToNextImage = (htmlContent: string) => {
+  let idx = -1;
   const options = {
-    replace: (node: any ) => {
+    replace: (node: any) => {
       if (node instanceof Element && node.name === "img") {
         // console.log(node.attribs);
         const { src, alt, width, height, ...rest } = node.attribs;
@@ -117,10 +111,16 @@ const convertHtmlToNextImage = (htmlContent: string  ) => {
           loading: "lazy",
           className: rest.className || "w-full h-auto",
         });
-      }
-      else if (node instanceof Element && (node.name === "h1" || node.name === "h2" || node.name === "h3")){
+      } else if (
+        node instanceof Element &&
+        (node.name === "h1" || node.name === "h2" || node.name === "h3")
+      ) {
         idx++;
-        return createElement(node.name, {id: `heading-${idx}`}, domToReact(node.children as DOMNode[], options));
+        return createElement(
+          node.name,
+          { id: `heading-${idx}` },
+          domToReact(node.children as DOMNode[], options)
+        );
       }
     },
   };
@@ -141,70 +141,57 @@ export default async function BlogPage({
 }: {
   params: { slug: string };
 }) {
-  // const processor = unified()
-  //   .use(remarkParse)
-  //   .use(remarkGfm)
-  //   .use(remarkRehype)
-  //   .use(rehypeStringify)
-  //   .use(rehypeSlug)
-  //   .use(rehypePrettyCode, {
-  //     theme: "github-dark",
-  //     transformers: [
-  //       transformerCopyButton({
-  //         visibility: "always",
-  //         feedbackDuration: 3_000,
-  //       }),
-  //     ],
-  //   })
-  //   .use(rehypeAutolinkHeadings);
-
-  // const filePath = `content/${params.slug}.md`;
-  // const fileContent = fs.readFileSync(filePath, "utf-8");
-
-  // marked.setOptions({
-  //   highlight: function (code: string, language?: string): string {
-  //     if (language && hljs.getLanguage(language)) {
-  //       // Use the specified language if it is supported
-  //       return hljs.highlight(code, { language }).value;
-  //     } else {
-  //       // Use auto-detection otherwise
-  //       return hljs.highlightAuto(code).value;
-  //     }
-  //   },
-  // });
   const resData = await getSingleBlog(params.slug);
   const data = resData.data;
 
-  // const htmlContent = (await processor.process(data.content)).toString();
   const htmlContent = await marked(data.content);
   const htmlContentWithNextImage = convertHtmlToNextImage(htmlContent);
 
   return (
-    <MaxWidthWrapper className="prose dark:prose-invert">
-      <div className="flex justify-around mx-auto">
-        <div className="px-16  md:w-3/5">
-          <h1 className={`${titillum_web.className} text-base `}>
-            {"> "}
+    <MaxWidthWrapper className="prose dark:prose-invert max-w-none ">
+      <div className="relative w-full h-[400px] lg:h-[500px] overflow-hidden rounded-xl shadow-lg">
+        {/* Background Image */}
+        <Image
+          src={data.image}
+          alt={data.title}
+          fill
+          className="object-contain object-center"
+        />
+
+        {/* Overlay */}
+        <div className="absolute inset-0 bg-gradient-to-t from-slate-800 to-transparent"></div>
+
+        <div className="absolute bottom-10 left-8 text-white space-y-3">
+          <h1 className="text-lg md:text-4xl lg:text-5xl font-extrabold text-white">
             {data.title}
-            {"    >   "}
-            {data.short_desc}
           </h1>
+          <p className="text-xs lg:text-base font-medium text-gray-300">
+            {data.short_desc}
+          </p>
+          <div className="text-sm flex gap-3">
+            <span>
+              Written by:{" "}
+              <span className="font-semibold">{data.written_by}</span>
+            </span>
+            {/* <span>
+              Approved by:{" "}
+              <span className="font-semibold">{data.approved_by}</span>
+            </span> */}
+          </div>
           <p className="text-sm text-gray-500 dark:text-gray-400">
-            {data.written_by} |{" "}
             {DateTimeDisplay({ creationTime: data.creation_time })}
           </p>
+        </div>
+      </div>
 
-          {/* <div
-            className=""
-            dangerouslySetInnerHTML={{ __html: htmlContent }}
-          ></div> */}
-          <div className="">{htmlContentWithNextImage}</div>
+
+      {/* content */}
+      <div className="flex justify-center mx-auto">
+        <div className="px-3 md:px-16 xs:bg-red-900  md:w-3/5 break-words">
+          {htmlContentWithNextImage}
         </div>
 
-        <OnThisPage
-          className="text-sm "
-          htmlContent={htmlContent}
-        />
+        <OnThisPage className="text-sm px-10" htmlContent={htmlContent} />
       </div>
       <div className="mt-10 flex flex-col justify-center items-center w-full">
         <div className="flex w-[70vw] max-w-[800px] items-center space-x-2">
@@ -223,10 +210,6 @@ export async function generateMetadata(
   { params }: Props,
   parent: ResolvingMetadata
 ): Promise<Metadata> {
-  // read route params
-  // const filePath = `content/${params.slug}.md`;
-  // const fileContent = fs.readFileSync(filePath, "utf-8");
-  // const { data } = matter(fileContent);
   const resData = await getSingleBlog(params.slug);
   const data = resData.data;
 
