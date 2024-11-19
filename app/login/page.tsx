@@ -18,7 +18,7 @@ const Login = () => {
   return (
     <div className="flex flex-col lg:flex-row min-h-screen">
       {/* Banner */}
-      <div className="lg:w-1/2 bg-indigo-600 hidden lg:flex items-center justify-center">
+      <div className="lg:w-1/2 bg-white dark:bg-slate-700 hidden lg:flex items-center justify-center">
         <Banner />
       </div>
 

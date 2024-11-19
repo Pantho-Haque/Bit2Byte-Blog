@@ -20,7 +20,8 @@ const LoginForm = () => {
     try {
       const response = await loginUser({ email, password });
       alert(`Welcome, ${response.data.username}!`);
-      console.log("Token:", response.data.token);
+      localStorage.setItem("authToken", response.data.token);
+      // console.log("Token:", response.data.token);
       // Handle token storage or navigation here
     } catch (error: any) {
       setError(error.message);
