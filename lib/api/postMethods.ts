@@ -1,7 +1,6 @@
 // const BASE_URL = process.env.BACKEND_HOST_URL;
 
 //register user
-
 export interface SignUpParams {
   email: string;
   password: string;
