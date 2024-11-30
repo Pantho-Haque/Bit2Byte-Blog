@@ -11,7 +11,7 @@ const syllabus = async () => {
       <div>
         <ul >
           <HoverEffect
-            className={"bg-white dark:bg-neutral-950"}
+            className={"bg-background"}
             topicId={item.id.toString()}
             items={item.sub_topics.map((subItem: any) => ({
               title: subItem.sub_topic_name,
@@ -27,7 +27,7 @@ const syllabus = async () => {
 
   return (
     <div>
-      <div className="w-full bg-white dark:bg-neutral-950 font-sans md:px-10 pb-[80vh]">
+      <div className="w-full bg-background font-sans md:px-10 pb-[80vh]">
         {/* <div className="max-w-7xl mx-auto py-20 px-4 md:px-8 lg:px-10">
             <h2 className="text-lg md:text-4xl mb-4 text-black dark:text-white max-w-4xl">
                 Syllabus
@@ -37,7 +37,7 @@ const syllabus = async () => {
             </p>
             </div> */}
         {/* <p>{JSON.stringify(data?.data)}</p> */}
-        <div className="relative max-w-7xl mx-auto pb-20">
+        <div className="relative bg-background mx-auto ">
           <Timeline data={dataEntry} />
         </div>
       </div>

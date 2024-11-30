@@ -15,25 +15,24 @@ export const HoverEffect = ({
     id: string;
     link: string;
   }[];
-  topicId:string;
+  topicId: string;
   className?: string;
 }) => {
-  let [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 
-  console.log(items);
   return (
-    <div className={cn("flex flex-col md:flex-row flex-wrap gap-2", className)}>
+    <div className={cn("flex flex-col md:flex-row flex-wrap gap-4", className)}>
       {items.map((item, idx) => (
         <div
           key={idx}
-          className="relative group block p-2 h-full w-full md:w-[45%]"
+          className="relative group block h-full "
           onMouseEnter={() => setHoveredIndex(idx)}
           onMouseLeave={() => setHoveredIndex(null)}
         >
           <AnimatePresence>
             {hoveredIndex === idx && (
               <motion.span
-                className="absolute inset-0 h-full w-full bg-neutral-200 dark:bg-slate-800/[0.8] block  rounded-3xl"
+                className="absolute inset-0 h-full bg-neutral-200 dark:bg-slate-800/[0.8] rounded-xl z-10"
                 layoutId="hoverBackground"
                 initial={{ opacity: 0 }}
                 animate={{
@@ -48,7 +47,7 @@ export const HoverEffect = ({
             )}
           </AnimatePresence>
           <Link href={`/blog/filteredby?topic=${topicId}&subtopic=${item.id}`}>
-            <Card>
+            <Card className="relative z-20">
               <CardTitle>{item.title}</CardTitle>
             </Card>
           </Link>
@@ -68,7 +67,7 @@ export const Card = ({
   return (
     <div
       className={cn(
-        "rounded-2xl h-full w-full p-1  bg-transparent border-2   cursor-pointer  relative z-20",
+        "rounded-xl h-full  p-1  bg-transparent border-2   cursor-pointer  relative z-20",
         className
       )}
     >

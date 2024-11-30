@@ -1,4 +1,4 @@
-// const BASE_URL = process.env.BACKEND_HOST_URL;
+const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
 //register user
 export interface SignUpParams {
@@ -72,10 +72,10 @@ export async function loginUser(params: LoginParams): Promise<LoginResponse> {
       body: JSON.stringify({ email, password }),
     });
 
-    if (!response.ok) {
-      const errorText = await response.text();
-      throw new Error(`Error: ${errorText}`);
-    }
+    // if (!response.ok) {
+    //   const errorText = await response.text();
+    //   throw new Error(`Error: ${errorText}`);
+    // }
 
     const responseData: LoginResponse = await response.json();
     return responseData;

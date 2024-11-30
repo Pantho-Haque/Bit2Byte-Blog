@@ -6,13 +6,13 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import LoadingBar from "react-top-loading-bar";
-
+ 
 import { MobileNav, ModeToggle } from "@/components/index";
-
+ 
 const NavBar = () => {
   const [progress, setProgress] = useState(0);
   const pathname = usePathname();
-  const route = pathname.split("/")[1];
+  const route = pathname.split("/")[2];
 
   // This runs whenever page changes to some other page
   useEffect(() => {
@@ -35,7 +35,7 @@ const NavBar = () => {
   }, []);
 
   return (
-    <nav className="h-16 bg-background/50 sticky top-0 border-b px-8 backdrop-blur flex items-center justify-between z-40">
+    <nav className="h-16 mt-3 bg-background/50 sticky top-0 border-b px-8 backdrop-blur flex items-center justify-between z-40">
       <LoadingBar
         color="#6028ff"
         progress={progress}
@@ -61,7 +61,7 @@ const NavBar = () => {
               className={`hover:bg-znc-300  py-2 px-4 rounded ${
                 route == "about" && "bg-znc-200"
               }`}
-              href={"/about"}
+              href={"/pub/about"}
             >
               About
             </Link>
@@ -71,7 +71,7 @@ const NavBar = () => {
               className={`hover:bg-znc-300  py-2 px-4 rounded ${
                 route == "blog" && "bg-znc-200"
               }`}
-              href={"/blog"}
+              href={"/pub/blog"}
             >
               Blog
             </Link>
@@ -81,7 +81,7 @@ const NavBar = () => {
               className={`hover:bg-znc-300  py-2 px-4 rounded ${
                 route == "syllabus" && "bg-znc-200"
               }`}
-              href={"/syllabus"}
+              href={"/pub/syllabus"}
             >
               Sylabus
             </Link>
@@ -91,7 +91,7 @@ const NavBar = () => {
               className={`hover:bg-znc-300  py-2 px-4 rounded ${
                 route == "contact" && "bg-znc-200"
               }`}
-              href={"/contact"}
+              href={"/pub/contact"}
             >
               Contact
             </Link>
@@ -100,7 +100,7 @@ const NavBar = () => {
 
         <div className="buttons flex space-x-2 mr-2">
           <Link
-            href={"/login"}
+            href={"/auth"}
             className={buttonVariants({ variant: "outline" })}
           >
             Login

@@ -1,4 +1,4 @@
-const BASE_URL = process.env.BACKEND_HOST_URL;
+const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
 const revalidationTime = 10;
 

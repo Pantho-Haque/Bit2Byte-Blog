@@ -8,7 +8,7 @@ interface MaxWidthProps{
 
 const MaxWidthWrapper = ({className, children}:MaxWidthProps) => {
   return (
-    <div className={cn('mx-auto max-w-screen-xl w-full my-12', className)}>
+    <div className={cn('mx-auto max-w-[90vw] w-full my-12', className)}>
         {children}
     </div>
   )

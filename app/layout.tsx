@@ -2,6 +2,7 @@ import { Footer, NavBar } from "@/components/index";
 import { ThemeProvider } from "@/components/theme-provider";
 import SiteConfig from "@/config/site";
 import { AuthProvider } from "@/lib/AuthProvider";
+import { ToastProvider } from "@/components/ui/toast-context";
 import { cn } from "@/lib/utils";
 import type { Metadata } from "next";
 import { Inter as FontSans } from "next/font/google";
@@ -37,11 +38,15 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <AuthProvider>
-            <NavBar />
-            {children}
-            <Footer/>
-          </AuthProvider>
+          <ToastProvider>
+            <AuthProvider>
+              <div className="flex flex-col justify-between w-[98vw] mx-auto min-h-[90vh]">
+                {/* <NavBar />  */}
+                {children}
+                <Footer />
+              </div>
+            </AuthProvider>
+          </ToastProvider>
         </ThemeProvider>
       </body>
     </html>

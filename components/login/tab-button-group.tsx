@@ -10,7 +10,7 @@ const TabButtonGroup: React.FC<TabButtonGroupProps> = ({
   handleToggle,
 }) => {
   return (
-    <div className="flex space-x-4 mb-8">
+    <div className="flex space-x-4 mb-8 z-10">
       <button
         onClick={() => handleToggle(false)}
         className={`px-6 py-2 rounded-t-md font-semibold ${

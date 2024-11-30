@@ -17,6 +17,10 @@ import Mission from "./home/Mission";
 import NavBar from "./navbar/NavBar";
 import MobileNav from "./navbar/mobile-nav";
 import { ModeToggle } from "./theme-toggle";
+import Banner from "./login/banner";
+import TabButtonGroup from "./login/tab-button-group";
+import LoginForm from "./login/login-form";
+import RegisterForm from "./login/signup-form";
 
 /*
 import {
@@ -33,7 +37,7 @@ import {
   NavBar,
   OnThisPage,
   SearchBlogBar,
-  SingleComment,
+  SingleComment,Banner,TabButtonGroup,LoginForm,RegisterForm
 } from "@/components/index";
 
 
@@ -60,5 +64,8 @@ export {
   SearchBlogBar,
   SingleComment,
   TopicwiseCover,
+  Banner,
+  TabButtonGroup,
+  LoginForm,
+  RegisterForm,
 };
-

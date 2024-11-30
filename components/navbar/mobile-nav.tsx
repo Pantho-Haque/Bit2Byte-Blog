@@ -7,11 +7,11 @@ import { SheetClose } from "../ui/sheet";
 
 const MobileNav = () => {
   const pathname = usePathname();
-  const route = pathname.split("/")[1];
+  const route = pathname.split("/")[2];
 
   return (
     <div>
-      <ul className="flex flex-col w-full  gap-4">
+      <ul className="mt-5 flex flex-col w-full  gap-4">
         <SheetClose asChild>
           <SheetClose asChild>
             <Link href={"/"}>
@@ -26,7 +26,7 @@ const MobileNav = () => {
           </SheetClose>
         </SheetClose>
         <SheetClose asChild>
-          <Link href={"/about"}>
+          <Link href={"/pub/about"}>
             <p
               className={`hover:bg-znc-300  py-2 px-4 rounded ${
                 route == "about" && "bg-znc-200"
@@ -37,7 +37,7 @@ const MobileNav = () => {
           </Link>
         </SheetClose>
         <SheetClose asChild>
-          <Link href={"/blog"}>
+          <Link href={"/pub/blog"}>
             <p
               className={`hover:bg-znc-300  py-2 px-4 rounded ${
                 route == "blog" && "bg-znc-200"
@@ -48,7 +48,7 @@ const MobileNav = () => {
           </Link>
         </SheetClose>
         <SheetClose asChild>
-          <Link href={"/syllabus"}>
+          <Link href={"/pub/syllabus"}>
             <p
               className={`hover:bg-znc-300  py-2 px-4 rounded ${
                 route == "syllabus" && "bg-znc-200"
@@ -59,7 +59,7 @@ const MobileNav = () => {
           </Link>
         </SheetClose>
         <SheetClose asChild>
-          <Link href={"/contact"}>
+          <Link href={"/pub/contact"}>
             <p
               className={`hover:bg-znc-300  py-2 px-4 rounded ${
                 route == "contact" && "bg-znc-200"
@@ -73,17 +73,9 @@ const MobileNav = () => {
           <SheetClose asChild>
             <Link
               className={buttonVariants({ variant: "secondary" })}
-              href="/login"
+              href="/auth"
             >
               Login
-            </Link>
-          </SheetClose>
-          <SheetClose asChild>
-            <Link
-              className={buttonVariants({ variant: "secondary" })}
-              href="/login"
-            >
-              Signup
             </Link>
           </SheetClose>
         </div>

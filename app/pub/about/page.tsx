@@ -150,7 +150,7 @@ export default function About() {
   ];
 
   return (
-    <div className="min-h-screen 2xl:max-w-[80vw] mx-auto p-8">
+    <div className="2xl:max-w-[80vw] mx-auto p-8">
       {/* careousel portion*/}
       <div className="flex flex-col lg:flex-row justify-between  ">
         <CarouselImage imageList={imageList} />

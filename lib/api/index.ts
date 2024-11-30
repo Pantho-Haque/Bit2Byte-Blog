@@ -1,4 +1,17 @@
-import { getAllBlogs,getSingleBlog,getSyllabus,getFilteredBlog } from "./getMethods";
+import {
+  getAllBlogs,
+  getSingleBlog,
+  getSyllabus,
+  getFilteredBlog,
+} from "./getMethods";
 
+import { signUpUser, loginUser } from "./postMethods";
 
-export {getAllBlogs,getSingleBlog,getSyllabus,getFilteredBlog}
+export {
+  getAllBlogs,
+  getSingleBlog,
+  getSyllabus,
+  getFilteredBlog,
+  signUpUser,
+  loginUser,
+};
