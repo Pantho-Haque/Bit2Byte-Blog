@@ -25,11 +25,11 @@ export default async function BlogControl({ topic }: Props) {
 
       {/* badges */}
       <div className="flex flex-row space-x-3 my-5 justify-center">
-        <Link href={`/blog`}>
+        <Link href={`/pub/blog`}>
           <Button variant={topic == null ? "default" : "outline"}>All</Button>
         </Link>
         {topicData.map((e: [string, string], i: number) => (
-          <Link key={i} href={`/blog/filteredby?topic=${e[1]}`}>
+          <Link key={i} href={`/pub/blog/filteredby?topic=${e[1]}`}>
             <Button variant={topic == e[1] ? "default" : "outline"}>
               {e[0]}
             </Button>
