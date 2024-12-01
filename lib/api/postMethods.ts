@@ -1,3 +1,5 @@
+"use server"
+
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
 //register user
@@ -16,15 +18,16 @@ export interface SignUpResponse {
 }
 
 export async function signUpUser(
-  params: SignUpParams
+  formData: FormData
 ): Promise<SignUpResponse> {
-  const { email, password, name, photo } = params;
+  // const { email, password, name, photo } = params;
 
-  const formData = new FormData();
-  formData.append("email", email);
-  formData.append("password", password);
-  formData.append("name", name);
-  formData.append("photo", photo);
+  // const formData = new FormData();
+  // formData.append("email", email);
+  // formData.append("password", password);
+  // formData.append("name", name);
+  // formData.append("photo", photo);
+
 
   try {
     const response = await fetch(`${BASE_URL}/sign_up`, {
