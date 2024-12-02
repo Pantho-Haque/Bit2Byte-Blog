@@ -6,6 +6,7 @@ import { ToastProvider } from "@/components/ui/toast-context";
 import { cn } from "@/lib/utils";
 import type { Metadata } from "next";
 import { Inter as FontSans } from "next/font/google";
+import { Analytics } from "@vercel/analytics/react"
 import "./globals.css";
 
 const fontSans = FontSans({
@@ -38,6 +39,7 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
+	<Analytics/>
           <ToastProvider>
             <AuthProvider>
               <div className="flex flex-col justify-between w-[98vw] mx-auto min-h-[90vh]">
