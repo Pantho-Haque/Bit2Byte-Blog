@@ -4,6 +4,8 @@ import React, { useState,useEffect } from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { signUpUser } from "@/lib/api/index";
 import { useToast } from "@/components/ui/toast-context";
+import { MdOutlineWarning } from "react-icons/md";
+import { IoCheckmarkCircleSharp } from "react-icons/io5";
 
 const RegisterForm = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -14,39 +16,9 @@ const RegisterForm = () => {
     name: "",
   });
   const [loading, setLoading] = useState(false);
+ 
 
-
-  const [successMsg, setSuccessMsg] = useState("");
-  const [errorMsg, setErrorMsg] = useState("");
-  const { addToast } = useToast();
-
-  useEffect(() => {
-    if (successMsg != "") {
-      addToast({
-        content: (
-          <div>
-            <h4 className="font-bold">{successMsg}</h4>
-          </div>
-        ),
-        type: "success",
-        duration: 3000,
-      });
-    }
-  }, [successMsg]);
-
-  useEffect(() => {
-    if (errorMsg != "") {
-      addToast({
-        content: (
-          <div>
-            <h4 className="font-bold">{errorMsg}</h4>
-          </div>
-        ),
-        type: "error",
-        duration: 3000,
-      });
-    }
-  }, [errorMsg]);
+  const {setSuccessMsg,setErrorMsg,setInfoMsg } = useToast();
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
@@ -79,18 +51,21 @@ const RegisterForm = () => {
           name: formData.name,
           photo: selectedImage,
         });
-  
+        
+        if(!response.success){
+          throw response;
+        }
         setSuccessMsg(response.message);
       }
       
     } catch (error:any) {
-      console.log(error);
+      console.log((error));
       setErrorMsg( error.message  );
     } finally {
       setLoading(false);
     }
   };
-
+  
   return (
     <div className="w-full h-full" >
       {/* {errorMsg && (
