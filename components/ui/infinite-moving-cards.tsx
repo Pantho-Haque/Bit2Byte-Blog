@@ -95,7 +95,7 @@ export const InfiniteMovingCards = ({
       {/* small screen */}
       <ul
         className={cn(
-          "flex flex-col lg:hidden min-w-full shrink-0 gap-4 py-4 w-max flex-nowrap"
+          "flex flex-col lg:hidden w-full shrink-0 gap-4 py-4  flex-nowrap"
         )}
       >
         {items.map((item, idx) => (

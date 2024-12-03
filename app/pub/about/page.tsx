@@ -130,34 +130,35 @@ export default function About() {
     {
       desc: "Engage in immersive, hands-on workshops designed to deepen core development skills across various technical topics.",
       title: "Development Workshops",
-      icon:"https://img.icons8.com/?size=100&id=BdVRyWiLRC1L&format=png&color=6b7280"
+      icon: "https://img.icons8.com/?size=100&id=BdVRyWiLRC1L&format=png&color=6b7280",
     },
     {
       desc: "Build real-world projects that translate knowledge into practical experience, enhancing both skillsets and portfolios.",
       title: "Project-Based Learning",
-      icon:"https://img.icons8.com/?size=100&id=104233&format=png&color=6b7280"
+      icon: "https://img.icons8.com/?size=100&id=104233&format=png&color=6b7280",
     },
     {
       desc: "Gain valuable insights from seasoned industry leaders, exploring the latest in tech advancements and career development.",
       title: "Guest Lectures",
-      icon:"https://img.icons8.com/?size=100&id=lKbtBpeAl6AU&format=png&color=6b7280"
+      icon: "https://img.icons8.com/?size=100&id=lKbtBpeAl6AU&format=png&color=6b7280",
     },
     {
       desc: "Participate in focused training and preparation for hackathons and competitive events to sharpen skills and confidence.",
       title: "Hackathon Preparation",
-      icon:"https://img.icons8.com/?size=100&id=wgH2Qk7mFnEl&format=png&color=6b7280"
+      icon: "https://img.icons8.com/?size=100&id=wgH2Qk7mFnEl&format=png&color=6b7280",
     },
   ];
 
   return (
-    <div className="2xl:max-w-[80vw] mx-auto p-8">
+    <div className="w-full  mx-auto 2xl:p-8">
       {/* careousel portion*/}
-      <div className="flex flex-col lg:flex-row justify-between  ">
+      <div className="w-full flex flex-col lg:flex-row justify-between  ">
         <CarouselImage imageList={imageList} />
 
-
-        <div className="align-left text-justify max-w-[60%] mx-auto lg:max-w-[30vw] lg:ml-10 p-10 flex flex-col justify-center ">
-          <p className="text-5xl font-extrabold text-center  lg:text-left mb-10">Bit2Byte</p>
+        <div className="align-left text-justify w-full lg:w-[30%]   mx-auto   lg:ml-5 px-3 pt-10 flex flex-col justify-center ">
+          <p className="text-5xl font-extrabold text-center  lg:text-left">
+            Bit2Byte
+          </p>
           <p className="text-xl text-gray-500  mx-auto mt-5">
             A software research and development club focused on building a
             community of skilled developers. We prepare our members to excel in

@@ -24,7 +24,7 @@ export default async function BlogControl({ topic }: Props) {
       <SearchBlogBar />
 
       {/* badges */}
-      <div className="flex flex-row space-x-3 my-5 justify-center">
+      <div className="w-full flex flex-row space-x-3 my-5 justify-center flex-wrap">
         <Link href={`/pub/blog`}>
           <Button variant={topic == null ? "default" : "outline"}>All</Button>
         </Link>

@@ -14,7 +14,7 @@ interface BlogType {
   creationTime: string;
   authorImage:string;
 }
-
+ 
 export default function BlogCard({ blog }: { blog: BlogType }) {
   return (
     <Link href={`/pub/blogpost/${blog.id}`} passHref>
