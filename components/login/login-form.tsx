@@ -4,6 +4,7 @@ import { useToast } from "@/components/ui/toast-context";
 import { loginUser } from "@/lib/api/postMethods";
 import React, { useState } from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { useAuth } from "@/lib/AuthProvider";
 
 const LoginForm = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -12,6 +13,7 @@ const LoginForm = () => {
   const [loading, setLoading] = useState(false);
 
   const { setSuccessMsg, setErrorMsg, setInfoMsg } = useToast();
+  const { login } = useAuth();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -31,7 +33,10 @@ const LoginForm = () => {
         console.log(response);
         if (response.status == "success") {
           setSuccessMsg(response.message);
-          localStorage.setItem("authToken", response.data.token);
+          await login({
+            username: response.data.username,
+            token: response.data.token
+          });
         }
         if (response.status === "info") {
           setInfoMsg(response.message);
