@@ -45,12 +45,20 @@ const RegisterForm = () => {
         setErrorMsg("Password must be at least 6 characters.");
       
       }else{
-        const response = await signUpUser({
-          email: formData.email,
-          password: formData.password,
-          name: formData.name,
-          photo: selectedImage,
-        });
+        // const response = await signUpUser({
+        //   email: formData.email,
+        //   password: formData.password,
+        //   name: formData.name,
+        //   photo: selectedImage,
+        // });
+        
+        const formDataToSend = new FormData();
+        formDataToSend.append("email", formData.email);
+        formDataToSend.append("password", formData.password);
+        formDataToSend.append("name", formData.name);
+        formDataToSend.append("photo", selectedImage);
+
+        const response = await signUpUser(formDataToSend);
         
         if(!response.success){
           throw response;
