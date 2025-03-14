@@ -4,16 +4,16 @@ import { BlogCard, SearchBlogBar } from "@/components/index";
 
 interface BlogType {
   id: string;
-  topicID: string;
-  subTopicId: string;
+  topic_id: string;
+  sub_topic_id: string;
   title: string;
-  shortDesc: string;
+  short_desc: string;
   image?: string;
-  writtenBy: string;
-  approvedBy: string;
-  creationTime: string;
-  basePhotoUrl:string;
-  authorImage:string;
+  written_by: string;
+  approved_by: string;
+  creation_time: string;
+  last_updated: string;
+  author_image: string;
 }
 type Props = {
   blogs:BlogType[]
