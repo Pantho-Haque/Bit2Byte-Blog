@@ -4,12 +4,12 @@ import {
   BlogControl,
   BlogView,
   SearchBlogBar,
-} from "@/components/index";
-import { Button } from "@/components/ui/button";
-import { HoverImageCard } from "@/components/ui/hover-card-with-image";
+} from '@/components/index';
+import { Button } from '@/components/ui/button';
+import { HoverImageCard } from '@/components/ui/hover-card-with-image';
 
-import { getAllBlogs, getSyllabus } from "@/lib/api";
-import { Separator } from "@/components/ui/separator";
+import { getAllBlogs, getSyllabus } from '@/lib/api';
+import { Separator } from '@/components/ui/separator';
 import {
   Pagination,
   PaginationContent,
@@ -18,12 +18,12 @@ import {
   PaginationLink,
   PaginationNext,
   PaginationPrevious,
-} from "@/components/ui/pagination";
+} from '@/components/ui/pagination';
 
-import { Metadata } from "next";
-import Link from "next/link";
+import { Metadata } from 'next';
+import Link from 'next/link';
 
-interface BlogType {
+export interface BlogType {
   id: string;
   topicID: string;
   subTopicId: string;
@@ -34,7 +34,7 @@ interface BlogType {
   approvedBy: string;
   creationTime: string;
   basePhotoUrl: string;
-  authorImage:string;
+  authorImage: string;
 }
 
 const BlogList = async () => {
@@ -42,11 +42,10 @@ const BlogList = async () => {
 
   const blogs: BlogType[] = data?.items;
 
-  const {pageNo,totalPages}=data;
+  const { pageNo, totalPages } = data;
 
-  
   return (
-    <div className="w-full mx-auto p-4">
+    <div className='w-full mx-auto p-4'>
       <BlogControl />
       {/* blog list */}
       <BlogView blogs={blogs} />
@@ -54,16 +53,16 @@ const BlogList = async () => {
       <Pagination>
         <PaginationContent>
           <PaginationItem>
-            <PaginationPrevious href="#" />
+            <PaginationPrevious href='#' />
           </PaginationItem>
           <PaginationItem>
-            <PaginationLink href="#">1</PaginationLink>
+            <PaginationLink href='#'>1</PaginationLink>
           </PaginationItem>
           <PaginationItem>
             <PaginationEllipsis />
           </PaginationItem>
           <PaginationItem>
-            <PaginationNext href="#" />
+            <PaginationNext href='#' />
           </PaginationItem>
         </PaginationContent>
       </Pagination>
@@ -72,9 +71,9 @@ const BlogList = async () => {
 };
 
 export const metadata: Metadata = {
-  title: "Blogs - Bit2Byte",
+  title: 'Blogs - Bit2Byte',
   description:
-    "A comprehensive blog for coders of all levels, from beginners to advanced. Explore tutorials, tips, and insights on a wide range of programming languages and technologies. Stay up-to-date with the latest trends in software development, learn best practices, and enhance your coding skills with in-depth articles and guides.",
+    'A comprehensive blog for coders of all levels, from beginners to advanced. Explore tutorials, tips, and insights on a wide range of programming languages and technologies. Stay up-to-date with the latest trends in software development, learn best practices, and enhance your coding skills with in-depth articles and guides.',
 };
 
 export default BlogList;
