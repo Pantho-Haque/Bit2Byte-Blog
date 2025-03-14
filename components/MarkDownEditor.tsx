@@ -7,7 +7,9 @@ import { SaveImageHandler } from "react-mde";
 import "react-mde/lib/styles/css/react-mde-all.css";
 import Showdown from "showdown";
 // import "./styles.css";
+    // "react-mde": "11.5.0",
 
+    
 const converter = new Showdown.Converter({
   tables: true, // Enables table support
   simplifiedAutoLink: true, // Automatically creates links

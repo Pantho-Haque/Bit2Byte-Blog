@@ -20,3 +20,9 @@ This is a simple Next.js blog application that fetches and displays a collection
 * Add sorting and filtering options for blogs.
 * Add social sharing buttons on each blog post.
 * lazy loading techniques.(skeletons)
+
+```sh
+docker compose run --build --rm blogsite npm install
+
+docker compose up --build --remove-orphans
+```
