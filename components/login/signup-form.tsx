@@ -51,7 +51,6 @@ const RegisterForm = () => {
         //   name: formData.name,
         //   photo: selectedImage,
         // });
-        
         const formDataToSend = new FormData();
         formDataToSend.append("email", formData.email);
         formDataToSend.append("password", formData.password);
@@ -59,10 +58,12 @@ const RegisterForm = () => {
         formDataToSend.append("photo", selectedImage);
 
         const response = await signUpUser(formDataToSend);
+
         
         if(!response.success){
           throw response;
         }
+
         setSuccessMsg(response.message);
       }
       

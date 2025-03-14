@@ -1,0 +1,26 @@
+name: bit2byte-blog
+
+services:
+  blogsite:
+    container_name: blogsite
+    build:
+      context: .
+      dockerfile: Dockerfile
+    working_dir: /blog
+    command: npm run dev
+    environment:
+      NEXT_PUBLIC_BASE_URL : "https://88.222.244.211/api/v1"
+    volumes:
+      - source: ./
+        target: /blog
+        type: bind
+      - source: blogsite
+        target: /blogsite/node_modules
+        type: volume
+    ports:
+      - target: 3000
+        published: 3000
+        protocol: tcp
+
+volumes:
+  blogsite:
