@@ -1,21 +1,42 @@
+"use client";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
 import Link from "next/link";
+import { useEffect } from "react";
 
 interface BlogType {
   id: string;
-  topicID: string;
-  subTopicId: string;
+  topic_id: string;
+  sub_topic_id: string;
   title: string;
-  shortDesc: string;
+  short_desc: string;
   image?: string;
-  writtenBy: string;
-  approvedBy: string;
-  creationTime: string;
-  authorImage:string;
+  written_by: string;
+  approved_by: string;
+  creation_time: string;
+  last_updated: string;
+  author_image: string;
 }
- 
+
+const data = {
+  id: 313,
+  topic_id: 3,
+  sub_topic_id: 313,
+  title: "JavaScript - Regular Expressions",
+  image: "https://88.222.244.211/public/photos/blog_info_image_313.jpeg",
+  author_image: "https://88.222.244.211/public/photos/rahman2007007.jpg",
+  last_updated: 1740838809172,
+  creation_time: 1740838809172,
+  written_by: "Md. Sakibur Rahman",
+  short_desc: "Find you patters",
+  approved_by: "Pantho Haque",
+};
+
 export default function BlogCard({ blog }: { blog: BlogType }) {
+  useEffect(() => {
+    console.log(JSON.stringify(blog));
+  }, []);
+
   return (
     <Link href={`/pub/blogpost/${blog.id}`} passHref>
       <div className="w-full md:max-w-sm shrink-0 group/card mx-auto  dark:text-gray-50 text-gray-900">
@@ -35,14 +56,16 @@ export default function BlogCard({ blog }: { blog: BlogType }) {
               height="100"
               width="100"
               alt="Avatar"
-              src={blog.authorImage}
+              src={blog.author_image}
               className="h-10 w-10 rounded-full border-2 object-cover"
             />
             <div className="flex flex-col">
               <p className="text-base relative font-semibold ">
-                {blog.writtenBy}
+                {blog.written_by}
               </p>
-              <p className="text-sm font-normal ">{DateTimeDisplay({ creationTime: blog.creationTime })}</p>
+              <p className="text-sm font-normal ">
+                {DateTimeDisplay({ creationTime: blog.creation_time })}
+              </p>
             </div>
           </div>
           <Image
@@ -61,7 +84,7 @@ export default function BlogCard({ blog }: { blog: BlogType }) {
               {blog.title}
             </h1>
             <p className="font-normal text-sm relative  my-2 lg:my-4">
-              {blog.shortDesc}
+              {blog.short_desc}
             </p>
           </div>
         </div>
@@ -70,20 +93,19 @@ export default function BlogCard({ blog }: { blog: BlogType }) {
   );
 }
 
+export function DateTimeDisplay({ creationTime }: { creationTime: string }) {
+  const date = new Date(creationTime);
 
-export  function DateTimeDisplay({
-    creationTime,
-  }: {
-    creationTime: string;
-  }) {
-    const date = new Date(creationTime);
-    const formattedDate = new Intl.DateTimeFormat("en-GB", {
-      weekday: "short",
-      day: "2-digit",
-      month: "short",
-      year: "numeric",
-    }).format(date);
-  
-    return formattedDate;
+  if (isNaN(date.getTime())) {
+    console.error("Invalid date provided:", date);
+    return "Invalid Date"; // or any fallback handling
   }
-  
+  const formattedDate = new Intl.DateTimeFormat("en-GB", {
+    weekday: "short",
+    day: "2-digit",
+    month: "short",
+    year: "numeric",
+  }).format(date);
+
+  return formattedDate;
+}
