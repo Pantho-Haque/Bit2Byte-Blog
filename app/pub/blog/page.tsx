@@ -1,10 +1,5 @@
 // import SampleBlogs from "@/config/sampleblogs";
-import {
-  BlogCard,
-  BlogControl,
-  BlogView,
-  SearchBlogBar,
-} from '@/components/index';
+import { BlogCard, BlogView, SearchBlogBar } from '@/components/index';
 import { Button } from '@/components/ui/button';
 import { HoverImageCard } from '@/components/ui/hover-card-with-image';
 
@@ -25,20 +20,70 @@ import Link from 'next/link';
 
 export interface BlogType {
   id: string;
-  topicID: string;
-  subTopicId: string;
+  topic_id: string;
+  sub_topic_id: string;
   title: string;
-  shortDesc: string;
+  short_desc: string;
   image?: string;
-  writtenBy: string;
-  approvedBy: string;
-  creationTime: string;
-  basePhotoUrl: string;
-  authorImage: string;
+  written_by: string;
+  approved_by: string;
+  creation_time: string;
+  last_updated: string;
+  author_image: string;
 }
 
-const BlogList = async () => {
+type Props = {
+  topic?: string | null;
+};
+const sl = {
+  data: [
+    {
+      id: 1,
+      topic_name: 'C',
+      no_of_sub_topics: 9,
+      sub_topics: [Array],
+    },
+    {
+      id: 2,
+      topic_name: 'Java',
+      no_of_sub_topics: 17,
+      sub_topics: [Array],
+    },
+    {
+      id: 3,
+      topic_name: 'JavaScript',
+      no_of_sub_topics: 9,
+      sub_topics: [Array],
+    },
+    { id: 4, topic_name: 'DSA', no_of_sub_topics: 6, sub_topics: [] },
+    {
+      id: 5,
+      topic_name: 'OOP',
+      no_of_sub_topics: 8,
+      sub_topics: [Array],
+    },
+    {
+      id: 10,
+      topic_name: 'Android',
+      no_of_sub_topics: 10,
+      sub_topics: [Array],
+    },
+  ],
+  message: 'Operation successful',
+  success: true,
+};
+
+const BlogList = async ({ topic }: Props) => {
   const { data } = await getAllBlogs();
+  const syllabus = await getSyllabus();
+  const topicData = syllabus?.data.map(
+    (item: { id: number; topic_name: string }) => [
+      item.topic_name,
+      item.id.toString(),
+    ]
+  );
+
+  console.log(syllabus);
 
   const blogs: BlogType[] = data?.items;
 
@@ -46,7 +91,25 @@ const BlogList = async () => {
 
   return (
     <div className='w-full mx-auto p-4'>
-      <BlogControl />
+      <div>
+        <SearchBlogBar />
+
+        {/* badges */}
+        <div className='w-full flex flex-row space-x-3 my-5 justify-center flex-wrap'>
+          <Link href={`/pub/blog`}>
+            <Button variant={topic == null ? 'default' : 'outline'}>All</Button>
+          </Link>
+          {topicData.map((e: [string, string], i: number) => (
+            <Link key={i} href={`/pub/blog/filteredby?topic=${e[1]}`}>
+              <Button variant={topic == e[1] ? 'default' : 'outline'}>
+                {e[0]}
+              </Button>
+            </Link>
+          ))}
+        </div>
+
+        <Separator className='mb-5 shadow-sm shadow-slate-300 ' />
+      </div>
       {/* blog list */}
       <BlogView blogs={blogs} />
 

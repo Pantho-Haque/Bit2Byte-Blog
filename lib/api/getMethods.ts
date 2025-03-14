@@ -53,12 +53,8 @@ export async function getSyllabus() {
 }
 
 export async function getFilteredBlog(topic: string, subtopic: string | null) {
-  let url = "";
-  if (subtopic) {
-    url = `${BASE_URL}/filter_by?topic=${topic}&subtopic=${subtopic}`;
-  } else {
-    url = `${BASE_URL}/filter_by?topic=${topic}`;
-  }
+  let url = `${BASE_URL}/filter_by?topic=${topic}` + (subtopic ? `&subtopic=${subtopic}` : "");
+  
   const result: any = await fetch(url, {
     //   cache: "no-store",
     next: {
@@ -66,7 +62,7 @@ export async function getFilteredBlog(topic: string, subtopic: string | null) {
     },
   });
   if (!result.ok) {
-    throw new Error("Error occured while fetching");
+    throw "Error occured while fetching";
   }
   return result.json();
 }

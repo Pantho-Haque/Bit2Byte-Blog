@@ -1,8 +1,6 @@
-"use client";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect } from "react";
 
 interface BlogType {
   id: string;
@@ -33,10 +31,6 @@ const data = {
 };
 
 export default function BlogCard({ blog }: { blog: BlogType }) {
-  useEffect(() => {
-    console.log(JSON.stringify(blog));
-  }, []);
-
   return (
     <Link href={`/pub/blogpost/${blog.id}`} passHref>
       <div className="w-full md:max-w-sm shrink-0 group/card mx-auto  dark:text-gray-50 text-gray-900">
