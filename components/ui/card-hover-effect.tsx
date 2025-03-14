@@ -46,7 +46,7 @@ export const HoverEffect = ({
               />
             )}
           </AnimatePresence>
-          <Link href={`/blog/filteredby?topic=${topicId}&subtopic=${item.id}`}>
+          <Link href={`/pub/blog/filteredby?topic=${topicId}&subtopic=${item.id}`}>
             <Card className="relative z-20">
               <CardTitle>{item.title}</CardTitle>
             </Card>

@@ -6,15 +6,15 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import LoadingBar from "react-top-loading-bar";
- 
+import { useAuth } from "@/lib/AuthProvider";
 import { MobileNav, ModeToggle } from "@/components/index";
- 
+
 const NavBar = () => {
   const [progress, setProgress] = useState(0);
   const pathname = usePathname();
   const route = pathname.split("/")[2];
+  const { user, logout } = useAuth();
 
-  // This runs whenever page changes to some other page
   useEffect(() => {
     setProgress(30);
 
@@ -27,7 +27,6 @@ const NavBar = () => {
     }, 800);
   }, [pathname]);
 
-  // This runs whenever page loads
   useEffect(() => {
     setTimeout(() => {
       setProgress(0);
@@ -83,7 +82,7 @@ const NavBar = () => {
               }`}
               href={"/pub/syllabus"}
             >
-              Sylabus
+              Syllabus
             </Link>
           </li>
           <li>
@@ -99,12 +98,21 @@ const NavBar = () => {
         </ul>
 
         <div className="buttons flex space-x-2 mr-2">
-          <Link
-            href={"/auth"}
-            className={buttonVariants({ variant: "outline" })}
-          >
-            Login
-          </Link>
+          {user ? (
+            <button
+              onClick={logout}
+              className={buttonVariants({ variant: "outline" })}
+            >
+              Logout
+            </button>
+          ) : (
+            <Link
+              href={"/auth"}
+              className={buttonVariants({ variant: "outline" })}
+            >
+              Login
+            </Link>
+          )}
         </div>
       </div>
       <ModeToggle />

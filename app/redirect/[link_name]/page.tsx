@@ -1,17 +1,33 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { getRedirectName } from "@/lib/api";
+import { useEffect, useState } from "react";
 
-export default function WelcomePage() {
+export default function WelcomePage({
+  params,
+}: {
+  params: { link_name: string };
+}) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-        window.location.replace("https://docs.google.com/forms/d/e/1FAIpQLSduWO4eI9r96Gr2j-d8-cuR0ZmMzdP5NPL4FGPWH_N7LWshpA/viewform?usp=sf_link");
-      setLoading(false);
-    }, 3000); // 3 seconds
-    return () => clearTimeout(timer);
-  }, []);
+    const fetchDataAndRedirect = async () => {
+      try {
+        // Fetch data
+        const response = await getRedirectName(params.link_name);
+        console.log(response);
+        // Delay and redirect
+        setTimeout(() => {
+          window.location.replace(response.data);
+          setLoading(false);
+        }, 3000); // 3 seconds delay
+      } catch (error: any) {
+        console.error(error.message);
+      }
+    };
+
+    fetchDataAndRedirect();
+  }, [params.link_name]);
 
   return (
     <div className="flex flex-col justify-center items-center min-h-screen bg-gradient-to-r from-blue-500 to-purple-500 text-white p-4">

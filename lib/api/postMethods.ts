@@ -15,9 +15,11 @@ export interface SignUpResponse {
     username: string;
   };
   message: string;
+  success:boolean;
 }
 
 export async function signUpUser(
+  // params: SignUpParams
   formData: FormData
 ): Promise<SignUpResponse> {
   // const { email, password, name, photo } = params;
@@ -28,20 +30,20 @@ export async function signUpUser(
   // formData.append("name", name);
   // formData.append("photo", photo);
 
-
   try {
     const response = await fetch(`${BASE_URL}/sign_up`, {
       method: "POST",
       body: formData,
     });
 
-    if (!response.ok) {
-      const errorText = await response.text();
-      throw new Error(`Error: ${errorText}`);
-    }
+    // if (!response.ok) {
+    //   throw JSON.parse(await response.text());
+    // }
     const responseData: SignUpResponse = await response.json();
     return responseData;
+
   } catch (error) {
+    // throw error;
     throw new Error(
       error instanceof Error ? error.message : "An unexpected error occurred."
     );
@@ -61,6 +63,7 @@ export interface LoginResponse {
     token: string;
   };
   message: string;
+  status:"error"|"warning"|"info"|"success";
 }
 
 export async function loginUser(params: LoginParams): Promise<LoginResponse> {
@@ -74,12 +77,6 @@ export async function loginUser(params: LoginParams): Promise<LoginResponse> {
       },
       body: JSON.stringify({ email, password }),
     });
-
-    // if (!response.ok) {
-    //   const errorText = await response.text();
-    //   throw new Error(`Error: ${errorText}`);
-    // }
-
     const responseData: LoginResponse = await response.json();
     return responseData;
   } catch (error) {

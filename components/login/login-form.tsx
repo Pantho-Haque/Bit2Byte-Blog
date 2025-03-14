@@ -1,9 +1,10 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
-import { FaEye, FaEyeSlash } from "react-icons/fa";
-import { loginUser } from "@/lib/api/postMethods";
 import { useToast } from "@/components/ui/toast-context";
+import { loginUser } from "@/lib/api/postMethods";
+import React, { useState } from "react";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { useAuth } from "@/lib/AuthProvider";
 
 const LoginForm = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -11,44 +12,15 @@ const LoginForm = () => {
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const [successMsg, setSuccessMsg] = useState<string>("");
-  const [errorMsg, setErrorMsg] = useState<string>("");
-
-  const { addToast } = useToast();
-
-  useEffect(() => {
-    if (successMsg != "") {
-      addToast({
-        content: (
-          <div>
-            <h4 className="font-bold">{successMsg}</h4>
-          </div>
-        ),
-        type: "success",
-        duration: 3000,
-      });
-    }
-  }, [successMsg]);
-
-  useEffect(() => {
-    if (errorMsg != "") {
-      addToast({
-        content: (
-          <div>
-            <h4 className="font-bold">{errorMsg}</h4>
-          </div>
-        ),
-        type: "error",
-        duration: 3000,
-      });
-    }
-  }, [errorMsg]);
+  const { setSuccessMsg, setErrorMsg, setInfoMsg } = useToast();
+  const { login } = useAuth();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
     setSuccessMsg("");
     setErrorMsg("");
+    setInfoMsg("");
 
     try {
       if (email == "") {
@@ -56,15 +28,22 @@ const LoginForm = () => {
       } else if (password == "") {
         setErrorMsg("Put you password");
       } else {
-
         const response = await loginUser({ email, password });
-        //alert(`Welcome, ${response.data.username}!`);
-        console.log(response);
-        setSuccessMsg(`Welcome, ${JSON.stringify(response)}!`);
-        // localStorage.setItem("authToken", response.data.token);
 
-        // console.log("Token:", response.data.token);
-        // Handle token storage or navigation here
+        console.log(response);
+        if (response.status == "success") {
+          setSuccessMsg(response.message);
+          await login({
+            username: response.data.username,
+            token: response.data.token
+          });
+        }
+        if (response.status === "info") {
+          setInfoMsg(response.message);
+        }
+        if (response.status === "error") {
+          throw response;
+        }
       }
     } catch (error: any) {
       console.log(error);

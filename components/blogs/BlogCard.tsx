@@ -14,10 +14,10 @@ interface BlogType {
   creationTime: string;
   authorImage:string;
 }
-
+ 
 export default function BlogCard({ blog }: { blog: BlogType }) {
   return (
-    <Link href={`/blogpost/${blog.id}`} passHref>
+    <Link href={`/pub/blogpost/${blog.id}`} passHref>
       <div className="w-full md:max-w-sm shrink-0 group/card mx-auto  dark:text-gray-50 text-gray-900">
         <div
           className={cn(

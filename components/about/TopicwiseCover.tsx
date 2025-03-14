@@ -21,19 +21,19 @@ type Props = {
 export default function TopicwiseCover({ topics }: Props) {
  
   return (
-    <div className="mt-20 ml-20 space-y-10">
-      <p className="text-5xl font-extrabold mb-10 text-center">
+    <div className="w-full mt-20 space-y-10">
+      <p className="w-full text-5xl font-extrabold mb-10 text-center">
         Topics We Cover
       </p>
       {topics.map((e, i) => (
         <div
           key={i}
-          className="flex flex-col lg:flex-row items-start lg:items-center p-6 rounded-lg "
+          className="w-full flex flex-col lg:flex-row items-start lg:items-center p-6 rounded-lg "
         >
-          <p className="text-2xl font-semibold self-center  border-b-2 lg:border-none  px-3 rounded mb-4 lg:mb-0 lg:mr-6">
+          <p className=" text-2xl font-semibold self-center  border-b-2 lg:border-none  px-3 rounded mb-4 lg:mb-0 lg:mr-6">
             {e.title}
           </p>
-          <div className="flex-1">
+          <div className=" flex-1">
             <FeaturesSection features={e.topicList} />
           </div>
         </div>

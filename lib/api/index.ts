@@ -3,6 +3,7 @@ import {
   getSingleBlog,
   getSyllabus,
   getFilteredBlog,
+  getRedirectName,
 } from "./getMethods";
 
 import { signUpUser, loginUser } from "./postMethods";
@@ -12,6 +13,7 @@ export {
   getSingleBlog,
   getSyllabus,
   getFilteredBlog,
+  getRedirectName,
   signUpUser,
   loginUser,
 };

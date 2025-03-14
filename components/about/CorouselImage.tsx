@@ -6,7 +6,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import {
   Carousel,
   CarouselContent,
-  CarouselItem,
+  CarouselItem, 
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
@@ -14,22 +14,22 @@ import Image from "next/image";
 
 export default function CarouselImage({ imageList }: { imageList: string[] }) {
   const plugin = React.useRef(
-    Autoplay({ delay: 2000, stopOnInteraction: true })
+    Autoplay({ delay: 3000, stopOnInteraction: true })
   );
 
   return (
     <Carousel
       plugins={[plugin.current]}
-      className="w-[90vw] lg:w-[50vw] mx-auto"
+      className="w-full lg:w-[70%] mx-auto lg:mt-6"
       onMouseEnter={() => plugin.current.stop()} // Wrap with arrow function
       onMouseLeave={() => plugin.current.play()} 
     >
-      <CarouselContent className="">
+      <CarouselContent className=" rounded-none">
         {imageList?.map((e, index) => (
           <CarouselItem key={index}>
-            <Card className="relative w-full h-[500px]">
+            <Card className="relative w-full h-[200px] sm:h-[300px] md:h-[400px] lg:h-[500px] rounded-none">
               {/* Set a fixed height */}
-              <CardContent className="flex items-center justify-center p-6 relative h-full">
+              <CardContent className="flex items-center justify-center  relative h-full rounded-none">
                 <Image
                   src={e}
                   className="object-cover"
@@ -42,8 +42,8 @@ export default function CarouselImage({ imageList }: { imageList: string[] }) {
           </CarouselItem>
         ))}
       </CarouselContent>
-      <CarouselPrevious />
-      <CarouselNext />
+      {/* <CarouselPrevious /> */}
+      {/* <CarouselNext /> */}
     </Carousel>
   );
 }
