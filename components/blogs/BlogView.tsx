@@ -29,7 +29,7 @@ export default function BlogView({blogs}: Props) {
       )}
 
       {/* <HoverImageCard items={blogs} /> */}
-      <div className="mx-w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:  2xl:grid-cols-4  gap-5 md:w-[80vw]  mx-auto">
+      <div className="mx-w-full mx-auto">
         {blogs.map((e, i) => (
           <BlogCard key={i} blog={e} />
         ))}

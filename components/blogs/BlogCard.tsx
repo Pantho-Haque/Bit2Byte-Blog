@@ -33,48 +33,40 @@ const data = {
 export default function BlogCard({ blog }: { blog: BlogType }) {
   return (
     <Link href={`/pub/blogpost/${blog.id}`} passHref>
-      <div className="w-full md:max-w-sm shrink-0 group/card mx-auto  dark:text-gray-50 text-gray-900">
-        <div
-          className={cn(
-            " cursor-pointer overflow-hidden relative card h-96 rounded-md shadow-2xl shadow-gray-400 dark:shadow-gray-800/70  w-full md:max-w-sm mx-auto backgroundImage flex flex-col justify-between p-4  "
-          )}
-        >
-          <div className="absolute w-full h-full top-0 left-0 transition duration-300 group-hover/card:bg-gray-900/60 group-hover/card:text-gray-100 opacity-60"></div>
-          <div className="flex flex-row items-center space-x-4 ">
-            <Image
-              height="100"
-              width="100"
-              alt="Avatar"
-              src={blog.author_image}
-              className="h-10 w-10 rounded-full border-2 object-cover"
-            />
-            <div className="flex flex-col">
-              <p className="text-base relative font-semibold ">
-                {blog.written_by}
-              </p>
-              <p className="text-sm font-normal ">
-                {DateTimeDisplay({ creationTime: blog.creation_time })}
-              </p>
-            </div>
-          </div>
+      <div className="shadow-md rounded-lg flex cursor-pointer my-3 border-gray-200">
+        {/* Fixed-width image container */}
+        <div className="w-48 flex-shrink-0 flex justify-center items-center">
           <Image
-            // src={"/images/blogimg.jpg"}
             src={blog.image || "/images/blogimg.jpg"}
-            width={500}
-            height={100}
+            width={200} // Adjust as needed
+            height={200} // Adjust to maintain aspect ratio
             quality={70}
             placeholder="blur"
             blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mOsaquqBwAE9wH7ovCCVwAAAABJRU5ErkJggg=="
-            className="h-40 w-full object-contain rounded-xl"
+            className="object-cover rounded-l-lg"
             alt={blog.title}
           />
-          <div className="text content">
-            <h1 className="font-semibold  text-sm md:text-xl  relative ">
-              {blog.title}
-            </h1>
-            <p className="font-normal text-sm relative  my-2 lg:my-4">
-              {blog.short_desc}
-            </p>
+        </div>
+
+        {/* Content container fills the rest */}
+        <div className="p-4 flex flex-col justify-between flex-grow">
+          <div>
+            <h1 className="text-xl font-semibold">{blog.title}</h1>
+            <p className="text-gray-600 ml-3">{blog.short_desc}</p>
+          </div>
+          <div className="flex items-center space-x-2 mt-4">
+            <Image
+              src={blog.author_image}
+              width={30}
+              height={30}
+              placeholder="blur"
+              blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mOsaquqBwAE9wH7ovCCVwAAAABJRU5ErkJggg=="
+              className="object-cover rounded"
+              alt={blog.written_by}
+            />
+            <p className="text-gray-600">{blog.written_by}</p>
+            <p className="text-gray-600">|</p>
+            <DateTimeDisplay creationTime={blog.creation_time} />
           </div>
         </div>
       </div>
