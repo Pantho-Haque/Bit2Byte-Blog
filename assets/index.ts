@@ -11,3 +11,13 @@ export { default as lavarelIcon } from '../public/icons/programming/laravel.png'
 export { default as springbootIcon } from '../public/icons/programming/spring.png';
 export { default as gitIcon } from '../public/icons/programming/git.png';
 export { default as githubIcon } from '../public/icons/programming/github.png';
+
+// aims
+export { default as blogsGraphics } from '../public/images/aims/2.png';
+export { default as blogsGraphicsExtra } from '../public/images/aims/1.png';
+export { default as SyllabusGraphics } from '../public/images/aims/3.png';
+export { default as buildCareerGraphics } from '../public/images/aims/4.png';
+export { default as communityGraphics } from '../public/images/aims/5.png';
+
+//logos
+export { default as mainLogo } from '../public/main-logo.png';

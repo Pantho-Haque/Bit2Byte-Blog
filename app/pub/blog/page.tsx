@@ -1,7 +1,6 @@
 // import SampleBlogs from "@/config/sampleblogs";
-import { BlogCard, BlogView, SearchBlogBar } from '@/components/index';
+import { BlogView, SearchBlogBar } from '@/components/index';
 import { Button } from '@/components/ui/button';
-import { HoverImageCard } from '@/components/ui/hover-card-with-image';
 
 import { getAllBlogs, getSyllabus } from '@/lib/api';
 import { Separator } from '@/components/ui/separator';

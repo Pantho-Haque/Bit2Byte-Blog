@@ -34,7 +34,7 @@ const icons = [
 
 const TechIcons = () => {
   return (
-    <div className='mx-auto w-full px-4 md:px-20 py-16'>
+    <div className='mx-auto w-full px-4 md:px-20 pb-16 pt-10'>
       <div className='max-w-7xl mx-auto w-full'>
         <div className='w-full lg:w-[80%] mx-auto flex gap-8 flex-row flex-wrap justify-center items-center'>
           {icons.map((icon: any, key: number) => (
