@@ -38,11 +38,6 @@ export default function BlogCard({ blog }: { blog: BlogType }) {
           className={cn(
             " cursor-pointer overflow-hidden relative card h-96 rounded-md shadow-2xl shadow-gray-400 dark:shadow-gray-800/70  w-full md:max-w-sm mx-auto backgroundImage flex flex-col justify-between p-4  "
           )}
-          // style={{
-          //     backgroundImage: `url(${blog.image}?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1651&q=80)`,
-          //     backgroundSize: 'cover',
-          //     backgroundPosition: 'center',
-          //   }}
         >
           <div className="absolute w-full h-full top-0 left-0 transition duration-300 group-hover/card:bg-gray-900/60 group-hover/card:text-gray-100 opacity-60"></div>
           <div className="flex flex-row items-center space-x-4 ">

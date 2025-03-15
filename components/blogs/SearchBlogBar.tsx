@@ -19,8 +19,9 @@ export function SearchBlogBar() {
     console.log("submitted");
   };
   return (
-    <div className="h-[10rem] flex flex-col justify-center  items-center px-4 mt-10 mb-5">
+    <div className="w-full lg:w-1/2 xl:w-1/4 p-4 text-left">
       <PlaceholdersAndVanishInput
+
         placeholders={placeholders}
         onChange={handleChange}
         onSubmit={onSubmit}
