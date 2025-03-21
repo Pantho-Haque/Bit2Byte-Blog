@@ -31,9 +31,7 @@ export interface BlogType {
   author_image: string;
 }
 
-type Props = {
-  topic?: string | null;
-};
+
 const sl = {
   data: [
     {
@@ -72,7 +70,8 @@ const sl = {
   success: true,
 };
 
-const BlogList = async ({ topic }: Props) => {
+const BlogList = async ({ searchParams }: { searchParams: { topic?: string } }) => {
+  const topic = searchParams.topic;
   const { data } = await getAllBlogs();
   const syllabus = await getSyllabus();
   const topicData = syllabus?.data.map(
