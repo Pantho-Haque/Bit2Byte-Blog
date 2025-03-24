@@ -1,9 +1,11 @@
+
 import { BlogCard } from "@/components/index";
 import { Button } from "@/components/ui/button";
 
 import { getFilteredBlog, getSyllabus } from "@/lib/api";
 
 import Link from "next/link";
+
 
 import {
   Pagination,
@@ -13,12 +15,14 @@ import {
   PaginationLink,
   PaginationNext,
   PaginationPrevious,
+
 } from "@/components/ui/pagination";
 import { getAllBlogs } from "@/lib/api";
 
 import { Metadata } from "next";
 
-interface BlogType {
+
+export interface BlogType {
   id: string;
   topic_id: string;
   sub_topic_id: string;
@@ -39,6 +43,7 @@ const BlogList = async ({
 }) => {
   const topic = searchParams.topic;
   const subtopic = searchParams.subtopic || null;
+
 
   const syllabus = await getSyllabus();
   const topicData = syllabus?.data.map(
@@ -78,6 +83,7 @@ const BlogList = async ({
             </Link>
           );
         })}
+
       </div>
       <div className="w-[70%] ">
         <div className="w-full mx-auto p-4">
@@ -112,14 +118,15 @@ const BlogList = async ({
           </Pagination>
         </div>
       </div>
+
     </div>
   );
 };
 
 export const metadata: Metadata = {
-  title: "Blogs - Bit2Byte",
+  title: 'Blogs - Bit2Byte',
   description:
-    "A comprehensive blog for coders of all levels, from beginners to advanced. Explore tutorials, tips, and insights on a wide range of programming languages and technologies. Stay up-to-date with the latest trends in software development, learn best practices, and enhance your coding skills with in-depth articles and guides.",
+    'A comprehensive blog for coders of all levels, from beginners to advanced. Explore tutorials, tips, and insights on a wide range of programming languages and technologies. Stay up-to-date with the latest trends in software development, learn best practices, and enhance your coding skills with in-depth articles and guides.',
 };
 
 export default BlogList;
