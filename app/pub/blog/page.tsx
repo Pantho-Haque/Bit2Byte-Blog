@@ -85,7 +85,7 @@ const BlogList = async ({
         })}
 
       </div>
-      <div className="w-[70%] ">
+      <div className="w-[85%] ">
         <div className="w-full mx-auto p-4">
           {data.length == 0 && (
             <p className="text-5xl font-semibold mt-10 w-full text-center text-gray-600">
@@ -94,10 +94,11 @@ const BlogList = async ({
           )}
 
           {/* <HoverImageCard items={blogs} /> */}
-          <div className="max-w-full mx-auto pl-10 h-[calc(100vh-20rem)] overflow-y-auto overflow-x-hidden">
-            {data?.map((blog: BlogType, index: number) => (
-              <BlogCard key={index} blog={blog} />
-            ))}
+          <div className="max-w-full mx-auto pl-10 h-[calc(100vh-10rem)] overflow-y-auto overflow-x-hidden" 
+            style={{ scrollbarWidth: 'thin', scrollbarColor: '#f1f1f1 transparent' }}>
+              {data?.map((blog: BlogType, index: number) => (
+               <BlogCard key={index} blog={blog} />
+              ))}
           </div>
 
           <Pagination>
