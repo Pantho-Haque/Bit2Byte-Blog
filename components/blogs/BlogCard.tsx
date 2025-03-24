@@ -33,9 +33,13 @@ const data = {
 export default function BlogCard({ blog }: { blog: BlogType }) {
   return (
     <Link href={`/pub/blogpost/${blog.id}`} passHref>
-      <div className="shadow-md rounded-lg flex cursor-pointer my-3 border-gray-200">
+      <div className={cn(
+        "shadow-lg dark:shadow-zinc-700 rounded-lg flex cursor-pointer my-3 border-gray-200",
+        "transition-all duration-300 ease-in-out",
+        "hover:scale-[1.02] hover:shadow-xl"
+      )}>
         {/* Fixed-width image container */}
-        <div className="w-48 flex-shrink-0 flex justify-center items-center">
+        <div className="flex-shrink-0 flex justify-center items-center pl-5">
           <Image
             src={blog.image || "/images/blogimg.jpg"}
             width={200} // Adjust as needed
@@ -54,7 +58,7 @@ export default function BlogCard({ blog }: { blog: BlogType }) {
             <h1 className="text-xl font-semibold">{blog.title}</h1>
             <p className="text-gray-600 ml-3">{blog.short_desc}</p>
           </div>
-          <div className="flex items-center space-x-2 mt-4">
+            <div className="flex items-center space-x-2 mt-4">
             <Image
               src={blog.author_image}
               width={30}
@@ -67,7 +71,7 @@ export default function BlogCard({ blog }: { blog: BlogType }) {
             <p className="text-gray-600">{blog.written_by}</p>
             <p className="text-gray-600">|</p>
             <DateTimeDisplay creationTime={blog.creation_time} />
-          </div>
+            </div>
         </div>
       </div>
     </Link>

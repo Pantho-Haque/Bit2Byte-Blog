@@ -15,7 +15,7 @@ export default function WelcomePage({
       try {
         // Fetch data
         const response = await getRedirectName(params.link_name);
-        console.log(response);
+
         // Delay and redirect
         setTimeout(() => {
           window.location.replace(response.data);

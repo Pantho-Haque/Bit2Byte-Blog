@@ -12,7 +12,6 @@ interface LinkType {
 const extractHeadings = (htmlContent: string): LinkType[] => {
   const dom = new JSDOM(htmlContent);
   const document = dom.window.document;
-  // console.log(htmlContent);
   const headings = document.querySelectorAll("h1,h2,h3");
 
   const generatedLinks: LinkType[] = [];
@@ -27,7 +26,6 @@ const extractHeadings = (htmlContent: string): LinkType[] => {
       text: heading.textContent || "",
     });
   });
-  // console.log(generatedLinks);
   return generatedLinks;
 };
 

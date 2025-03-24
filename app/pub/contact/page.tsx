@@ -22,13 +22,6 @@ export default function ContactPage() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Here you would typically send the form data to your backend
-    console.log("Form submitted:", { name, email, message });
-    // toast({
-    //   title: "Message Sent",
-    //   description: "Thank you for your message. We'll get back to you soon!",
-    // });
-    // Reset form fields
     setName("");
     setEmail("");
     setMessage("");

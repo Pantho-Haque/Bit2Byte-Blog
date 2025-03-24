@@ -1,10 +1,10 @@
-// import SampleBlogs from "@/config/sampleblogs";
-import { BlogCard, BlogView, SearchBlogBar } from "@/components/index";
+import { BlogCard } from "@/components/index";
 import { Button } from "@/components/ui/button";
-import { HoverImageCard } from "@/components/ui/hover-card-with-image";
 
-import { getAllBlogs, getSyllabus } from "@/lib/api";
-import { Separator } from "@/components/ui/separator";
+import { getFilteredBlog, getSyllabus } from "@/lib/api";
+
+import Link from "next/link";
+
 import {
   Pagination,
   PaginationContent,
@@ -14,9 +14,9 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
+import { getAllBlogs } from "@/lib/api";
 
 import { Metadata } from "next";
-import Link from "next/link";
 
 interface BlogType {
   id: string;
@@ -32,49 +32,14 @@ interface BlogType {
   author_image: string;
 }
 
-type Props = {
-  topic?: string | null;
-};
-const sl = {
-  data: [
-    {
-      id: 1,
-      topic_name: "C",
-      no_of_sub_topics: 9,
-      sub_topics: [Array],
-    },
-    {
-      id: 2,
-      topic_name: "Java",
-      no_of_sub_topics: 17,
-      sub_topics: [Array],
-    },
-    {
-      id: 3,
-      topic_name: "JavaScript",
-      no_of_sub_topics: 9,
-      sub_topics: [Array],
-    },
-    { id: 4, topic_name: "DSA", no_of_sub_topics: 6, sub_topics: [] },
-    {
-      id: 5,
-      topic_name: "OOP",
-      no_of_sub_topics: 8,
-      sub_topics: [Array],
-    },
-    {
-      id: 10,
-      topic_name: "Android",
-      no_of_sub_topics: 10,
-      sub_topics: [Array],
-    },
-  ],
-  message: "Operation successful",
-  success: true,
-};
+const BlogList = async ({
+  searchParams,
+}: {
+  searchParams: { topic: string; subtopic?: string };
+}) => {
+  const topic = searchParams.topic;
+  const subtopic = searchParams.subtopic || null;
 
-const BlogList = async ({ topic }: Props) => {
-  const { data } = await getAllBlogs();
   const syllabus = await getSyllabus();
   const topicData = syllabus?.data.map(
     (item: { id: number; topic_name: string }) => [
@@ -83,52 +48,70 @@ const BlogList = async ({ topic }: Props) => {
     ]
   );
 
-  console.log(syllabus);
+  const result = topic
+    ? await getFilteredBlog(topic, subtopic)
+    : await getAllBlogs();
 
-  const blogs: BlogType[] = data?.items;
+  const data = result.data.items ? result.data.items : result.data;
 
-  const { pageNo, totalPages } = data;
 
   return (
-    <div className="w-full mx-auto p-4">
-      <div>
-        <SearchBlogBar />
-
-        {/* badges */}
-        <div className="w-full flex flex-row space-x-3 my-5 justify-center flex-wrap">
-          <Link href={`/pub/blog`}>
-            <Button variant={topic == null ? "default" : "outline"}>All</Button>
-          </Link>
-          {topicData.map((e: [string, string], i: number) => (
-            <Link key={i} href={`/pub/blog/filteredby?topic=${e[1]}`}>
-              <Button variant={topic == e[1] ? "default" : "outline"}>
+    <div className="flex justify-center w-full">
+      <div className="w-[10%]  flex flex-col space-y-3 mt-16">
+        <Link href={`/pub/blog`} className="w-full">
+          <Button
+            variant={topic == null ? "default" : "outline"}
+            className="w-full"
+          >
+            All
+          </Button>
+        </Link>
+        {topicData.map((e: [string, string], i: number) => {
+          return (
+            <Link key={i} href={`/pub/blog?topic=${e[1]}`} className="w-full">
+              <Button
+                variant={topic == e[1] ? "default" : "outline"}
+                className="w-full"
+              >
                 {e[0]}
               </Button>
             </Link>
-          ))}
-        </div>
-
-        <Separator className="mb-5 shadow-sm shadow-slate-300 " />
+          );
+        })}
       </div>
-      {/* blog list */}
-      <BlogView blogs={blogs} />
+      <div className="w-[70%] ">
+        <div className="w-full mx-auto p-4">
+          {data.length == 0 && (
+            <p className="text-5xl font-semibold mt-10 w-full text-center text-gray-600">
+              No Blogs found
+            </p>
+          )}
 
-      <Pagination>
-        <PaginationContent>
-          <PaginationItem>
-            <PaginationPrevious href="#" />
-          </PaginationItem>
-          <PaginationItem>
-            <PaginationLink href="#">1</PaginationLink>
-          </PaginationItem>
-          <PaginationItem>
-            <PaginationEllipsis />
-          </PaginationItem>
-          <PaginationItem>
-            <PaginationNext href="#" />
-          </PaginationItem>
-        </PaginationContent>
-      </Pagination>
+          {/* <HoverImageCard items={blogs} /> */}
+          <div className="max-w-full mx-auto pl-10 h-[calc(100vh-20rem)] overflow-y-auto overflow-x-hidden">
+            {data?.map((blog: BlogType, index: number) => (
+              <BlogCard key={index} blog={blog} />
+            ))}
+          </div>
+
+          <Pagination>
+            <PaginationContent>
+              <PaginationItem>
+                <PaginationPrevious href="#" />
+              </PaginationItem>
+              <PaginationItem>
+                <PaginationLink href="#">1</PaginationLink>
+              </PaginationItem>
+              <PaginationItem>
+                <PaginationEllipsis />
+              </PaginationItem>
+              <PaginationItem>
+                <PaginationNext href="#" />
+              </PaginationItem>
+            </PaginationContent>
+          </Pagination>
+        </div>
+      </div>
     </div>
   );
 };

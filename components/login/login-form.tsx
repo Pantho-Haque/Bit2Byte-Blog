@@ -30,7 +30,6 @@ const LoginForm = () => {
       } else {
         const response = await loginUser({ email, password });
 
-        console.log(response);
         if (response.status == "success") {
           setSuccessMsg(response.message);
           await login({

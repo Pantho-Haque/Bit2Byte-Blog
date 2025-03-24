@@ -3,8 +3,7 @@ import MaxWidthWrapper from "./MaxWidthWrapper";
 import Activities from "./about/Activities";
 import CarouselImage from "./about/CorouselImage";
 import TopicwiseCover from "./about/TopicwiseCover";
-import BlogCard from "./blogs/BlogCard";
-import BlogView from "./blogs/BlogView";
+import BlogCard from "./blogs/BlogCard"; 
 import Comments from "./blogs/Comments";
 import OnThisPage from "./blogs/Onthispage";
 import { SearchBlogBar } from "./blogs/SearchBlogBar";
@@ -46,7 +45,6 @@ import {
 export {
   Activities,
   BlogCard,
-  BlogView,
   CarouselImage,
   Comments,
   Footer,

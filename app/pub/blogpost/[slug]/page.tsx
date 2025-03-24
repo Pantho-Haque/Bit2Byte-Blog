@@ -91,7 +91,7 @@ const convertHtmlToNextImage = (htmlContent: string) => {
   const options = {
     replace: (node: any) => {
       if (node instanceof Element && node.name === "img") {
-        // console.log(node.attribs);
+
         const { src, alt, width, height, ...rest } = node.attribs;
         if (!src) return null;
 
@@ -117,7 +117,7 @@ const convertHtmlToNextImage = (htmlContent: string) => {
       ) {
         idx++;
         return createElement(
-          node.name,
+          node.name,    
           { id: `heading-${idx}` },
           domToReact(node.children as DOMNode[], options)
         );

@@ -19,7 +19,7 @@ export function SearchBlogBar() {
     console.log("submitted");
   };
   return (
-    <div className="w-full lg:w-1/2 xl:w-1/4 p-4 text-left">
+    <div className="w-full p-4 text-left">
       <PlaceholdersAndVanishInput
 
         placeholders={placeholders}
