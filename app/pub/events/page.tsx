@@ -119,7 +119,7 @@ export default function EventsPage() {
   return (
     <div className="min-h-screen pb-16">
       <div className="bg-gradient-to-b from-primary/20 to-background pt-24 pb-10">
-        <MaxWidthWrapper>
+        <MaxWidthWrapper className="flex flex-col justify-center items-center">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -150,7 +150,7 @@ export default function EventsPage() {
                 className="pl-10"
               />
             </div>
-            <Select value={sortBy} onValueChange={(value) => setSortBy(value as any)}>
+            <Select value={sortBy} onValueChange={(value: any) => setSortBy(value)}>  
               <SelectTrigger className="w-[180px]">
                 <SelectValue placeholder="Sort by" />
               </SelectTrigger>
@@ -162,7 +162,7 @@ export default function EventsPage() {
             </Select>
           </div>
 
-          <Tabs defaultValue="all" className="mb-8" onValueChange={(value) => setCategory(value as any)}>
+          <Tabs defaultValue="all" className="mb-8" onValueChange={(value: any) => setCategory(value)}>
             <TabsList className="grid w-full grid-cols-3 max-w-md mx-auto">
               <TabsTrigger value="all">All Events</TabsTrigger>
               <TabsTrigger value="upcoming">Upcoming</TabsTrigger>
