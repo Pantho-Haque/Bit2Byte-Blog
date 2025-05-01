@@ -67,9 +67,9 @@ export async function getFilteredBlog(topic: string, subtopic: string | null) {
   return result.json();
 }
 
-export async function getRedirectName(link_name: string) {
+export async function getRedirectName(title: string) {
   try {
-    const url = `${BASE_URL}/read_link?link_name=${link_name}`;
+    const url = `${BASE_URL}/read_link?title=${title}`;
     const result = await fetch(url, {
       next: {
         revalidate: revalidationTime,

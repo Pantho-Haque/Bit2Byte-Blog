@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 export default function WelcomePage({
   params,
 }: {
-  params: { link_name: string };
+  params: { title: string };
 }) {
   const [loading, setLoading] = useState(true);
 
@@ -14,7 +14,7 @@ export default function WelcomePage({
     const fetchDataAndRedirect = async () => {
       try {
         // Fetch data
-        const response = await getRedirectName(params.link_name);
+        const response = await getRedirectName(params.title);
 
         // Delay and redirect
         setTimeout(() => {
@@ -27,7 +27,7 @@ export default function WelcomePage({
     };
 
     fetchDataAndRedirect();
-  }, [params.link_name]);
+  }, [params.title]);
 
   return (
     <div className="flex flex-col justify-center items-center min-h-screen bg-gradient-to-r from-blue-500 to-purple-500 text-white p-4">
