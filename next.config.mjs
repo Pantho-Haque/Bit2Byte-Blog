@@ -29,7 +29,7 @@ const nextConfig = {
     ],
   },
   env: {
-    NEXT_PUBLIC_BASE_URL: "http://88.222.244.211/api/v1",
+    NEXT_PUBLIC_BASE_URL: "https://88.222.244.211/api/v1",
   },
 };
 
