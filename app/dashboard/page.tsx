@@ -2,7 +2,7 @@
 import React from "react";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { IconFileText, IconPlus, IconUsers, IconCalendarEvent, IconCategory } from "@tabler/icons-react";
+import { IconFileText, IconPlus, IconUsers, IconCalendarEvent, IconCategory, IconCoins } from "@tabler/icons-react";
 import Link from "next/link";
 import { Separator } from "@/components/ui/separator";
 
@@ -26,6 +26,7 @@ export default function Dashboard() {
     { title: "Manage Categories", href: "/dashboard/categories", icon: <IconCategory className="h-4 w-4" />, primary: false },
     { title: "View All Blogs", href: "/dashboard/blogs", icon: <IconFileText className="h-4 w-4" />, primary: false },
     { title: "Manage Events", href: "/dashboard/events", icon: <IconCalendarEvent className="h-4 w-4" />, primary: false },
+    { title: "Manage Funds", href: "/dashboard/funds", icon: <IconCoins className="h-4 w-4" />, primary: false },
     { title: "Manage Users", href: "/dashboard/users", icon: <IconUsers className="h-4 w-4" />, primary: false },
   ];
 

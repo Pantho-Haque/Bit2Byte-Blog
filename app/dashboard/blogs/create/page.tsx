@@ -25,7 +25,7 @@ export default function CreateBlogPage() {
   const [topics, setTopics] = useState<any[]>([]);
   const [subtopics, setSubtopics] = useState<any[]>([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const { toast } = useToast();
+  const { addToast } = useToast();
 
   // Fetch topics on page load
   useEffect(() => {
