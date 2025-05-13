@@ -7,7 +7,7 @@ export default function RootLayout({
 }>) {
   return (
     <div className="flex flex-col justify-start w-[98vw] mx-auto  min-h-[90vh]">
-      <NavBar />
+      {/* <NavBar /> */}
       {children}
       {/* <Footer /> */}
     </div>

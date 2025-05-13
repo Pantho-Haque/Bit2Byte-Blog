@@ -71,13 +71,8 @@ export default function ProfilePage({ params }: { params: { id: string } }) {
         transition={{ duration: 0.5 }}
         className="max-w-7xl mx-auto"
       >
-        <div className="mb-8">
-          <h1 className="text-3xl md:text-4xl font-bold">User Profile</h1>
-          <p className="text-muted-foreground">View and manage your profile information</p>
-        </div>
-
         <Tabs value={activeTab} onValueChange={handleTabChange} className="w-full">
-          <div className="flex items-center justify-between mb-8">
+          <div className="flex items-center justify-between mb-4">
             <TabsList className="rounded-lg">
               <TabsTrigger value="overview" className="px-4 py-2">Overview</TabsTrigger>
               <TabsTrigger value="achievements" className="px-4 py-2">Achievements</TabsTrigger>
@@ -91,7 +86,7 @@ export default function ProfilePage({ params }: { params: { id: string } }) {
             </div>
           </div>
 
-          <Separator className="mb-8" />
+          <Separator className="mb-6" />
 
           <TabsContent value="overview" className="space-y-4">
             {userData && (
