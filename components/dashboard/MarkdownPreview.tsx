@@ -23,9 +23,9 @@ const MarkdownPreview: React.FC<MarkdownPreviewProps> = ({ content }) => {
   return (
     <ReactMarkdown
       className="prose prose-sm max-w-none dark:prose-invert prose-headings:font-bold prose-h1:text-2xl prose-h2:text-xl prose-h3:text-lg prose-p:my-3 prose-a:text-blue-600 dark:prose-a:text-blue-400 prose-img:rounded-md"
-      remarkPlugins={[remarkGfm]}
+      remarkPlugins={[remarkGfm as any]}
       components={{
-        code({ node, inline, className, children, ...props }) {
+        code({ node, inline, className, children, ...props }: any) {
           const match = /language-(\w+)/.exec(className || "");
           return !inline && match ? (
             <SyntaxHighlighter

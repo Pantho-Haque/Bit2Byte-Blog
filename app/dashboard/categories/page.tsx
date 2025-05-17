@@ -37,13 +37,14 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { useToast } from "@/components/ui/toast-context";
 import { IconPlus, IconEdit, IconTrash, IconDotsVertical } from "@tabler/icons-react";
+import { toast } from "@/components/ui/use-toast";
 
 export default function CategoriesPage() {
   // State for topics and subtopics
   const [topics, setTopics] = useState<any[]>([]);
   const [subtopics, setSubtopics] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
-  const { toast } = useToast();
+  const { addToast } = useToast();
 
   // State for dialogs
   const [topicDialogOpen, setTopicDialogOpen] = useState(false);

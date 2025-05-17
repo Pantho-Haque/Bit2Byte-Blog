@@ -119,7 +119,7 @@ export default function EventsPage() {
   return (
     <div className="min-h-screen pb-16">
       <div className="bg-gradient-to-b from-primary/20 to-background pt-24 pb-10">
-        <MaxWidthWrapper>
+        <MaxWidthWrapper className={''}>
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}

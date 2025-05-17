@@ -26,6 +26,7 @@ import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Pagination } from "@/components/ui/pagination";
+import { toast } from "@/components/ui/use-toast";
 
 // Mock data for topics while waiting for API integration
 const mockTopics = [
@@ -43,7 +44,7 @@ export default function BlogsPage() {
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(0);
   const [totalPages, setTotalPages] = useState(1);
-  const { toast } = useToast();
+  const { addToast } = useToast();
 
   const itemsPerPage = 10;
 

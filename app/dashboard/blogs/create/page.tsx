@@ -13,6 +13,7 @@ import { Separator } from "@/components/ui/separator";
 import MarkdownPreview from "@/components/dashboard/MarkdownPreview";
 import { useToast } from "@/components/ui/toast-context";
 import Link from "next/link";
+import { toast } from "@/components/ui/use-toast";
 
 export default function CreateBlogPage() {
   const [blogTitle, setBlogTitle] = useState("");

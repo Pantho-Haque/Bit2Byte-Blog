@@ -304,7 +304,7 @@ export default function LinksPage() {
         <CardHeader>
           <CardTitle>All Links</CardTitle>
           <CardDescription>
-            Manage all your website's redirectable links
+            Manage all your website&apos;s redirectable links
           </CardDescription>
         </CardHeader>
         <CardContent>

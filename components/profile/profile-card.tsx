@@ -7,7 +7,7 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { useTheme } from 'next-themes';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { CalendarDays, FileText, Party, Star, Trophy, User } from 'lucide-react';
+import { CalendarDays, FileText, Star, Trophy, User } from 'lucide-react';
 
 interface UserProfileProps {
   userData: {
