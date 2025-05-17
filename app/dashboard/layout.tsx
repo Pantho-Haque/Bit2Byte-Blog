@@ -126,7 +126,7 @@ export default function DashboardLayout({
       )}
     >
       <Sidebar open={open} setOpen={setOpen}>
-        <SidebarBody className="justify-between gap-10">
+        <SidebarBody className="justify-between gap-10 z-[20000]">
           <div className="flex flex-col flex-1 overflow-y-auto overflow-x-hidden">
             {open ? <Logo /> : <LogoIcon />}
             <div className="mt-8 flex flex-col gap-2">
@@ -135,28 +135,31 @@ export default function DashboardLayout({
               ))}
             </div>
           </div>
-          <div className="flex justify-between items-center">
-            <SidebarLink
-              link={{
-                label: "Admin User",
-                href: "/dashboard/profile",
-                icon: (
-                  <Image
-                    src="https://img.icons8.com/?size=100&id=73&format=png&color=000000"
-                    className="h-7 w-7 flex-shrink-0 rounded-full"
-                    width={50}
-                    height={50}
-                    alt="Avatar"
-                  />
-                ),
-              }}
-            />
-            <ModeToggle />
+          <div className="flex justify-between items-center w-full">
+            <div className="flex items-center gap-2">
+              <Image
+                src="https://img.icons8.com/?size=100&id=73&format=png&color=000000"
+                className="h-7 w-7 flex-shrink-0 rounded-full"
+                width={50}
+                height={50}
+                alt="Avatar"
+              />
+              {open && (
+                <motion.span
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  className="font-medium text-sm text-neutral-700 dark:text-neutral-200 whitespace-pre"
+                >
+                  Admin User
+                </motion.span>
+              )}
+            </div>
+            {open && <ModeToggle />}
           </div>
         </SidebarBody>
       </Sidebar>
       <div className="flex-1 md:ml-[60px]">
-        <div className="bg-white dark:bg-neutral-900 p-6 flex justify-between items-center border-b border-neutral-200 dark:border-neutral-800 sticky top-0 z-40">
+        {/* <div className="bg-white dark:bg-neutral-900 p-6 flex justify-between items-center border-b border-neutral-200 dark:border-neutral-800 sticky top-0 z-40">
           <h1 className="text-2xl font-semibold text-neutral-800 dark:text-neutral-100">Bit2Byte Admin</h1>
           <div className="flex items-center gap-4">
             <span className="text-sm text-neutral-500 dark:text-neutral-400">
@@ -168,7 +171,7 @@ export default function DashboardLayout({
               })}
             </span>
           </div>
-        </div>
+        </div> */}
         <div className="p-6">
           {children}
         </div>
