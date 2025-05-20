@@ -25,28 +25,91 @@ import { IconPlus, IconSearch, IconEdit, IconTrash, IconEye, IconDotsVertical, I
 import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Pagination } from "@/components/ui/pagination";
-import { toast } from "@/components/ui/use-toast";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
 
-// Mock data for topics while waiting for API integration
-const mockTopics = [
-  { id: 1, name: "C Programming" },
-  { id: 2, name: "Web Development" },
-  { id: 3, name: "Data Structures" },
-  { id: 4, name: "Algorithms" },
-];
+} from "@/components/ui/pagination";
+import { getAllBlogs, getSyllabus, getFilteredBlog } from "@/lib/api/getMethods";
+import { deleteBlog } from "@/lib/api/postMethods";
+
+// Add a debug component to show topics data
+const DebugInfo = ({ data, label }: { data: any, label: string }) => {
+  return (
+    <div className="text-xs text-muted-foreground border p-2 my-2 rounded overflow-auto max-h-32">
+      <div className="font-bold">{label}:</div>
+      <pre className="whitespace-pre-wrap">{JSON.stringify(data, null, 2)}</pre>
+    </div>
+  );
+};
 
 export default function BlogsPage() {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedTopic, setSelectedTopic] = useState("all");
   const [blogs, setBlogs] = useState<any[]>([]);
-  const [topics, setTopics] = useState<any[]>(mockTopics);
+  const [topics, setTopics] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(0);
   const [totalPages, setTotalPages] = useState(1);
   const { addToast } = useToast();
 
   const itemsPerPage = 10;
+
+  // Add this function to generate pagination items
+  const generatePagination = (currentPage: number, totalPages: number) => {
+    // For very few pages, show all
+    if (totalPages <= 5) {
+      return Array.from({ length: totalPages }, (_, i) => i);
+    }
+
+    // For current page near the beginning
+    if (currentPage <= 2) {
+      return [0, 1, 2, 3, 'ellipsis', totalPages - 1];
+    }
+
+    // For current page near the end
+    if (currentPage >= totalPages - 3) {
+      return [0, 'ellipsis', totalPages - 4, totalPages - 3, totalPages - 2, totalPages - 1];
+    }
+
+    // For current page in the middle
+    return [0, 'ellipsis', currentPage - 1, currentPage, currentPage + 1, 'ellipsis', totalPages - 1];
+  };
+
+  // Handle page change
+  const handlePageChange = (page: number) => {
+    if (page >= 0 && page < totalPages) {
+      setCurrentPage(page);
+    }
+  };
+
+  // Fetch topics from API
+  useEffect(() => {
+    const fetchTopics = async () => {
+      try {
+        const data = await getSyllabus();
+        console.log("Syllabus data:", JSON.stringify(data));
+        if (data && data.data) {
+          const topicsData = data.data.map((item: any) => ({
+            id: item.id,
+            name: item.topic_name
+          }));
+          console.log("Topics fetched:", topicsData);
+          setTopics(topicsData);
+        } else {
+          console.log("No topics data found in response");
+        }
+      } catch (error) {
+        console.log("Error fetching topics:", error);
+      }
+    };
+    fetchTopics();
+  }, []);
 
   // Fetch blogs when page loads or when filters change
   useEffect(() => {
@@ -57,44 +120,37 @@ export default function BlogsPage() {
   const fetchBlogs = async () => {
     setLoading(true);
     try {
-      // In a real implementation, this would be an API call
-      // Example: const response = await fetch(`/api/v1/read_blogs?page=${currentPage}&item_per_page=${itemsPerPage}`);
+      let data;
+      if (selectedTopic !== "all") {
+        data = await getFilteredBlog(selectedTopic, null);
+      } else {
+        data = await getAllBlogs(currentPage, itemsPerPage);
+      }
       
-      // For demo, we'll use a timeout to simulate API call
-      setTimeout(() => {
-        // Mock blog data
-        const mockData = {
-          data: {
-            itemCount: 15,
-            pageNo: currentPage,
-            items: Array(10).fill(null).map((_, i) => ({
-              id: i + 1 + (currentPage * itemsPerPage),
-              topicId: Math.floor(Math.random() * 4) + 1,
-              subTopicId: Math.floor(Math.random() * 3) + 1,
-              title: `Blog Post ${i + 1 + (currentPage * itemsPerPage)}`,
-              image: null,
-              lastUpdated: Date.now() - Math.floor(Math.random() * 30) * 24 * 60 * 60 * 1000,
-              creationTime: Date.now() - Math.floor(Math.random() * 60) * 24 * 60 * 60 * 1000,
-              writtenBy: "Admin User",
-              shortDesc: `This is the short description for blog post ${i + 1 + (currentPage * itemsPerPage)}`,
-              approvedBy: "Admin User",
-              views: Math.floor(Math.random() * 300) + 50
-            })),
-            totalPages: 2
-          },
-          message: "Success"
-        };
-
-        setBlogs(mockData.data.items);
-        setTotalPages(mockData.data.totalPages);
-        setLoading(false);
-      }, 1000);
+      console.log("Blog data response:", JSON.stringify(data));
+      
+      if (data && data.data) {
+        const items = data.data.items || data.data;
+        console.log("Blog items:", items);
+        
+        // Log the topic_id or topicId from each blog for debugging
+        if (items && items.length > 0) {
+          console.log("Sample blog topic IDs:", items.map((blog: any) => ({ 
+            id: blog.id,
+            topic_id: blog.topic_id,
+            topicId: blog.topicId
+          })));
+        }
+        
+        setBlogs(items);
+        setTotalPages(data.data.totalPages || 1);
+      } else {
+        setBlogs([]);
+        setTotalPages(1);
+      }
+      setLoading(false);
     } catch (error) {
-      toast({
-        title: "Error",
-        description: "Failed to fetch blogs. Please try again.",
-        variant: "destructive",
-      });
+      console.log("Error fetching blogs:", error);
       setLoading(false);
     }
   };
@@ -102,32 +158,26 @@ export default function BlogsPage() {
   // Handle blog deletion
   const handleDeleteBlog = async (id: number) => {
     try {
-      // In a real implementation, this would be an API call
-      // const response = await fetch(`/api/v1/delete_blog?blog_id=${id}`, {
-      //   method: 'POST',
-      // });
-      // const data = await response.json();
-      
-      // For demo, we'll simulate success
-      toast({
-        title: "Success",
-        description: `Blog #${id} has been deleted successfully.`,
-      });
-      
-      // Remove the blog from the list
-      setBlogs(blogs.filter(blog => blog.id !== id));
-    } catch (error) {
-      toast({
-        title: "Error",
-        description: "Failed to delete blog. Please try again.",
-        variant: "destructive",
-      });
+      const data = await deleteBlog(id);
+      if (data.success) {
+        console.log(data);
+        setBlogs(blogs.filter(blog => blog.id !== id));
+      } else {
+        throw new Error(data.message || 'Failed to delete blog');
+      }
+    } catch (error: any) {
+      console.log(error);
     }
   };
 
   // Format date
-  const formatDate = (timestamp: number) => {
-    return new Date(timestamp).toLocaleDateString('en-US', {
+  const formatDate = (timestamp: string | number) => {
+    // Handle different timestamp formats
+    const date = typeof timestamp === 'string' 
+      ? new Date(timestamp) 
+      : new Date(timestamp);
+    
+    return date.toLocaleDateString('en-US', {
       year: 'numeric',
       month: 'short',
       day: 'numeric'
@@ -144,6 +194,22 @@ export default function BlogsPage() {
     blog.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
     blog.shortDesc.toLowerCase().includes(searchTerm.toLowerCase())
   );
+
+  // Helper function to get the topic name from ID
+  const getTopicName = (topicId: string | number | undefined) => {
+    if (!topicId) return 'Unknown';
+    
+    // Try different conversions and comparisons for matching
+    const topic = topics.find(t => {
+      return t.id === topicId || 
+             t.id === Number(topicId) || 
+             String(t.id) === String(topicId);
+    });
+    
+    console.log(`Looking for topic ID: ${topicId}, found:`, topic ? JSON.stringify(topic) : 'null');
+    
+    return topic ? topic.name : 'Unknown';
+  };
 
   return (
     <div className="space-y-6">
@@ -212,8 +278,8 @@ export default function BlogsPage() {
                   <TableHead>Title</TableHead>
                   <TableHead className="hidden md:table-cell">Topic</TableHead>
                   <TableHead className="hidden lg:table-cell">Author</TableHead>
+                  <TableHead className="hidden sm:table-cell">Created</TableHead>
                   <TableHead className="hidden sm:table-cell">Updated</TableHead>
-                  <TableHead className="hidden sm:table-cell text-right">Views</TableHead>
                   <TableHead className="w-[100px]">Actions</TableHead>
                 </TableRow>
               </TableHeader>
@@ -240,8 +306,8 @@ export default function BlogsPage() {
                       <TableCell className="hidden sm:table-cell">
                         <Skeleton className="h-4 w-[80px]" />
                       </TableCell>
-                      <TableCell className="hidden sm:table-cell text-right">
-                        <Skeleton className="h-4 w-[50px] ml-auto" />
+                      <TableCell className="hidden sm:table-cell">
+                        <Skeleton className="h-4 w-[80px]" />
                       </TableCell>
                       <TableCell>
                         <Skeleton className="h-8 w-8 rounded-full" />
@@ -274,14 +340,29 @@ export default function BlogsPage() {
                       </TableCell>
                       <TableCell className="hidden md:table-cell">
                         <Badge variant="outline" className="bg-muted/50">
-                          {topics.find(t => t.id === blog.topicId)?.name || 'Unknown'}
+                          {getTopicName(blog.topic_id || blog.topicId)}
                         </Badge>
                       </TableCell>
-                      <TableCell className="hidden lg:table-cell">{blog.writtenBy}</TableCell>
-                      <TableCell className="hidden sm:table-cell">
-                        {formatDate(blog.lastUpdated)}
+                      <TableCell className="hidden lg:table-cell">
+                        <div className="flex items-center gap-2">
+                          {blog.author_image && (
+                            <div className="h-6 w-6 rounded-full overflow-hidden">
+                              <img 
+                                src={blog.author_image} 
+                                alt={blog.written_by || 'Author'} 
+                                className="h-full w-full object-cover"
+                              />
+                            </div>
+                          )}
+                          <span>{blog.written_by || 'Unknown'}</span>
+                        </div>
                       </TableCell>
-                      <TableCell className="hidden sm:table-cell text-right">{blog.views || 0}</TableCell>
+                      <TableCell className="hidden sm:table-cell">
+                        {blog.creation_time ? formatDate(blog.creation_time) : 'N/A'}
+                      </TableCell>
+                      <TableCell className="hidden sm:table-cell">
+                        {blog.last_updated ? formatDate(blog.last_updated) : 'N/A'}
+                      </TableCell>
                       <TableCell>
                         <DropdownMenu>
                           <DropdownMenuTrigger asChild>
@@ -292,7 +373,7 @@ export default function BlogsPage() {
                           </DropdownMenuTrigger>
                           <DropdownMenuContent align="end">
                             <DropdownMenuItem asChild>
-                              <Link href={`/blog/${blog.id}`}>
+                              <Link href={`/pub/blogpost/${blog.id}`}>
                                 <IconEye className="mr-2 h-4 w-4" />
                                 View
                               </Link>
@@ -326,16 +407,66 @@ export default function BlogsPage() {
             </Table>
           </div>
           
-          {!loading && totalPages > 1 && (
-            <div className="mt-4 flex justify-center">
-              <Pagination 
-                totalPages={totalPages} 
-                currentPage={currentPage} 
-                onPageChange={setCurrentPage} 
-              />
-            </div>
-          )}
+          {/* Always show pagination for testing */}
+          <div className="mt-4 flex justify-center">
+            <Pagination>
+              <PaginationContent>
+                <PaginationItem>
+                  <PaginationPrevious 
+                    onClick={() => handlePageChange(currentPage - 1)}
+                    className={currentPage === 0 ? "pointer-events-none opacity-50" : "cursor-pointer"}
+                  />
+                </PaginationItem>
+                
+                {generatePagination(currentPage, totalPages).map((page, i) => (
+                  page === 'ellipsis' ? (
+                    <PaginationItem key={`ellipsis-${i}`}>
+                      <PaginationEllipsis />
+                    </PaginationItem>
+                  ) : (
+                    <PaginationItem key={`page-${page}`}>
+                      <PaginationLink 
+                        onClick={() => handlePageChange(page as number)}
+                        isActive={currentPage === page}
+                        className="cursor-pointer"
+                      >
+                        {(page as number) + 1}
+                      </PaginationLink>
+                    </PaginationItem>
+                  )
+                ))}
+                
+                <PaginationItem>
+                  <PaginationNext 
+                    onClick={() => handlePageChange(currentPage + 1)}
+                    className={currentPage === totalPages - 1 ? "pointer-events-none opacity-50" : "cursor-pointer"}
+                  />
+                </PaginationItem>
+              </PaginationContent>
+            </Pagination>
+          </div>
+          <div className="text-center text-xs text-muted-foreground mt-2">
+            Page {currentPage + 1} of {totalPages} (Debug)
+          </div>
         </CardContent>
+        {/* Debug information - remove in production */}
+        <div className="p-4 border-t">
+          <details>
+            <summary className="text-sm cursor-pointer font-medium">Debug Information</summary>
+            <DebugInfo data={topics} label="Topics Data" />
+            {blogs.length > 0 && (
+              <DebugInfo data={blogs[0]} label="Sample Blog Data" />
+            )}
+          </details>
+          <div className="mt-2">
+            <div className="text-xs text-muted-foreground">
+              API BASE_URL: {process.env.NEXT_PUBLIC_BASE_URL || "not set"}
+            </div>
+            <div className="text-xs text-muted-foreground">
+              Field mapping debug: In blogs we look for 'topic_id' or 'topicId', and match against topic 'id' field
+            </div>
+          </div>
+        </div>
       </Card>
     </div>
   );

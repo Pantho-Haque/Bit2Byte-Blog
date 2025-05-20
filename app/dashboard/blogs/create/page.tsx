@@ -14,6 +14,18 @@ import MarkdownPreview from "@/components/dashboard/MarkdownPreview";
 import { useToast } from "@/components/ui/toast-context";
 import Link from "next/link";
 import { toast } from "@/components/ui/use-toast";
+import { getSyllabus } from "@/lib/api/getMethods";
+import { saveBlogInfo, saveBlogDetails } from "@/lib/api/postMethods";
+
+// Add a debug component to show data
+const DebugInfo = ({ data, label }: { data: any, label: string }) => {
+  return (
+    <div className="text-xs text-muted-foreground border p-2 my-2 rounded overflow-auto max-h-32">
+      <div className="font-bold">{label}:</div>
+      <pre className="whitespace-pre-wrap">{JSON.stringify(data, null, 2)}</pre>
+    </div>
+  );
+};
 
 export default function CreateBlogPage() {
   const [blogTitle, setBlogTitle] = useState("");
@@ -42,23 +54,29 @@ export default function CreateBlogPage() {
     }
   }, [selectedTopic]);
 
-  // Mock fetch topics function (to be replaced with actual API call)
+  // Replace fetchTopics with real API call
   const fetchTopics = async () => {
     try {
-      // In a real implementation, this would be an API call
-      // const response = await fetch('/api/v1/read_syllabus');
-      // const data = await response.json();
-      
-      // For demo, we'll use mock data
-      setTimeout(() => {
-        setTopics([
-          { id: 1, topicName: "C Programming", serial: 1 },
-          { id: 2, topicName: "Web Development", serial: 2 },
-          { id: 3, topicName: "Data Structures", serial: 3 },
-          { id: 4, topicName: "Algorithms", serial: 4 },
-        ]);
-      }, 500);
+      const data = await getSyllabus();
+      console.log("Syllabus data:", JSON.stringify(data));
+      if (data && data.data) {
+        // Updated mapping to match actual API response format
+        const topicsData = data.data.map((item: any) => ({
+          id: item.id,
+          topicName: item.topic_name,
+          serial: item.no_of_sub_topics,
+          subtopics: item.sub_topics?.map((subTopic: any) => ({
+            id: subTopic.id,
+            subTopicName: subTopic.sub_topic_name
+          })) || []
+        }));
+        console.log("Topics processed:", JSON.stringify(topicsData));
+        setTopics(topicsData);
+      } else {
+        console.log("No topics data found in response");
+      }
     } catch (error) {
+      console.error("Error fetching topics:", error);
       toast({
         title: "Error",
         description: "Failed to fetch topics. Please try again.",
@@ -67,47 +85,10 @@ export default function CreateBlogPage() {
     }
   };
 
-  // Mock fetch subtopics function (to be replaced with actual API call)
+  // Replace fetchSubtopics with real API call (extract from topics)
   const fetchSubtopics = async (topicId: number) => {
-    try {
-      // In a real implementation, this would be an API call
-      // const response = await fetch(`/api/v1/read_topic?id=${topicId}`);
-      // const data = await response.json();
-      
-      // For demo, we'll use mock data
-      const mockSubtopics = {
-        1: [
-          { id: 101, subTopicName: "Introduction to C", serial: 1 },
-          { id: 102, subTopicName: "Variables & Data Types", serial: 2 },
-          { id: 103, subTopicName: "Control Flow", serial: 3 },
-        ],
-        2: [
-          { id: 201, subTopicName: "HTML Basics", serial: 1 },
-          { id: 202, subTopicName: "CSS Fundamentals", serial: 2 },
-          { id: 203, subTopicName: "JavaScript Essentials", serial: 3 },
-        ],
-        3: [
-          { id: 301, subTopicName: "Arrays", serial: 1 },
-          { id: 302, subTopicName: "Linked Lists", serial: 2 },
-          { id: 303, subTopicName: "Trees", serial: 3 },
-        ],
-        4: [
-          { id: 401, subTopicName: "Searching", serial: 1 },
-          { id: 402, subTopicName: "Sorting", serial: 2 },
-          { id: 403, subTopicName: "Graph Algorithms", serial: 3 },
-        ],
-      };
-      
-      setTimeout(() => {
-        setSubtopics(mockSubtopics[topicId as keyof typeof mockSubtopics] || []);
-      }, 300);
-    } catch (error) {
-      toast({
-        title: "Error",
-        description: "Failed to fetch subtopics. Please try again.",
-        variant: "destructive",
-      });
-    }
+    const topic = topics.find((t) => t.id === topicId);
+    setSubtopics(topic ? topic.subtopics : []);
   };
 
   // Handle image upload
@@ -142,10 +123,9 @@ export default function CreateBlogPage() {
     });
   };
 
-  // Publish blog
+  // Replace publishBlog with real API calls
   const publishBlog = async () => {
     try {
-      // Validation
       if (!blogTitle || !shortDesc || !selectedTopic || !selectedSubtopic || !markdownContent) {
         toast({
           title: "Error",
@@ -154,56 +134,35 @@ export default function CreateBlogPage() {
         });
         return;
       }
-
       setIsSubmitting(true);
-
-      // In a real implementation, this would be API calls
-      // First save blog info
-      // const blogInfo = {
-      //   id: Date.now(), // Generate a temporary ID (backend will assign a real one)
-      //   topic_id: parseInt(selectedTopic),
-      //   sub_topic_id: parseInt(selectedSubtopic),
-      //   title: blogTitle,
-      //   written_by: "admin", // Should come from authentication
-      //   short_desc: shortDesc,
-      //   approved_by: "admin", // Should come from authentication
-      // };
-      //
-      // const formData = new FormData();
-      // formData.append('blog_info', JSON.stringify(blogInfo));
-      // if (blogImage) {
-      //   formData.append('image', blogImage);
-      // }
-      //
-      // const response = await fetch('/api/v1/save_blog_info', {
-      //   method: 'POST',
-      //   body: formData
-      // });
-      // const data = await response.json();
-      //
-      // Then save blog content
-      // const contentResponse = await fetch('/api/v1/save_blog_details', {
-      //   method: 'POST',
-      //   headers: { 'Content-Type': 'application/json' },
-      //   body: JSON.stringify({
-      //     id: data.data.id,
-      //     content: markdownContent
-      //   })
-      // });
-
-      // For demo, we'll simulate a delay
-      setTimeout(() => {
-        setIsSubmitting(false);
-        toast({
-          title: "Success",
-          description: "Your blog has been published successfully!",
-        });
-      }, 1500);
-    } catch (error) {
+      // Save blog info
+      const blogInfo = {
+        id: Date.now(),
+        topic_id: parseInt(selectedTopic),
+        sub_topic_id: parseInt(selectedSubtopic),
+        title: blogTitle,
+        written_by: "admin", // TODO: Replace with real user
+        short_desc: shortDesc,
+        approved_by: "admin", // TODO: Replace with real user
+      };
+      
+      const infoData = await saveBlogInfo(blogInfo, blogImage);
+      if (!infoData.success) throw new Error(infoData.message || 'Failed to save blog info');
+      
+      // Save blog content
+      const contentData = await saveBlogDetails(infoData.data.id, markdownContent);
+      if (!contentData.success) throw new Error(contentData.message || 'Failed to save blog content');
+      
+      setIsSubmitting(false);
+      toast({
+        title: "Success",
+        description: "Your blog has been published successfully!",
+      });
+    } catch (error: any) {
       setIsSubmitting(false);
       toast({
         title: "Error",
-        description: "Failed to publish blog. Please try again.",
+        description: error.message || "Failed to publish blog. Please try again.",
         variant: "destructive",
       });
     }
@@ -400,6 +359,32 @@ export default function CreateBlogPage() {
           </Card>
         </div>
       </div>
+
+      {/* Debug panel */}
+      <Card className="border border-border mt-8">
+        <CardHeader>
+          <CardTitle>Debug Information</CardTitle>
+          <CardDescription>Data used for debugging purposes</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <details>
+            <summary className="text-sm cursor-pointer font-medium">Show Debug Data</summary>
+            <div className="mt-4 space-y-4">
+              <DebugInfo data={topics} label="Topics Data" />
+              <DebugInfo data={subtopics} label="Subtopics Data" />
+              {selectedTopic && (
+                <DebugInfo 
+                  data={topics.find(t => t.id.toString() === selectedTopic)} 
+                  label={`Selected Topic (ID: ${selectedTopic})`} 
+                />
+              )}
+              <div className="text-xs text-muted-foreground mt-2">
+                API BASE_URL: {process.env.NEXT_PUBLIC_BASE_URL || "not set"}
+              </div>
+            </div>
+          </details>
+        </CardContent>
+      </Card>
     </div>
   );
 }

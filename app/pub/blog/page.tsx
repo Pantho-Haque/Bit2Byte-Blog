@@ -1,4 +1,3 @@
-
 import { BlogCard } from "@/components/index";
 import { Button } from "@/components/ui/button";
 
@@ -8,7 +7,14 @@ import Link from "next/link";
 
 
 import {
-  Pagination
+  Pagination,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+
 } from "@/components/ui/pagination";
 
 import { getAllBlogs } from "@/lib/api";
@@ -94,13 +100,22 @@ const BlogList = async ({
                <BlogCard key={index} blog={blog} />
               ))}
           </div>
-          <Pagination
-            totalPages={10}
-            currentPage={1} 
-            onPageChange={(page) => {
-              // Handle page change
-            }}
-          />
+          <Pagination>
+            <PaginationContent>
+              <PaginationItem>
+                <PaginationPrevious href="#" />
+              </PaginationItem>
+              <PaginationItem>
+                <PaginationLink href="#">1</PaginationLink>
+              </PaginationItem>
+              <PaginationItem>
+                <PaginationEllipsis />
+              </PaginationItem>
+              <PaginationItem>
+                <PaginationNext href="#" />
+              </PaginationItem>
+            </PaginationContent>
+          </Pagination>
         </div>
       </div>
 

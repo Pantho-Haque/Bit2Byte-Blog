@@ -53,8 +53,8 @@ export default function DashboardLayout({
       ),
     },
     {
-      label: "Categories",
-      href: "/dashboard/categories",
+      label: "Topics",
+      href: "/dashboard/topics",
       icon: (
         <IconCategory className="text-neutral-700 dark:text-neutral-200 h-5 w-5 flex-shrink-0" />
       ),

@@ -37,14 +37,22 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { useToast } from "@/components/ui/toast-context";
 import { IconPlus, IconEdit, IconTrash, IconDotsVertical } from "@tabler/icons-react";
-import { toast } from "@/components/ui/use-toast";
+import { getSyllabus } from "@/lib/api/getMethods";
+import { 
+  saveTopic as saveTopicAPI, 
+  updateTopic, 
+  deleteTopic, 
+  saveSubtopic as saveSubtopicAPI, 
+  updateSubtopic, 
+  deleteSubtopic 
+} from "@/lib/api/postMethods";
 
 export default function CategoriesPage() {
   // State for topics and subtopics
   const [topics, setTopics] = useState<any[]>([]);
   const [subtopics, setSubtopics] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
-  const { addToast } = useToast();
+  const { addToast, setSuccessMsg, setErrorMsg } = useToast();
 
   // State for dialogs
   const [topicDialogOpen, setTopicDialogOpen] = useState(false);
@@ -69,67 +77,35 @@ export default function CategoriesPage() {
   // Fetch topics and subtopics when component mounts
   useEffect(() => {
     fetchTopics();
-    fetchSubtopics();
   }, []);
 
-  // Fetch topics (mock implementation)
+  // Fetch topics (real API call)
   const fetchTopics = async () => {
     setLoading(true);
     try {
-      // In a real implementation, this would be an API call
-      // const response = await fetch('/api/v1/read_syllabus');
-      
-      // For demo, we'll use mock data
-      setTimeout(() => {
-        const mockTopics = [
-          { id: 1, topicName: "C Programming", noOfSubTopics: 3, serial: 1 },
-          { id: 2, topicName: "Web Development", noOfSubTopics: 3, serial: 2 },
-          { id: 3, topicName: "Data Structures", noOfSubTopics: 3, serial: 3 },
-          { id: 4, topicName: "Algorithms", noOfSubTopics: 3, serial: 4 },
-        ];
-        setTopics(mockTopics);
-        setLoading(false);
-      }, 500);
-    } catch (error) {
-      toast({
-        title: "Error",
-        description: "Failed to fetch topics. Please try again.",
-        variant: "destructive",
-      });
+      const data = await getSyllabus();
+      if (data && data.data) {
+        setTopics(data.data.map((item: any) => ({
+          id: item.id,
+          topicName: item.topic_name,
+          noOfSubTopics: item.no_of_sub_topics,
+          serial: item.id // Using id as serial if not provided
+        })));
+        
+        const allSubtopics = data.data.flatMap((item: any) =>
+          item.sub_topics ? item.sub_topics.map((sub: any) => ({
+            id: sub.id,
+            topicId: item.id,
+            subTopicName: sub.sub_topic_name,
+            serial: sub.id // Using id as serial if not provided
+          })) : []
+        );
+        setSubtopics(allSubtopics);
+      }
       setLoading(false);
-    }
-  };
-
-  // Fetch subtopics (mock implementation)
-  const fetchSubtopics = async () => {
-    try {
-      // In a real implementation, this would be an API call
-      // const response = await fetch('/api/v1/read_subtopics');
-      
-      // For demo, we'll use mock data
-      setTimeout(() => {
-        const mockSubtopics = [
-          { id: 101, topicId: 1, subTopicName: "Introduction to C", serial: 1 },
-          { id: 102, topicId: 1, subTopicName: "Variables & Data Types", serial: 2 },
-          { id: 103, topicId: 1, subTopicName: "Control Flow", serial: 3 },
-          { id: 201, topicId: 2, subTopicName: "HTML Basics", serial: 1 },
-          { id: 202, topicId: 2, subTopicName: "CSS Fundamentals", serial: 2 },
-          { id: 203, topicId: 2, subTopicName: "JavaScript Essentials", serial: 3 },
-          { id: 301, topicId: 3, subTopicName: "Arrays", serial: 1 },
-          { id: 302, topicId: 3, subTopicName: "Linked Lists", serial: 2 },
-          { id: 303, topicId: 3, subTopicName: "Trees", serial: 3 },
-          { id: 401, topicId: 4, subTopicName: "Searching", serial: 1 },
-          { id: 402, topicId: 4, subTopicName: "Sorting", serial: 2 },
-          { id: 403, topicId: 4, subTopicName: "Graph Algorithms", serial: 3 },
-        ];
-        setSubtopics(mockSubtopics);
-      }, 500);
     } catch (error) {
-      toast({
-        title: "Error",
-        description: "Failed to fetch subtopics. Please try again.",
-        variant: "destructive",
-      });
+      setErrorMsg("Failed to fetch topics. Please try again.");
+      setLoading(false);
     }
   };
 
@@ -137,51 +113,34 @@ export default function CategoriesPage() {
   const saveTopic = async () => {
     try {
       if (!topicForm.topicName) {
-        toast({
-          title: "Error",
-          description: "Topic name is required.",
-          variant: "destructive",
-        });
+        setErrorMsg("Topic name is required.");
         return;
       }
-
-      // In a real implementation, this would be an API call
-      // const response = await fetch('/api/v1/save_topic', {
-      //   method: 'POST',
-      //   headers: { 'Content-Type': 'application/json' },
-      //   body: JSON.stringify(topicForm)
-      // });
       
-      // For demo, we'll simulate success
+      const topicData = {
+        id: topicForm.id,
+        topic_name: topicForm.topicName,
+        no_of_sub_topics: topicForm.noOfSubTopics,
+        serial: topicForm.serial
+      };
+      
+      let data;
       if (isEditing) {
-        // Update existing topic
-        setTopics(topics.map(topic => 
-          topic.id === topicForm.id ? { ...topicForm } : topic
-        ));
-        toast({
-          title: "Success",
-          description: "Topic updated successfully.",
-        });
+        data = await updateTopic(topicData);
       } else {
-        // Add new topic with a new ID
-        const newId = Math.max(0, ...topics.map(t => t.id)) + 1;
-        setTopics([...topics, { ...topicForm, id: newId }]);
-        toast({
-          title: "Success",
-          description: "Topic added successfully.",
-        });
+        data = await saveTopicAPI(topicData);
       }
       
-      // Reset form and close dialog
+      if (!data.success) throw new Error(data.message || 'Failed to save topic');
+      
+      setSuccessMsg(isEditing ? "Topic updated successfully." : "Topic added successfully.");
+      
+      fetchTopics();
       setTopicForm({ id: 0, topicName: "", noOfSubTopics: 0, serial: 0 });
       setTopicDialogOpen(false);
       setIsEditing(false);
-    } catch (error) {
-      toast({
-        title: "Error",
-        description: "Failed to save topic. Please try again.",
-        variant: "destructive",
-      });
+    } catch (error: any) {
+      setErrorMsg(error.message || "Failed to save topic. Please try again.");
     }
   };
 
@@ -189,128 +148,62 @@ export default function CategoriesPage() {
   const saveSubtopic = async () => {
     try {
       if (!subtopicForm.subTopicName || !subtopicForm.topicId) {
-        toast({
-          title: "Error",
-          description: "Subtopic name and topic are required.",
-          variant: "destructive",
-        });
+        setErrorMsg("Subtopic name and topic are required.");
         return;
       }
-
-      // In a real implementation, this would be an API call
-      // const response = await fetch('/api/v1/save_sub_topic', {
-      //   method: 'POST',
-      //   headers: { 'Content-Type': 'application/json' },
-      //   body: JSON.stringify(subtopicForm)
-      // });
       
-      // For demo, we'll simulate success
+      const subtopicData = {
+        id: subtopicForm.id,
+        sub_topic_name: subtopicForm.subTopicName,
+        topic_id: subtopicForm.topicId,
+        serial: subtopicForm.serial
+      };
+      
+      let data;
       if (isEditing) {
-        // Update existing subtopic
-        setSubtopics(subtopics.map(subtopic => 
-          subtopic.id === subtopicForm.id ? { ...subtopicForm } : subtopic
-        ));
-        toast({
-          title: "Success",
-          description: "Subtopic updated successfully.",
-        });
+        data = await updateSubtopic(subtopicData);
       } else {
-        // Add new subtopic with a new ID
-        const newId = Math.max(0, ...subtopics.map(s => s.id)) + 1;
-        setSubtopics([...subtopics, { ...subtopicForm, id: newId }]);
-        
-        // Update the topic's subtopic count
-        setTopics(topics.map(topic => 
-          topic.id === subtopicForm.topicId 
-            ? { ...topic, noOfSubTopics: topic.noOfSubTopics + 1 } 
-            : topic
-        ));
-        
-        toast({
-          title: "Success",
-          description: "Subtopic added successfully.",
-        });
+        data = await saveSubtopicAPI(subtopicData);
       }
       
-      // Reset form and close dialog
+      if (!data.success) throw new Error(data.message || 'Failed to save subtopic');
+      
+      setSuccessMsg(isEditing ? "Subtopic updated successfully." : "Subtopic added successfully.");
+      
+      fetchTopics();
       setSubtopicForm({ id: 0, topicId: 0, subTopicName: "", serial: 0 });
       setSubtopicDialogOpen(false);
       setIsEditing(false);
-    } catch (error) {
-      toast({
-        title: "Error",
-        description: "Failed to save subtopic. Please try again.",
-        variant: "destructive",
-      });
+    } catch (error: any) {
+      setErrorMsg(error.message || "Failed to save subtopic. Please try again.");
     }
   };
 
   // Handle deleting a topic
-  const deleteTopic = async (id: number) => {
+  const handleDeleteTopic = async (id: number) => {
     try {
-      // Check if topic has subtopics
-      const hasSubtopics = subtopics.some(subtopic => subtopic.topicId === id);
-      if (hasSubtopics) {
-        toast({
-          title: "Error",
-          description: "Cannot delete topic with existing subtopics. Delete all subtopics first.",
-          variant: "destructive",
-        });
-        return;
-      }
-
-      // In a real implementation, this would be an API call
-      // const response = await fetch(`/api/v1/delete_topic?topic_id=${id}`, {
-      //   method: 'POST'
-      // });
+      const data = await deleteTopic(id);
+      if (!data.success) throw new Error(data.message || 'Failed to delete topic');
       
-      // For demo, we'll simulate success
-      setTopics(topics.filter(topic => topic.id !== id));
-      toast({
-        title: "Success",
-        description: "Topic deleted successfully.",
-      });
-    } catch (error) {
-      toast({
-        title: "Error",
-        description: "Failed to delete topic. Please try again.",
-        variant: "destructive",
-      });
+      setSuccessMsg("Topic deleted successfully.");
+      
+      fetchTopics();
+    } catch (error: any) {
+      setErrorMsg(error.message || "Failed to delete topic. Please try again.");
     }
   };
 
   // Handle deleting a subtopic
-  const deleteSubtopic = async (id: number) => {
+  const handleDeleteSubtopic = async (id: number) => {
     try {
-      // In a real implementation, this would be an API call
-      // const response = await fetch(`/api/v1/delete_sub_topic?sub_topic_id=${id}`, {
-      //   method: 'POST'
-      // });
+      const data = await deleteSubtopic(id);
+      if (!data.success) throw new Error(data.message || 'Failed to delete subtopic');
       
-      // For demo, we'll simulate success
-      const subtopicToDelete = subtopics.find(s => s.id === id);
-      if (subtopicToDelete) {
-        // Update the topic's subtopic count
-        setTopics(topics.map(topic => 
-          topic.id === subtopicToDelete.topicId 
-            ? { ...topic, noOfSubTopics: Math.max(0, topic.noOfSubTopics - 1) } 
-            : topic
-        ));
-        
-        // Remove the subtopic
-        setSubtopics(subtopics.filter(subtopic => subtopic.id !== id));
-        
-        toast({
-          title: "Success",
-          description: "Subtopic deleted successfully.",
-        });
-      }
-    } catch (error) {
-      toast({
-        title: "Error",
-        description: "Failed to delete subtopic. Please try again.",
-        variant: "destructive",
-      });
+      setSuccessMsg("Subtopic deleted successfully.");
+      
+      fetchTopics();
+    } catch (error: any) {
+      setErrorMsg(error.message || "Failed to delete subtopic. Please try again.");
     }
   };
 
@@ -442,7 +335,7 @@ export default function CategoriesPage() {
                                   Edit
                                 </DropdownMenuItem>
                                 <DropdownMenuItem 
-                                  onClick={() => deleteTopic(topic.id)}
+                                  onClick={() => handleDeleteTopic(topic.id)}
                                   className="text-red-600 dark:text-red-400"
                                 >
                                   <IconTrash className="mr-2 h-4 w-4" />
@@ -596,7 +489,7 @@ export default function CategoriesPage() {
                                     Edit
                                   </DropdownMenuItem>
                                   <DropdownMenuItem 
-                                    onClick={() => deleteSubtopic(subtopic.id)}
+                                    onClick={() => handleDeleteSubtopic(subtopic.id)}
                                     className="text-red-600 dark:text-red-400"
                                   >
                                     <IconTrash className="mr-2 h-4 w-4" />
