@@ -132,7 +132,7 @@ export default function EventPage({ params }: { params: { slug: string } }) {
   if (loading) {
     return (
       <div className="min-h-screen pt-24 pb-16">
-        <MaxWidthWrapper className="flex flex-col justify-center items-center">
+        <MaxWidthWrapper className={''} >
           <div className="animate-pulse">
             <div className="h-8 bg-muted rounded w-1/3 mb-4"></div>
             <div className="h-96 bg-muted rounded mb-8"></div>
@@ -153,7 +153,7 @@ export default function EventPage({ params }: { params: { slug: string } }) {
   if (error || !event) {
     return (
       <div className="min-h-screen pt-24 pb-16">
-        <MaxWidthWrapper className="flex flex-col justify-center items-center">
+        <MaxWidthWrapper className={''}>
           <div className="text-center">
             <h2 className="text-2xl font-bold mb-4">Error Loading Event</h2>
             <p className="text-muted-foreground mb-6">{error || 'Event not found'}</p>
@@ -180,8 +180,8 @@ export default function EventPage({ params }: { params: { slug: string } }) {
         />
         <div className="absolute inset-0 bg-gradient-to-t from-background to-transparent"></div>
         
-        <div className="absolute bottom-0 left-0 right-0 p-6 flex flex-col justify-center items-center">
-          <MaxWidthWrapper className="flex flex-col justify-center items-center">
+        <div className="absolute bottom-0 left-0 right-0 p-6">
+          <MaxWidthWrapper className={''}>
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}

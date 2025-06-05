@@ -13,7 +13,7 @@ export default async function Home() {
   return (
     <div className='w-full'>
       {/* <GlobeComp /> */}
-      <NavBar />
+      {/* <NavBar /> */}
       <LampHeader />
       <BlogsThumb blogs={blogs} />
       {/* <Mission /> */}

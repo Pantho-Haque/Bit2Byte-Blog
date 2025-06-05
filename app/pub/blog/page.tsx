@@ -1,4 +1,3 @@
-
 import { BlogCard } from "@/components/index";
 import { Button } from "@/components/ui/button";
 
@@ -17,6 +16,7 @@ import {
   PaginationPrevious,
 
 } from "@/components/ui/pagination";
+
 import { getAllBlogs } from "@/lib/api";
 
 import { Metadata } from "next";
@@ -100,7 +100,6 @@ const BlogList = async ({
                <BlogCard key={index} blog={blog} />
               ))}
           </div>
-
           <Pagination>
             <PaginationContent>
               <PaginationItem>

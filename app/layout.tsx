@@ -43,7 +43,7 @@ export default function RootLayout({
           <ToastProvider>
             <AuthProvider>
               <div className='flex flex-col justify-between w-full mx-auto min-h-[90vh]'>
-                {/* <NavBar />  */}
+                <NavBar /> 
                 {children}
                 <Footer />
               </div>
